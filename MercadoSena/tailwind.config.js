@@ -4,6 +4,12 @@ module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
+    fontFamily: {
+      'Opensans-bold': ['OpenSans-Bold', 'sans-serif'],
+      'Opensans-light': ['OpenSans-Light', 'sans-serif'],
+      'Opensans-medium': ['OpenSans-Medium', 'sans-serif'],
+    },
+
     extend: {},
   },
   plugins: [],
