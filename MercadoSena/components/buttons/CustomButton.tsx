@@ -38,7 +38,7 @@ const CustomButton = React.forwardRef(({
     }
 
   return (
-   <Pressable className = {`p-3 rounded-md ${btnColor} active:opacity-90 ${className}`} onPress={onPress} onLongPress={onLongPress}>
+   <Pressable className = {`p-3 rounded-md flex-auto ${btnColor} active:opacity-90 ${className}`} onPress={onPress} onLongPress={onLongPress}>
     <Text className = {`text-center ${textColor}`}>{children}</Text>
    </Pressable>
   )

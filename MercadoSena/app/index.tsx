@@ -5,17 +5,39 @@ import { Text, View } from 'react-native'
 
 const App = () => {
   return (
-    <View>
-      <Text className='font-Opensans-bold mt-16 mx-2.5 text-5xl text-primary-700 text-center'>Tu mercado sena</Text>
+    <View className="flex-1 justify-center items-center bg-white">
+      <Text className="font-Opensans-bold mb-10 text-5xl text-primary-700 text-center">
+        Tu mercado sena
+      </Text>
 
-      <CustomButton variant='text-only' className='w-1/2' color='secondary'>Registrarme</CustomButton>
+      <View className="w-3/4">
 
-      <CustomButton onPress={() => {console.log('Quiero penevaginal')}} className='w-1/3' color='tertiary'>Iniciar Sesión</CustomButton>
+        <CustomInput placeholder="Correo electrónico" type="email" required="true" />
 
-      <CustomInput placeholder='Correo electronico' type="email" required='true' />
+        <CustomInput placeholder="Contraseña" type="password" />
 
-      <CustomInput type="password" placeholder='Contraseña'/>
+        <View className="items-center">
+          <CustomButton variant="text-only" className="w-1/2" color="secondary">
+            Olvidé mi contraseña
+          </CustomButton>
+        </View>
 
+        <View className="items-center mt-10">
+          <CustomButton
+            onPress={() => console.log('Iniciar sesión')}
+            className="w-1/2"
+            color="tertiary"
+          >
+            Iniciar Sesión
+          </CustomButton>
+        </View>
+
+        <View className="items-center mt-4">
+          <CustomButton variant="text-only" className="w-1/2" color="secondary">
+            Registrarme
+          </CustomButton>
+        </View>
+      </View>
     </View>
   )
 }
