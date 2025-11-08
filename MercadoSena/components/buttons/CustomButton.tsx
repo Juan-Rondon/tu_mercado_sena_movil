@@ -26,7 +26,7 @@ const CustomButton = React.forwardRef(({
     const btnColor = {
         primary: 'bg-primary-500',
         secondary: 'bg-secondary-500',
-        tertiary: 'bg-tertiary-500',
+        tertiary: 'bg-tertiary-950',
     }[color]
 
     if (variant === 'text-only') {
