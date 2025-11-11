@@ -1,4 +1,5 @@
 import CustomButton from '@/components/buttons/CustomButton'
+import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
 import React from 'react'
@@ -32,9 +33,11 @@ const Info = () => {
         <View className="items-center">
           <CustomButton
             variant="text-only"
-            color="secondary"
+            color="primary"
             className="w-1/2"
             onPress={() => router.push('/')}
+            icon={<Ionicons name="arrow-back" size={20} color="#3B82F6" />}
+            iconPosition='left'
           >
             Volver
           </CustomButton>
