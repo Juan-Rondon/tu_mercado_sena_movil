@@ -33,6 +33,8 @@ const App = () => {
           Tu mercado SENA
         </Text>
 
+        {/* // Navegador a la pantalla de información. */}
+
         <CustomButton
           variant="text-only"
           color="primary"
@@ -42,16 +44,32 @@ const App = () => {
         </CustomButton>
       </View>
 
+        {/* Inputs de inicio de sesión */}
 
       <View className="w-3/4 mt-5">
-        <CustomInput placeholder="Correo electrónico" type="email" required="true" />
-        <CustomInput placeholder="Contraseña" type="password" />
+
+        <CustomInput 
+        placeholder="Correo electrónico" 
+        type="email" 
+        required="true" />
+
+        <CustomInput 
+        placeholder="Contraseña" 
+        type="password" />
+
+        {/* Botón para restablecer la contraseña */}
 
         <View className="items-center mt-1">
-          <CustomButton variant="text-only" color="primary">
+
+          <CustomButton 
+          variant="text-only" 
+          color="primary"
+          onPress={() => router.push('/resetPassword')}>
             Olvidé mi contraseña
           </CustomButton>
         </View>
+
+        {/* Botón para iniciar sesión */}
 
         <View className="items-center mt-4">
           <CustomButton
@@ -63,8 +81,15 @@ const App = () => {
           </CustomButton>
         </View>
 
+        {/* Navegador a la pantalla de registro */}
+
         <View className="items-center mt-20">
-          <CustomButton variant="text-only" className="w-1/2" color="primary">
+
+          <CustomButton 
+          variant="text-only" 
+          className="w-1/2" 
+          color="primary"
+          onPress={() => router.push('/register')}>
             Registrarme
           </CustomButton>
         </View>
