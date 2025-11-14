@@ -13,7 +13,7 @@ const App = () => {
   return (
 
     <LinearGradient
-      colors={['#000328', '#00458e']}
+      colors={['#538392', '#B1CCD2']}
       start={{ x: 0, y: 0 }}          
       end={{ x: 1, y: 1 }}             
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}
@@ -21,11 +21,11 @@ const App = () => {
 
       <Image source={logo} 
              style={{ 
-              width: 200, 
-              height: 200, 
+              width: 150, 
+              height: 150, 
               position: 'absolute',
-              top: 20,
-              left:-5,
+              top: 55,
+              left: 20,
               }} />
 
       <View style={{ position: 'relative', top: -20, right: -50, alignItems: 'flex-end' }}>
@@ -64,6 +64,7 @@ const App = () => {
           <CustomButton 
           variant="text-only" 
           color="primary"
+          className='underline'
           onPress={() => router.push('/resetPassword')}>
             Olvidé mi contraseña
           </CustomButton>
@@ -75,7 +76,7 @@ const App = () => {
           <CustomButton
             onPress={() => console.log('Iniciar sesión')}
             className="w-1/2"
-            color="tertiary"
+            color="quinary"
           >
             Iniciar Sesión
           </CustomButton>

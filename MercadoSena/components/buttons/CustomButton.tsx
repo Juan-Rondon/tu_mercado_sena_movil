@@ -3,11 +3,11 @@ import { Pressable, PressableProps, Text, View } from 'react-native';
 
 interface Props extends PressableProps {
   children: string;
-  color?: 'primary' | 'secondary' | 'tertiary';
+  color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary';
   className?: string;
   variant?: 'contained' | 'text-only';
   icon?: React.ReactNode;
-  iconPosition?: 'left' | 'right';
+  iconPosition?: 'left' | 'right' | 'up' | 'down' | 'center';
 }
 
 const CustomButton = React.forwardRef<View, Props>(
@@ -25,15 +25,19 @@ const CustomButton = React.forwardRef<View, Props>(
     ref
   ) => {
     const textColor = {
-      primary: 'text-primary-100',
+      primary: 'text-primary-90',
       secondary: 'text-secondary-500',
       tertiary: 'text-tertiary-100',
+      quaternary: 'text-quaternary-50',
+      quinary: 'text-quinary-100',
     }[color];
 
     const btnColor = {
-      primary: 'bg-primary-500',
-      secondary: 'bg-secondary-500',
-      tertiary: 'bg-tertiary-800',
+      primary: 'bg-primary-400',
+      secondary: 'bg-secondary-950',
+      tertiary: 'bg-tertiary-500',
+      quaternary: 'bg-quaternary-700',
+      quinary: 'bg-quinary-600',
     }[color];
 
     // 🔹 Estructura visual para texto + icono
@@ -53,7 +57,7 @@ const CustomButton = React.forwardRef<View, Props>(
       return (
         <Pressable
           ref={ref}
-          className={`p-3 ${className}`}
+          className={`p-3 ${className} ${textColor} active:opacity-70`}
           onPress={onPress}
           onLongPress={onLongPress}
         >
