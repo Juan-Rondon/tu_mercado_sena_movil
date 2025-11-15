@@ -1,7 +1,7 @@
-import { Slot, SplashScreen } from "expo-router"
-import { useFonts } from "expo-font"
-import "./global.css"
+import { useFonts } from "expo-font";
+import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
+import "./global.css";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,7 +21,15 @@ const RootLayout = () => {
     
     if (!fontsLoaded && !error) return null;
 
-    return <Slot />
+    return (
+      <Stack
+       screenOptions={{
+        headerShown: false,
+        animation: "slide_from_right",
+        animationDuration: 300,
+       }}
+      />
+    );
 }
 
 export default RootLayout

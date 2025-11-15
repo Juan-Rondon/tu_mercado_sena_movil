@@ -3,46 +3,31 @@ import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { View } from 'react-native'
 
 const Info = () => {
   const router = useRouter()
 
   return (
     <LinearGradient
-      colors={['#000328', '#00458e']}
+      colors={['#538392', '#B1CCD2']}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={{ flex: 1, padding: 20 }}
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
-        <View className="items-center mb-10">
-          <Text className="font-Opensans-bold text-3xl text-white mb-4 text-center">
-            ¿Qué es <Text className="text-tertiary-300">Tu Mercado SENA</Text>?
-          </Text>
 
-          <Text className="text-white text-base text-justify leading-6 px-4">
-            Tu Mercado SENA es una aplicación creada para conectar a aprendices,
-            instructores y emprendedores del SENA en un espacio de comercio digital.
-            Aquí puedes ofrecer, buscar y adquirir productos o servicios elaborados
-            dentro de la comunidad, fomentando la economía colaborativa y el aprendizaje
-            práctico en entornos reales.
-          </Text>
-        </View>
-
-        <View className="items-center">
+        <View className="items-center top-11">
           <CustomButton
             variant="text-only"
             color="primary"
-            className="w-1/2"
+            className="w-1/2 right-40"
             onPress={() => router.push('/')}
-            icon={<Ionicons name="arrow-back" size={20} color="#3B82F6" />}
+            icon={<Ionicons name="arrow-back" size={20} color="#00000" />}
             iconPosition='left'
           >
             Volver
           </CustomButton>
         </View>
-      </ScrollView>
     </LinearGradient>
   )
 }

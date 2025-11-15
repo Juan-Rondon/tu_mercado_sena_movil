@@ -13,7 +13,7 @@ const App = () => {
   return (
 
     <LinearGradient
-      colors={['#000328', '#00458e']}
+      colors={['#538392', '#B1CCD2']}
       start={{ x: 0, y: 0 }}          
       end={{ x: 1, y: 1 }}             
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}
@@ -21,76 +21,92 @@ const App = () => {
 
       <Image source={logo} 
              style={{ 
-              width: 200, 
-              height: 200, 
+              width: 150, 
+              height: 150, 
               position: 'absolute',
-              top: 20,
-              left:-5,
+              top: 120,
+              left: 55,
               }} />
 
-      <View style={{ position: 'relative', top: -20, right: -50, alignItems: 'flex-end' }}>
-        <Text className="font-Opensans-bold text-2xl text-white mt-28">
+      <View style={{ position: 'relative', top: -10, right: -50, alignItems: 'flex-end' }}>
+        <Text className="font-Opensans-bold text-2xl text-white mb-2">
           Tu mercado SENA
         </Text>
 
+        {/* // Navegador a la pantalla de información. */}
+
+        <CustomButton
+          variant="text-only"
+          color="primary"
+          onPress={() => router.push('/info')}
+        >
+        <Text className='text-secondary font-Opensans-bold'> 
+          ¿QUÉ ES?
+        </Text>
+        </CustomButton>
       </View>
 
         {/* Inputs de inicio de sesión */}
 
-      <View className="w-3/4 mt-20">
+      <View className="w-3/4 top-10">
 
         <CustomInput 
-        placeholder="Correo Institucional" 
+        placeholder="Correo Institucional"
+        placeholderTextColor='#CDCDCD' 
         type="email" 
-        required="true" />
-
-        <CustomInput 
-        placeholder="Nombre" 
-        type="text" />
+        />
         
         <CustomInput 
-        placeholder="Contraseña" 
-        type="password" />
-        
+        placeholder="Nombre"
+        placeholderTextColor='#CDCDCD' 
+        type="text" 
+        />
+
         <CustomInput 
-        placeholder="Confirmar Contraseña" 
+        placeholder="Contraseña"
+        placeholderTextColor='#CDCDCD' 
+        type="password" 
+        />
+
+        <CustomInput 
+        placeholder="Confirmar Contraseña"
+        placeholderTextColor='#CDCDCD' 
         type="password" />
 
-        <View className="items-center mt-1">
-
-        </View>
-
+        
         {/* Botón para iniciar sesión */}
 
         <View className="items-center mt-4">
           <CustomButton
             onPress={() => console.log('Iniciar sesión')}
             className="w-1/2"
-            color="tertiary"
+            color="quinary"
           >
-            Registrarme
+            Registrar Cuenta
           </CustomButton>
         </View>
 
         {/* Navegador a la pantalla de registro */}
 
         <View className="items-center mt-20">
-          
-          <Text 
-          className='text-black text-base text-justify leading-6 px-4 mb-2'
-          >
-            Ya tengo una cuenta
-          </Text>
 
+          <Text className='text-black text-base text-justify leading-6 px-4 mb-1 mt-10 font-bold'>
+          ¿Ya tienes una cuenta?
+          </Text>
 
           <CustomButton 
           variant="text-only" 
-          className="w-1/2 underline" 
+          className="w-1/2" 
           color="primary"
-          onPress={() => router.push('/')}>
+          onPress={() => router.push('/')}
+          >
+          <Text className='text-secondary font-Opensans-bold'>
             Iniciar Sesión
+          </Text>
           </CustomButton>
+
         </View>
+
       </View>
     </LinearGradient>
   )

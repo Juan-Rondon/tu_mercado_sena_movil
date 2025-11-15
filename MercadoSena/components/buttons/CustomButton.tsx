@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, PressableProps, Text, View } from 'react-native';
 
 interface Props extends PressableProps {
-  children: string;
+  children: React.ReactNode;
   color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary';
   className?: string;
   variant?: 'contained' | 'text-only';
@@ -29,7 +29,7 @@ const CustomButton = React.forwardRef<View, Props>(
       secondary: 'text-secondary-500',
       tertiary: 'text-tertiary-100',
       quaternary: 'text-quaternary-50',
-      quinary: 'text-quinary-100',
+      quinary: 'text-quinary-50',
     }[color];
 
     const btnColor = {

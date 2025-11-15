@@ -1,32 +1,48 @@
 import React from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 
 interface Props {
     type: "text" | "password" | "email" | "number";
     className?: string;
     placeholder?: string;
-    required?: "true" | "false";
+    value?: string;
+    placeholderTextColor?: string;
+    onChangeText?: (text: string) => void;
 
 }
 
-const CustomInput = ({type, className, placeholder, required}: Props) => {
+const CustomInput = ({type, className, placeholder, value, placeholderTextColor, onChangeText}: Props) => {
+
+  const isPassword = type === 'password';
+  const isNumber = type === 'number';
  
- if (required === 'true') {
-   return (
-    <input
-      type={type}
-      className={`font-Opensans-bold mb-4 mx-15 text-lg text-primary-950 text-center border p-1 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${className}`}
-      placeholder={placeholder} required
-    />
-  ) 
- }
- 
-    return (
-    <input
-      type={type}
-      className={`font-Opensans-bold mb-3 mx-15 text-lg text-primary-950 text-center border p-1 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${className}`}
-      placeholder={placeholder}
+  return (
+    <TextInput
+     value={value}
+     onChangeText={onChangeText}
+     placeholder={placeholder}
+     secureTextEntry={isPassword}
+     keyboardType={isNumber ? 'numeric' : 'default'}
+     style={styles.input}
+     className={className}
+     placeholderTextColor={placeholderTextColor}
     />
   )
 }
+
+const styles = StyleSheet.create({
+  input: {
+    fontFamily: 'Opensans-Bold',
+    marginBottom: 12,
+    marginHorizontal: 15,
+    fontSize: 18,
+    color: '#1a202a',
+    textAlign: 'center',
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 6,
+    padding: 8,
+  },
+});
 
 export default CustomInput

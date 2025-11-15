@@ -1,7 +1,6 @@
 import logo from '@/assets/images/logo.png'
 import CustomButton from '@/components/buttons/CustomButton'
 import CustomInput from '@/components/inputs/CustomInput'
-import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
 import React from 'react'
@@ -14,7 +13,7 @@ const App = () => {
   return (
 
     <LinearGradient
-      colors={['#000328', '#00458e']}
+      colors={['#538392', '#B1CCD2']}
       start={{ x: 0, y: 0 }}          
       end={{ x: 1, y: 1 }}             
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}
@@ -22,45 +21,48 @@ const App = () => {
 
       <Image source={logo} 
              style={{ 
-              width: 200, 
-              height: 200, 
+              width: 150, 
+              height: 150, 
               position: 'absolute',
-              top: 20,
-              left:-5,
+              top: 120,
+              left: 55,
               }} />
 
-      <View style={{ position: 'relative', top: -70, right: -50, alignItems: 'flex-end' }}>
-        <Text className="font-Opensans-bold text-2xl text-white mt-16">
+      <View style={{ position: 'relative', top: -60, right: -50, alignItems: 'flex-end' }}>
+        <Text className="font-Opensans-bold text-2xl text-white mb-2">
           Tu mercado SENA
         </Text>
-      </View>
 
-      <Text className="font-Opensans-medium text-white text-lg mb-6 mt-1">
-        Recupera tu contraseña
+        {/* // Navegador a la pantalla de información. */}
+
+        <CustomButton
+          variant="text-only"
+          color="primary"
+          onPress={() => router.push('/info')}
+        >
+        <Text className='text-secondary font-Opensans-bold'> 
+          ¿QUÉ ES?
         </Text>
+        </CustomButton>
+      </View>
 
         {/* Inputs de inicio de sesión */}
 
-      <View className="w-3/4 mt-5">
+      <View className="w-3/4 mt-20">
 
         <CustomInput 
-        placeholder="Correo electrónico" 
+        placeholder="Correo Institucional"
+        placeholderTextColor='#CDCDCD' 
         type="email" 
-        required="true" />
-
-        {/* Botón para restablecer la contraseña */}
-
-        <View className="items-center mt-1">
-
-        </View>
+        />
 
         {/* Botón para iniciar sesión */}
 
         <View className="items-center mt-4">
           <CustomButton
-            onPress={() => console.log('Enviar correo')}
+            onPress={() => console.log('Iniciar sesión')}
             className="w-1/2"
-            color="tertiary"
+            color="quinary"
           >
             Enviar Correo
           </CustomButton>
@@ -68,17 +70,23 @@ const App = () => {
 
         {/* Navegador a la pantalla de registro */}
 
-        <View className="items-center">
-          <CustomButton
-            variant="text-only"
-            color="primary"
-            className="w-1/2 mb-100 mt-20"
-            onPress={() => router.push('/')}
-            icon={<Ionicons name="arrow-back" size={20} color="#3B82F6" />}
-            iconPosition='left'
+        <View className="items-center mt-20">
+
+          <Text className='text-black text-base text-justify leading-6 px-4 mb-1 mt-10 font-bold'>
+          ¿No tienes una cuenta?
+          </Text>
+
+          <CustomButton 
+          variant="text-only" 
+          className="w-1/2" 
+          color="primary"
+          onPress={() => router.push('/register')}
           >
-            Volver
+          <Text className='text-secondary font-Opensans-bold'>
+            Registrarme
+          </Text>
           </CustomButton>
+
         </View>
 
       </View>

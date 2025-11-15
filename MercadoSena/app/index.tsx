@@ -24,8 +24,8 @@ const App = () => {
               width: 150, 
               height: 150, 
               position: 'absolute',
-              top: 55,
-              left: 20,
+              top: 120,
+              left: 55,
               }} />
 
       <View style={{ position: 'relative', top: -20, right: -50, alignItems: 'flex-end' }}>
@@ -40,7 +40,9 @@ const App = () => {
           color="primary"
           onPress={() => router.push('/info')}
         >
+        <Text className='text-secondary font-Opensans-bold'> 
           ¿QUÉ ES?
+        </Text>
         </CustomButton>
       </View>
 
@@ -49,27 +51,17 @@ const App = () => {
       <View className="w-3/4 mt-5">
 
         <CustomInput 
-        placeholder="Correo electrónico" 
+        placeholder="Correo Institucional"
+        placeholderTextColor='#CDCDCD' 
         type="email" 
-        required="true" />
+        />
 
         <CustomInput 
-        placeholder="Contraseña" 
+        placeholder="Contraseña"
+        placeholderTextColor='#CDCDCD' 
         type="password" />
 
-        {/* Botón para restablecer la contraseña */}
-
-        <View className="items-center mt-1">
-
-          <CustomButton 
-          variant="text-only" 
-          color="primary"
-          className='underline'
-          onPress={() => router.push('/resetPassword')}>
-            Olvidé mi contraseña
-          </CustomButton>
-        </View>
-
+        
         {/* Botón para iniciar sesión */}
 
         <View className="items-center mt-4">
@@ -82,18 +74,43 @@ const App = () => {
           </CustomButton>
         </View>
 
+        {/* Navegador a la pantalla de restablecimiento de contraseña */}
+
+         <View className="items-center mt-10">
+
+          <CustomButton 
+          variant="text-only" 
+          color="primary"
+          onPress={() => router.push('/resetPassword')}
+          >
+          <Text className='text-secondary font-Opensans-bold'>
+            Olvidé mi contraseña
+          </Text>
+          </CustomButton>
+
+        </View>
+
         {/* Navegador a la pantalla de registro */}
 
         <View className="items-center mt-20">
+
+          <Text className='text-black text-base text-justify leading-6 px-4 mb-1 mt-10 font-bold'>
+          ¿No tienes una cuenta?
+          </Text>
 
           <CustomButton 
           variant="text-only" 
           className="w-1/2" 
           color="primary"
-          onPress={() => router.push('/register')}>
+          onPress={() => router.push('/register')}
+          >
+          <Text className='text-secondary font-Opensans-bold'>
             Registrarme
+          </Text>
           </CustomButton>
+
         </View>
+
       </View>
     </LinearGradient>
   )
