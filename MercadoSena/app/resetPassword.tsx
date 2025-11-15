@@ -40,7 +40,7 @@ const App = () => {
           color="primary"
           onPress={() => router.push('/info')}
         >
-        <Text className='text-secondary font-Opensans-bold'> 
+        <Text className='text-quinary-50 font-Opensans-bold underline'> 
           ¿QUÉ ES?
         </Text>
         </CustomButton>
@@ -82,7 +82,7 @@ const App = () => {
           color="primary"
           onPress={() => router.push('/register')}
           >
-          <Text className='text-secondary font-Opensans-bold'>
+          <Text className='text-quinary-50 font-Opensans-bold underline'>
             Registrarme
           </Text>
           </CustomButton>
