@@ -1,6 +1,7 @@
 import logo from '@/assets/images/logo.png'
 import CustomButton from '@/components/buttons/CustomButton'
 import CustomInput from '@/components/inputs/CustomInput'
+import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
 import React from 'react'
@@ -28,7 +29,7 @@ const App = () => {
               left: 55,
               }} />
 
-      <View style={{ position: 'relative', top: -60, right: -50, alignItems: 'flex-end' }}>
+      <View style={{ position: 'relative', top: -38, right: -50, alignItems: 'flex-end' }}>
         <Text className="font-Opensans-bold text-2xl text-white mb-2">
           Tu mercado SENA
         </Text>
@@ -87,6 +88,19 @@ const App = () => {
           </Text>
           </CustomButton>
 
+        </View>
+
+        <View className="items-center top-16">
+          <CustomButton
+            variant="text-only"
+            color="primary"
+            className="w-1/2 right-1"
+            onPress={() => router.push('/')}
+            icon={<Ionicons name="arrow-back" size={20} color="#00000" />}
+            iconPosition='left'
+          >
+            Volver
+          </CustomButton>
         </View>
 
       </View>

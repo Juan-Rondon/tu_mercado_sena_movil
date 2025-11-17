@@ -1,13 +1,32 @@
 import logo from '@/assets/images/logo.png'
 import CustomButton from '@/components/buttons/CustomButton'
 import CustomInput from '@/components/inputs/CustomInput'
+import { loginService } from '@/services/authService'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
-import React from 'react'
+import React, { useState } from 'react'
 import { Image, Text, View } from 'react-native'
 
 const App = () => {
   const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const response = await loginService(email, password);
+
+      const token = response.data.token;
+
+      console.log("Login exitoso, token:", token);
+      console.log("Usuario:", response.data.user);
+
+      router.push('/(stack)/Home');
+    } catch (error: any) {
+      console.log("Error de login:", error.response?.data || error.message);
+    }
+  }
 
 
   return (
@@ -53,20 +72,25 @@ const App = () => {
         <CustomInput 
         placeholder="Correo Institucional"
         placeholderTextColor='#CDCDCD' 
-        type="email" 
+        type="email"
+        value={email}
+        onChangeText={setEmail} 
         />
 
         <CustomInput 
         placeholder="Contraseña"
         placeholderTextColor='#CDCDCD' 
-        type="password" />
+        type="password"
+        value={password}
+        onChangeText={setPassword} 
+        />
 
         
         {/* Botón para iniciar sesión */}
 
         <View className="items-center mt-4">
           <CustomButton
-            onPress={() => console.log('Iniciar sesión')}
+            onPress={handleLogin}
             className="w-1/2"
             color="quinary"
           >
