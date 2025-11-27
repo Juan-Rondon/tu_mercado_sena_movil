@@ -1,13 +1,15 @@
 import React from 'react';
-import { Pressable, PressableProps, Text, View } from 'react-native';
+import { Image, Pressable, PressableProps, Text, View } from 'react-native';
 
 interface Props extends PressableProps {
   children: React.ReactNode;
   color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary';
   className?: string;
-  variant?: 'contained' | 'text-only';
+  variant?: 'contained' | 'text-only' | 'card';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right' | 'up' | 'down' | 'center';
+  source?: {};
+  price?: string;
 }
 
 const CustomButton = React.forwardRef<View, Props>(
@@ -21,6 +23,8 @@ const CustomButton = React.forwardRef<View, Props>(
       variant = 'contained',
       icon,
       iconPosition = 'left',
+      source,
+      price,
     },
     ref
   ) => {
@@ -42,6 +46,23 @@ const CustomButton = React.forwardRef<View, Props>(
 
     // 🔹 Estructura visual para texto + icono
     const Content = () => (
+      variant === 'card' && price ?
+      <>
+      <View
+        className={`flex-row items-center justify-center`}
+      >
+        <Text className={`text-center w-full ${textColor}`}>{children}</Text>
+      </View>
+
+      <View
+        className={`flex-row items-center justify-center`}
+      >
+        <Text className={`text-center text-sm ${textColor}`}>{price}</Text>
+      </View>
+      </>
+
+      :
+
       <View
         className={`flex-row items-center justify-center ${
           icon && iconPosition === 'right' ? 'flex-row-reverse' : ''
@@ -63,6 +84,23 @@ const CustomButton = React.forwardRef<View, Props>(
         >
           <Content />
         </Pressable>
+      );
+    } else if (variant === 'card') {
+      return (
+        <Pressable
+        ref={ref}
+        className={`p-3 rounded-md w-full ${btnColor} active:opacity-90 ${className}`}
+        onPress={onPress}
+        onLongPress={onLongPress}
+      >
+        <Image
+        style={{ width: '100%', height: 150, borderRadius: 8, marginBottom: 8 }} 
+        source={source}
+        />
+
+        <Content />
+
+      </Pressable>
       );
     }
 
