@@ -21,7 +21,7 @@ const loginScreen = () => {
               width: 210, 
               height: 210, 
               position: 'absolute',
-              top: 80,
+              top: 100,
               left: 135,
               }} />
 
@@ -81,6 +81,7 @@ const loginScreen = () => {
         {/* Botón para iniciar sesión */}
 
         <View className="items-center mt-4">
+          
           <CustomButton
             onPress={() => router.push('/(tabs)/Home')}
             className="w-1/2"
