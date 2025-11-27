@@ -18,22 +18,22 @@ const loginScreen = () => {
 
       <Image source={logo} 
              style={{ 
-              width: 180, 
-              height: 180, 
+              width: 210, 
+              height: 210, 
               position: 'absolute',
               top: 80,
-              left: 145,
+              left: 135,
               }} />
 
       <View style={{ position: 'relative', top: 150, left: 0, alignItems: 'flex-end' }}>
         <Text className="font-Opensans-bold text-4xl text-white mb-2">
-          Tu mercado SENA
+          Tu Mercado SENA
         </Text>
       </View>
 
         {/* // Navegador a la pantalla de información. */}
         
-        <View style={{ position: 'relative', top: 160, right: 0, alignItems: 'flex-end' }}>
+        {/* <View style={{ position: 'relative', top: 160, right: 0, alignItems: 'flex-end' }}>
         <CustomButton
           variant="text-only"
           color="primary"
@@ -43,12 +43,12 @@ const loginScreen = () => {
           ¿QUÉ ES?
         </Text>
         </CustomButton>
-        </View>
+        </View> */}
 
         {/* Inputs de inicio de sesión */}
 
       <View className="w-3/4 mt-52">
-
+        
         <CustomInput 
         placeholder="Correo Institucional"
         placeholderTextColor='#CDCDCD' 
@@ -61,22 +61,9 @@ const loginScreen = () => {
         type="password"
         />
 
-        
-        {/* Botón para iniciar sesión */}
-
-        <View className="items-center mt-4">
-          <CustomButton
-            onPress={() => router.push('/(tabs)/Home')}
-            className="w-1/2"
-            color="quinary"
-          >
-            Iniciar Sesión
-          </CustomButton>
-        </View>
-
         {/* Navegador a la pantalla de restablecimiento de contraseña */}
 
-         <View className="items-center mt-10">
+         <View className="items-center">
 
           <CustomButton 
           variant="text-only" 
@@ -88,6 +75,19 @@ const loginScreen = () => {
           </Text>
           </CustomButton>
 
+        </View>
+
+        
+        {/* Botón para iniciar sesión */}
+
+        <View className="items-center mt-4">
+          <CustomButton
+            onPress={() => router.push('/(tabs)/Home')}
+            className="w-1/2"
+            color="quinary"
+          >
+            Iniciar Sesión
+          </CustomButton>
         </View>
 
         {/* Navegador a la pantalla de registro */}

@@ -8,10 +8,10 @@ interface Props {
     value?: string;
     placeholderTextColor?: string;
     onChangeText?: (text: string) => void;
-
+    icon?: React.ReactNode;
 }
 
-const CustomInput = ({type, className, placeholder, value, placeholderTextColor, onChangeText}: Props) => {
+const CustomInput = ({type, className, placeholder, value, placeholderTextColor, onChangeText, icon}: Props) => {
 
   const isPassword = type === 'password';
   const isNumber = type === 'number';
@@ -26,6 +26,7 @@ const CustomInput = ({type, className, placeholder, value, placeholderTextColor,
      style={styles.input}
      className={className}
      placeholderTextColor={placeholderTextColor}
+     {...(icon ? { left: icon } : {})}
     />
   )
 }
