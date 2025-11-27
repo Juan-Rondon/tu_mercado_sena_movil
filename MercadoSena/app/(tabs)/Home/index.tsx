@@ -11,7 +11,7 @@ const homeScreen = () => {
         <CustomButton 
           variant="card"
           className="h-full" 
-          source={require("../../../assets/images/icon.png")}
+          source={require("../../../assets/images/frank.jpg")}
           price="$9.99"
           >
           Comprar ahora
@@ -22,7 +22,7 @@ const homeScreen = () => {
         <CustomButton 
           variant="card"
           className="h-full"
-          source={require("../../../assets/images/icon.png")}
+          source={require("../../../assets/images/frank.jpg")}
           price="$9.99"
           >
           Comprar ahora

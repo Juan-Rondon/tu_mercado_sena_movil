@@ -1,24 +1,24 @@
-import { Stack } from 'expo-router';
-import React from 'react';
+import { Stack } from "expo-router";
+import React from "react";
 
-
-const stackLayout = () => {
+export default function StackLayout() {
   return (
     <Stack
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#f4511e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}>
-      <Stack.Screen name="login/index" options={{title: 'Iniciar Sesión'}} />
-      <Stack.Screen name="register/index" options={{title: 'Registrarse'}} />
-      <Stack.Screen name="resetPassword/index" options={{title: 'Restablecer Contraseña'}} />
-    </Stack>
-  )
-}
+        headerShown: false
+      }}
+    >
+      <Stack.Screen name="login/index" />
 
-export default stackLayout
+      <Stack.Screen 
+        name="register/index" 
+        options={{ title: "Registrarse" }} 
+      />
+
+      <Stack.Screen 
+        name="resetPassword/index" 
+        options={{ title: "Restablecer Contraseña" }} 
+      />
+    </Stack>
+  );
+}

@@ -1,10 +1,9 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 const favoritosScreen = () => {
   return (
     <View>
-      <Text>favoritosScreen</Text>
     </View>
   )
 }
