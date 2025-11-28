@@ -12,7 +12,7 @@ const loginScreen = () => {
     <LinearGradient
       colors={['#538392', '#B1CCD2']}
       start={{ x: 0, y: 0 }}          
-      end={{ x: 1, y: 1 }}             
+      end={{ x: 1.5, y: 1.5 }}             
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}
     >
 
@@ -70,7 +70,7 @@ const loginScreen = () => {
           color="primary"
           onPress={() => router.push('/resetPassword')}
           >
-          <Text className='text-quinary-50 font-Opensans-bold underline'>
+          <Text className='text-quinary-50 font-Opensans-bold underline text-xl'>
             Olvidé mi contraseña
           </Text>
           </CustomButton>
@@ -84,7 +84,8 @@ const loginScreen = () => {
           
           <CustomButton
             onPress={() => router.push('/(tabs)/Home')}
-            className="w-1/2"
+            className="w-3/4"
+            FontText='text-xl'
             color="quinary"
           >
             Iniciar Sesión
@@ -95,19 +96,17 @@ const loginScreen = () => {
 
         <View className="items-center mt-20">
 
-          <Text className='text-black text-base text-justify leading-6 px-4 mb-1 mt-10 font-bold'>
+          <Text className='text-white text-2xl text-justify leading-6 px-4 mb-1 mt-10'>
           ¿No tienes una cuenta?
           </Text>
 
           <CustomButton 
           variant="text-only" 
-          className="w-1/2" 
-          color="primary"
+          className="w-1/2 underline" 
+          color="quaternary"
           onPress={() => router.push('/register')}
           >
-          <Text className='text-quinary-50 font-Opensans-bold underline'>
             Registrarme
-          </Text>
           </CustomButton>
 
         </View>

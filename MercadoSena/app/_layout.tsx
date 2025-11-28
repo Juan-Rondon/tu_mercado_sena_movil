@@ -1,5 +1,5 @@
 import { useFonts } from "expo-font";
-import { Slot, SplashScreen } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import "./global.css";
 
@@ -22,7 +22,12 @@ const RootLayout = () => {
     if (!fontsLoaded && !error) return null;
 
     return (
-      <Slot />
+      <Stack
+        screenOptions={{
+          animation: "slide_from_right",
+          headerShown: false,
+        }}
+      />
     );
 }
 

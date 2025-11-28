@@ -10,6 +10,7 @@ interface Props extends PressableProps {
   iconPosition?: 'left' | 'right' | 'up' | 'down' | 'center';
   source?: {};
   price?: string;
+  FontText?: string;
 }
 
 const CustomButton = React.forwardRef<View, Props>(
@@ -25,6 +26,7 @@ const CustomButton = React.forwardRef<View, Props>(
       iconPosition = 'left',
       source,
       price,
+      FontText,
     },
     ref
   ) => {
@@ -51,13 +53,13 @@ const CustomButton = React.forwardRef<View, Props>(
       <View
         className={`flex-row items-center justify-center`}
       >
-        <Text className={`text-center w-full ${textColor}`}>{children}</Text>
+        <Text className={`text-center w-full ${textColor} ${FontText}`}>{children}</Text>
       </View>
 
       <View
         className={`flex-row items-center justify-center`}
       >
-        <Text className={`text-center text-sm ${textColor}`}>{price}</Text>
+        <Text className={`text-center text-sm ${textColor} ${FontText}`}>{price}</Text>
       </View>
       </>
 
@@ -69,7 +71,7 @@ const CustomButton = React.forwardRef<View, Props>(
         }`}
       >
         {icon && <View className="mr-2">{icon}</View>}
-        <Text className={`text-center ${textColor}`}>{children}</Text>
+        <Text className={`text-center ${textColor} ${ variant === 'text-only' ? 'underline' : ''} ${FontText}`}>{children}</Text>
       </View>
     );
 

@@ -68,7 +68,7 @@ const registerScreen = () => {
         </View>
 
         <View className="items-center mt-20">
-          <Text className="text-black text-base text-justify leading-6 px-4 mb-1 mt-10 font-bold">
+          <Text className="text-black text-base text-justify leading-6 px-4 mb-1 mt-10">
             ¿Ya tienes una cuenta?
           </Text>
 

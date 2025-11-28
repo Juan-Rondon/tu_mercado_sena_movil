@@ -55,7 +55,7 @@ const resetPasswordScreen = () => {
 
         <View className="items-center mt-20">
 
-          <Text className='text-black text-base text-justify leading-6 px-4 mb-1 mt-10 font-bold'>
+          <Text className='text-black text-base text-justify leading-6 px-4 mb-1 mt-10'>
           ¿No tienes una cuenta?
           </Text>
 
@@ -74,11 +74,11 @@ const resetPasswordScreen = () => {
 
         <View className="items-center top-16">
           <CustomButton
-            variant="text-only"
-            color="primary"
+            variant="contained"
+            color="quinary"
             className="w-1/2 right-1"
             onPress={() => router.push('/')}
-            icon={<Ionicons name="arrow-back" size={20} color="#00000" />}
+            icon={<Ionicons name="arrow-back" size={20} color="#fff" />}
             iconPosition='left'
           >
             Volver
