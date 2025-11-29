@@ -59,23 +59,33 @@ const registerScreen = () => {
 
           <CustomButton 
           onPress={() => router.push('/(stack)/login')} 
-          className="w-1/2" 
+          className="w-3/4"
+          FontText='text-xl' 
           color="quinary"
           >
             Registrar Cuenta
           </CustomButton>
 
-        </View>
+      </View>
 
         <View className="items-center mt-20">
-          <Text className="text-black text-base text-justify leading-6 px-4 mb-1 mt-10">
+          
+          <Text className='text-white text-2xl text-justify leading-6 px-4 mb-1 mt-10'>
             ¿Ya tienes una cuenta?
           </Text>
 
-          <CustomButton variant="text-only" className="w-1/2" color="primary" onPress={() => router.push('/')}>
-            <Text className="text-quinary-50 font-Opensans-bold underline">Iniciar Sesión</Text>
+          <CustomButton 
+          variant="text-only" 
+          className="w-1/2" 
+          color="quaternary"
+          FontText='text-xl'
+          onPress={() => router.push('/')}
+          >
+            Iniciar Sesión  
           </CustomButton>
+
         </View>
+
       </View>
     </LinearGradient>
   )

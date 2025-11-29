@@ -67,12 +67,11 @@ const loginScreen = () => {
 
           <CustomButton 
           variant="text-only" 
-          color="primary"
+          color="quaternary"
+          FontText='text-xl'
           onPress={() => router.push('/resetPassword')}
           >
-          <Text className='text-quinary-50 font-Opensans-bold underline text-xl'>
             Olvidé mi contraseña
-          </Text>
           </CustomButton>
 
         </View>
@@ -104,6 +103,7 @@ const loginScreen = () => {
           variant="text-only" 
           className="w-1/2 underline" 
           color="quaternary"
+          FontText='text-xl'
           onPress={() => router.push('/register')}
           >
             Registrarme

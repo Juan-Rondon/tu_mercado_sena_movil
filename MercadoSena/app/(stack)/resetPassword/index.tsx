@@ -44,8 +44,9 @@ const resetPasswordScreen = () => {
         <View className="items-center mt-4">
           <CustomButton
             onPress={() => console.log('Iniciar sesión')}
-            className="w-1/2"
+            className="w-3/4"
             color="quinary"
+            FontText='text-xl'
           >
             Enviar Correo
           </CustomButton>
@@ -55,19 +56,18 @@ const resetPasswordScreen = () => {
 
         <View className="items-center mt-20">
 
-          <Text className='text-black text-base text-justify leading-6 px-4 mb-1 mt-10'>
+          <Text className='text-white text-2xl text-justify leading-6 px-4 mb-1 mt-10'>
           ¿No tienes una cuenta?
           </Text>
 
           <CustomButton 
           variant="text-only" 
           className="w-1/2" 
-          color="primary"
+          color="quaternary"
+          FontText='text-xl'
           onPress={() => router.push('/register')}
           >
-          <Text className='text-quinary-50 font-Opensans-bold underline'>
             Registrarme
-          </Text>
           </CustomButton>
 
         </View>
@@ -77,6 +77,7 @@ const resetPasswordScreen = () => {
             variant="contained"
             color="quinary"
             className="w-1/2 right-1"
+            FontText='text-xl'
             onPress={() => router.push('/')}
             icon={<Ionicons name="arrow-back" size={20} color="#fff" />}
             iconPosition='left'
