@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 
 interface Props {
-    type: "text" | "password" | "email" | "number";
+    type?: "text" | "password" | "email" | "number" | "string";
     className?: string;
     placeholder?: string;
     value?: string;
