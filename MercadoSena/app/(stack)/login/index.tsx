@@ -69,6 +69,7 @@ const loginScreen = () => {
           variant="text-only" 
           color="quaternary"
           FontText='text-xl'
+          underline={true}
           onPress={() => router.push('/resetPassword')}
           >
             Olvidé mi contraseña
@@ -104,6 +105,7 @@ const loginScreen = () => {
           className="w-1/2 underline" 
           color="quaternary"
           FontText='text-xl'
+          underline={true}
           onPress={() => router.push('/register')}
           >
             Registrarme

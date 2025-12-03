@@ -65,6 +65,7 @@ const resetPasswordScreen = () => {
           className="w-1/2" 
           color="quaternary"
           FontText='text-xl'
+          underline={true}
           onPress={() => router.push('/register')}
           >
             Registrarme

@@ -2,34 +2,42 @@ import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 
 interface Props {
-    type?: "text" | "password" | "email" | "number" | "string";
-    className?: string;
-    placeholder?: string;
-    value?: string;
-    placeholderTextColor?: string;
-    onChangeText?: (text: string) => void;
-    icon?: React.ReactNode;
+  type?: "text" | "password" | "email" | "number" | "string";
+  className?: string;
+  placeholder?: string;
+  value?: string;
+  placeholderTextColor?: string;
+  onChangeText?: (text: string) => void;
+  icon?: React.ReactNode;
 }
 
-const CustomInput = ({type, className, placeholder, value, placeholderTextColor, onChangeText, icon}: Props) => {
+const CustomInput = ({
+  type,
+  className,
+  placeholder,
+  value,
+  placeholderTextColor,
+  onChangeText,
+  icon
+}: Props) => {
 
   const isPassword = type === 'password';
   const isNumber = type === 'number';
- 
+
   return (
     <TextInput
-     value={value}
-     onChangeText={onChangeText}
-     placeholder={placeholder}
-     secureTextEntry={isPassword}
-     keyboardType={isNumber ? 'numeric' : 'default'}
-     style={styles.input}
-     className={className}
-     placeholderTextColor={placeholderTextColor}
-     {...(icon ? { left: icon } : {})}
+      value={value}
+      onChangeText={onChangeText}
+      placeholder={placeholder}
+      secureTextEntry={isPassword}
+      keyboardType={isNumber ? 'numeric' : 'default'}
+      style={styles.input}
+      className={className}
+      placeholderTextColor={placeholderTextColor}
+      {...(icon ? { left: icon } : {})}
     />
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   input: {
@@ -47,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomInput
+export default CustomInput;
