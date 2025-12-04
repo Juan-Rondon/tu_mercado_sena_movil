@@ -21,7 +21,7 @@ const homeScreen = () => {
         value={search}
         onChangeText={setSearch}
         avatar={defaultAvatar}
-        onAvatarPress={() => router.push("/")}
+        onAvatarPress={() => router.push("/profile")}
       />
 
       </View>
@@ -29,6 +29,90 @@ const homeScreen = () => {
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         
         <View className="flex-row flex-wrap">
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              defaultImage={defaultProductImage}
+              price="$9.99"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Comprar ahora
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              defaultImage={defaultProductImage}
+              price="$9.99"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Comprar ahora
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              defaultImage={defaultProductImage}
+              price="$9.99"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Comprar ahora
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              defaultImage={defaultProductImage}
+              price="$9.99"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Comprar ahora
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              defaultImage={defaultProductImage}
+              price="$9.99"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Comprar ahora
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              defaultImage={defaultProductImage}
+              price="$9.99"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Comprar ahora
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              defaultImage={defaultProductImage}
+              price="$9.99"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Comprar ahora
+            </CustomButton>
+          </View>
           
           <View className="w-1/2 p-2">
             <CustomButton 

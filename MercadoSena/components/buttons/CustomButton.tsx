@@ -6,7 +6,7 @@ interface Props extends PressableProps {
   children?: React.ReactNode;
   color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary';
   className?: string;
-  variant?: 'contained' | 'text-only' | 'card';
+  variant?: 'contained' | 'text-only' | 'card' | 'icon-only';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right' | 'up' | 'down' | 'center';
   source?: {};
@@ -143,6 +143,21 @@ const CustomButton = React.forwardRef<View, Props>(
         </View>
 
       </Pressable>
+      );
+    } else if (variant === 'icon-only') {
+      return (
+        <Pressable
+          ref={ref}
+          className={`p-3 ${className} ${textColor} active:opacity-70 rounded-full ${btnColor}`}
+          onPress={onPress}
+          onLongPress={onLongPress}
+        >
+          <View
+          className={`flex items-center justify-center`}
+        >
+        {icon}
+      </View>
+        </Pressable>
       );
     }
 
