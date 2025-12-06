@@ -2,14 +2,36 @@ import CustomButton from '@/components/buttons/CustomButton';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 
 const ProfileScreen = () => {
   return (
 
+    <ScrollView className="bg-white flex-1">
+
+        <View className="left-14 top-16">
+          <CustomButton
+            variant="text-only"
+            color="secondary"
+            className="w-1/2 right-28"
+            FontText='text-xl'
+            onPress={() => router.push('/(tabs)/Home')}
+            icon={<Ionicons name="arrow-back" size={20} color="#1C65E3" />}
+            iconPosition='left'
+           >
+            Volver
+          </CustomButton>
+        </View>
+
+        <Text
+        className='flex justify-center top-8 text-center'
+        >
+          TU PERFIL
+        </Text>
+
     <View className='items-center'>
     <View
-    className='bg-blue-300 flex justify-center h-[150px] w-[150px] mx-3 rounded-full items-center mt-16'
+    className='bg-blue-300 flex justify-center h-[150px] w-[150px] mx-3 rounded-full items-center mt-20'
     >
       <Image
       source={require('../../assets/images/default_user.png')}
@@ -62,6 +84,8 @@ const ProfileScreen = () => {
         
     </View>
   </View>
+
+  </ScrollView>
   )
 }
 
