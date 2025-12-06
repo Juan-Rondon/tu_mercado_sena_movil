@@ -1,15 +1,17 @@
 import CustomButton from '@/components/buttons/CustomButton';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 
+const defaultProductImage = require("../../../MercadoSena/assets/images/imagedefault.png")
+
 const ProfileScreen = () => {
   return (
 
-    <ScrollView className="bg-white flex-1">
-
-        <View className="left-14 top-16">
+    <ScrollView contentContainerStyle={{ padding: 16 }}>
+    
+    <View className="left-14 top-16">
           <CustomButton
             variant="text-only"
             color="secondary"
@@ -61,7 +63,7 @@ const ProfileScreen = () => {
           variant="icon-only"
           color="quinary"
           onPress={() => router.push('/')}
-          icon={<Ionicons name="create-outline" size={20} color="#fff" />}
+          icon={<MaterialCommunityIcons name="account-edit" size={20} color="#fff" />}
         >
         </CustomButton>
         
@@ -80,13 +82,105 @@ const ProfileScreen = () => {
           icon={<Ionicons name="chatbox-outline" size={20} color="#fff" />}
         >
         </CustomButton>
-        
-        
+
+      </View>
+
+        <View className="w-3/4 mt-10">
+        <Text className="text-center text-gray-600 leading-6 mt-5">
+          Soy un usuario activo en MercadoSena. Participo en diferentes 
+          secciones del mercado digital y gestiono mi información desde la app.
+        </Text>
+        </View>
+
     </View>
-  </View>
+
+    <View className="w-90 h-[1px] bg-gray-300 my-9 mx-4" />
+
+    <Text
+    className='text-center font-Opensans-bold'
+    >
+      Mis productos
+    </Text>
+
+    <View className="flex-row flex-wrap">
+
+        <View className="w-1/2 p-2">
+          <CustomButton 
+            variant="card"
+            defaultImage={defaultProductImage}
+            price="$9.99"
+            onPress={() => router.push("/product/[id]")}
+            onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+            Comprar ahora
+          </CustomButton>
+        </View>
+
+        <View className="w-1/2 p-2">
+          <CustomButton 
+            variant="card"
+            defaultImage={defaultProductImage}
+            price="$9.99"
+            onPress={() => router.push("/product/[id]")}
+            onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+            Comprar ahora
+          </CustomButton>
+        </View>
+
+        <View className="w-1/2 p-2">
+          <CustomButton 
+            variant="card"
+            defaultImage={defaultProductImage}
+            price="$9.99"
+            onPress={() => router.push("/product/[id]")}
+            onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+            Comprar ahora
+          </CustomButton>
+        </View>
+        
+        <View className="w-1/2 p-2">
+          <CustomButton 
+            variant="card"
+            defaultImage={defaultProductImage}
+            price="$9.99"
+            onPress={() => router.push("/product/[id]")}
+            onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+            Comprar ahora
+          </CustomButton>
+        </View>
+
+        <View className="w-1/2 p-2">
+          <CustomButton 
+            variant="card"
+            defaultImage={defaultProductImage}
+            price="$9.99"
+            onPress={() => router.push("/product/[id]")}
+            onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+            Comprar ahora
+          </CustomButton>
+        </View>
+
+        <View className="w-1/2 p-2">
+          <CustomButton 
+            variant="card"
+            defaultImage={defaultProductImage}
+            price="$9.99"
+            onPress={() => router.push("/product/[id]")}
+            onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+            Comprar ahora
+          </CustomButton>
+        </View>
+
+    </View>
 
   </ScrollView>
   )
 }
 
 export default ProfileScreen
+
