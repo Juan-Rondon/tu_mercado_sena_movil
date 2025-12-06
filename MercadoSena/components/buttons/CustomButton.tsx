@@ -16,6 +16,8 @@ interface Props extends PressableProps {
   onCartPress?: () => void;
   actionText?: string;
   underline?: boolean;
+  showFavorite?: boolean;
+  isOwner?: boolean;
 }
 
 const CustomButton = React.forwardRef<View, Props>(
@@ -36,6 +38,8 @@ const CustomButton = React.forwardRef<View, Props>(
       defaultImage,
       actionText,
       underline,
+      showFavorite,
+      isOwner,
     },
     ref
   ) => {
@@ -129,16 +133,18 @@ const CustomButton = React.forwardRef<View, Props>(
             </Text>
           </Pressable>
 
-          <Pressable 
-          onPress={() => setIsFavorite(!isFavorite)}
-          className="p-2 rounded-full border border-gray-800"
-          >
-            {isFavorite ? (
-              <AntDesign name="heart" size={22} color="red" />
-            ) : (
-              <AntDesign name="heart" size={22} color="gray" />
-            )}
-          </Pressable>
+          {isOwner && (
+            <Pressable 
+            onPress={() => setIsFavorite(!isFavorite)}
+            className="p-2 rounded-full border border-gray-800"
+            >
+              {isFavorite ? (
+                <AntDesign name="heart" size={22} color="red" />
+              ) : (
+                <AntDesign name="heart" size={22} color="gray" />
+              )}
+            </Pressable>
+          )}
 
         </View>
 
