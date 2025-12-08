@@ -1,12 +1,11 @@
 import { AntDesign } from '@expo/vector-icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Pressable, PressableProps, Text, View } from 'react-native';
-
 interface Props extends PressableProps {
   children?: React.ReactNode;
   color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary';
   className?: string;
-  variant?: 'contained' | 'text-only' | 'card' | 'icon-only';
+  variant?: 'contained' | 'text-only' | 'card' | 'icon-only' | 'desplegar';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right' | 'up' | 'down' | 'center';
   source?: {};
@@ -18,6 +17,9 @@ interface Props extends PressableProps {
   underline?: boolean;
   showFavorite?: boolean;
   isOwner?: boolean;
+  options?: string[];
+  placeholder?: string;
+  onSelect?: (value: string) => void;
 }
 
 const CustomButton = React.forwardRef<View, Props>(
@@ -40,11 +42,18 @@ const CustomButton = React.forwardRef<View, Props>(
       underline,
       showFavorite,
       isOwner,
+      // jeancito toco esto
+      options = [],
+      placeholder = "Selecciona...",
+      onSelect,
     },
     ref
   ) => {
 
     const [isFavorite, setIsFavorite] = React.useState(false);
+    // jeancito tambien toco aqui
+    const [showOptions, setShowOptions] = useState(false);
+    const [selected, setSelected] = useState("");
 
     const textColor = {
       primary: 'text-primary-90',
@@ -164,6 +173,52 @@ const CustomButton = React.forwardRef<View, Props>(
         {icon}
       </View>
         </Pressable>
+      );
+    } else if (variant === 'desplegar'){
+      // jeancito tambien t toco esto aqui
+      return (
+        <View className="w-full">
+          <Pressable
+            onPress={() =>setShowOptions(!showOptions)}
+            className={`p-3 rounded-lg bg-[#a7c7e7] ${className}`}
+          >
+            <View className="flex-row items-center justify-between">
+              <Text className="text-white text-lg font-semibold">
+                {selected || placeholder}
+              </Text>
+              <AntDesign name={showOptions?"up":"down"}size={18}color="white"/>
+
+            </View>
+          </Pressable>
+
+
+          {showOptions && (
+
+            <View className="bg-[#E8F1F5] mt-1 rounded-lg">
+
+              {options.map((item, index) => (
+
+
+                <Pressable
+                  key={index}
+
+                  onPress={() => {
+                    setSelected(item);
+                    setShowOptions(false);
+                    onSelect?.(item);
+
+                  }}
+
+                  className="p-2 rounded-lg active:bg-[#c7dfe6]"
+                >
+                  <Text className="text-[#36454F] text-base">{item}</Text>
+
+                </Pressable>
+
+              ))}
+            </View>
+          )}
+        </View>
       );
     }
 
