@@ -181,7 +181,7 @@ const CustomButton = React.forwardRef<View, Props>(
         <View className="w-full">
           <Pressable
             onPress={() =>setShowOptions(!showOptions)}
-            className={`p-3 rounded-lg bg-white border border-black-500 p-2 ${className}`}
+            className={`p-3 rounded-lg bg-white border border-black-500 ${className}`}
           >
             <View className="flex-row items-center justify-between">
               <Text className="text-black text-lg font-semibold">

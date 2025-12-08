@@ -18,11 +18,11 @@ const loginScreen = () => {
 
       <Image source={logo} 
              style={{ 
-              width: 210, 
-              height: 210, 
+              width: 280, 
+              height: 280, 
               position: 'absolute',
-              top: 100,
-              left: 135,
+              top: 50,
+              left: 70,
               }} />
 
       <View style={{ position: 'relative', top: 150, left: 0, alignItems: 'flex-end' }}>

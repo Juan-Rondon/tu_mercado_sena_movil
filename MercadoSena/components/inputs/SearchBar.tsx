@@ -5,7 +5,7 @@ import { Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-nati
 interface Props {
   value: string;
   onChangeText: (text: string) => void;
-  avatar: any;
+  avatar?: any;
   onAvatarPress?: () => void;
   placeholder?: string;
 }

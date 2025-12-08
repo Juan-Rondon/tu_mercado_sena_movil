@@ -8,7 +8,6 @@ const homeScreen = () => {
 
   const [search, setSearch] = useState("")
   const router = useRouter()
-  const defaultAvatar = require("../../../assets/images/default_user.png")
   const defaultProductImage = require("../../../assets/images/imagedefault.png")
 
   return (
@@ -20,8 +19,6 @@ const homeScreen = () => {
        <SearchBar
         value={search}
         onChangeText={setSearch}
-        avatar={defaultAvatar}
-        onAvatarPress={() => router.push("/profile")}
       />
 
       </View>

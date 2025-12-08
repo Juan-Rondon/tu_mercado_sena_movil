@@ -1,14 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from 'expo-router';
+import { useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { useRouter } from "expo-router";
 
   export default function Configuracion() {
     const router = useRouter();
 
   return (
-    <ScrollView className="flex-1 bg-[#D1D5DB]">
+    <ScrollView className="flex-1 bg-[#ffffff]">
 
       {/* CONTENIDO */}
       <View className="px-4 mt-5">
@@ -23,18 +22,13 @@ import { useRouter } from "expo-router";
           onPress={() => router.push('/profile')}
         />
 
-        <SettingItem
-          icon="information-circle-outline"
-          title="Información personal"
-        />
-
         {/*SEGURIDAD*/}
         <Text className="text-lg font-bold mt-6 mb-2">Seguridad</Text>
 
         <SettingItem
           icon="lock-closed-outline"
           title="Cambiar contraseña"
-          onPress={() => router.push('/Seguridad/pandebono')}
+          onPress={() => router.push('/')}
         />
 
         <SettingItem
@@ -56,12 +50,6 @@ import { useRouter } from "expo-router";
           icon="notifications-outline"
           title="Notificaciones"
           subtitle="Sonido, vibración, recordatorios"
-        />
-
-        <SettingItem
-          icon="remove-circle-outline"
-          title="Bloqueo de Usuarios"
-          subtitle="Gestión de usuarios"
         />
 
         {/*INFORMACIÓN*/}

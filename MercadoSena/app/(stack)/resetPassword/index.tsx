@@ -12,17 +12,17 @@ const resetPasswordScreen = () => {
     <LinearGradient
           colors={['#538392', '#B1CCD2']}
           start={{ x: 0, y: 0 }}          
-          end={{ x: 1, y: 1 }}             
+          end={{ x: 1.5, y: 1.5 }}             
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}
         >
     
           <Image source={logo} 
                  style={{ 
-                  width: 210, 
-                  height: 210, 
+                  width: 280, 
+                  height: 280, 
                   position: 'absolute',
-                  top: 100,
-                  left: 135,
+                  top: 50,
+                  left: 70,
                   }} />
     
           <View style={{ position: 'relative', top: 80, left: 0, alignItems: 'flex-end' }}>
