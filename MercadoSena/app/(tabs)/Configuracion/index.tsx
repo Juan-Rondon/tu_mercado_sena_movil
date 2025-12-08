@@ -2,8 +2,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from 'expo-router';
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
 
-export default function Configuracion() {
+  export default function Configuracion() {
+    const router = useRouter();
+
   return (
     <ScrollView className="flex-1 bg-[#D1D5DB]">
 
@@ -31,6 +34,7 @@ export default function Configuracion() {
         <SettingItem
           icon="lock-closed-outline"
           title="Cambiar contraseña"
+          onPress={() => router.push('/Seguridad/pandebono')}
         />
 
         <SettingItem
@@ -89,9 +93,12 @@ export default function Configuracion() {
 }
 
 /*COMPONENTE REUTILIZABLE*/
-function SettingItem({ icon, title, subtitle }: any) {
+function SettingItem({ icon, title, subtitle, onPress }: any) {
   return (
-    <TouchableOpacity className="bg-white rounded-xl p-4 mb-3 flex-row items-center justify-between shadow">
+    <TouchableOpacity
+      onPress={onPress}
+      className="bg-white rounded-xl p-4 mb-3 flex-row items-center justify-between shadow"
+    >
       <View className="flex-row items-center gap-3">
         <Ionicons name={icon} size={24} color="black" />
         <View>
