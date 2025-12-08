@@ -31,17 +31,24 @@ const venderScreen = () => {
             placeholder='Precio(COP)'
           ></CustomInput>
 
-          <CustomInput
-            type='number'
-            placeholder='Cantidad Disponible'
-          ></CustomInput>
+          <CustomButton
+            variant="desplegar"
+            options={["Tecnología","Ropa","Hogar","Accesorios","Coleccionables","Otros"]}
+            placeholder="Categoria"
+            onSelect={(value)=>console.log("elegido:",value)}
+          />
 
-          <CustomInput
-            placeholder='Categoria'
-          ></CustomInput>
+          <CustomButton
+            variant="desplegar"
+            options={["nuevo","usado","reparado","reciclado","Otros"]}
+            placeholder="Condicion"
+            onSelect={(value)=>console.log("elegido:",value)}
+            className='mt-4'
+          />
 
           <CustomInput
             placeholder='Condicion'
+            className='mt-4'
           ></CustomInput>
 
           <CustomInput
@@ -53,20 +60,20 @@ const venderScreen = () => {
         <View>
           <CustomButton
             variant='contained'
-            className='bg-[#538392] mb-4'
+            className='bg-[#538392]'
           >
             <Text className='text-white text-lg font-semibold'>
               publicar producto
             </Text>
           </CustomButton>
         </View>
-         
-        <View>
+
+        <View className='mt-2'>
           <CustomButton
             variant='contained'
-            className='bg-[#B1CCD2] mb-4'
+            className='bg-[#538392]'
           >
-            <Text className='text-white text-lg font-semibold'>
+            <Text className='text-black text-lg font-semibold'>
               cancelar
             </Text>
           </CustomButton>
