@@ -12,7 +12,7 @@ const venderScreen = () => {
     <ScrollView contentContainerStyle={{ padding: 16 }}>
       <View >
         <View>
-          <Text className='mt-4 mg-4 text-center text-2xl font-semibold'> Publicar Productossss </Text>
+          <Text className='mt-4 mg-4 text-center text-2xl font-semibold'> Publicar Productos </Text>
         </View>
         
         <View>
