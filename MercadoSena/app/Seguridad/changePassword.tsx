@@ -23,7 +23,7 @@ export default function CambioContra() {
       return;
     }
 
-    Alert.alert("Éxito", "Contraseña cambiada correctamente ✅");
+    Alert.alert("Éxito", "Contraseña cambiada correctamente ");
   };
 
   return (
