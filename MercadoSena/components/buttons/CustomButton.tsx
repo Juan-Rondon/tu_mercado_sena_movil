@@ -181,13 +181,13 @@ const CustomButton = React.forwardRef<View, Props>(
         <View className="w-full">
           <Pressable
             onPress={() =>setShowOptions(!showOptions)}
-            className={`p-3 rounded-lg bg-[#a7c7e7] ${className}`}
+            className={`p-3 rounded-lg bg-white border border-black-500 p-2 ${className}`}
           >
             <View className="flex-row items-center justify-between">
               <Text className="text-black text-lg font-semibold">
                 {selected || placeholder}
               </Text>
-              <AntDesign name={showOptions?"up":"down"}size={18}color="white"/>
+              <AntDesign name={showOptions?"up":"down"}size={18}color="black"/>
 
             </View>
           </Pressable>
@@ -195,7 +195,7 @@ const CustomButton = React.forwardRef<View, Props>(
 
           {showOptions && (
 
-            <View className="bg-[#E8F1F5] mt-1 rounded-lg">
+            <View className="bg-gray mt-1 rounded-lg border border-black-500 p-2">
 
               {options.map((item, index) => (
 
@@ -212,7 +212,7 @@ const CustomButton = React.forwardRef<View, Props>(
 
                   className="p-2 rounded-lg active:bg-[#c7dfe6]"
                 >
-                  <Text className="text-[#36454F] text-base">{item}</Text>
+                  <Text className="text-black text-base">{item}</Text>
 
                 </Pressable>
 
