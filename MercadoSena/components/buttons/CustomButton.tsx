@@ -1,6 +1,7 @@
 import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Image, Pressable, PressableProps, Text, View } from 'react-native';
+
 interface Props extends PressableProps {
   children?: React.ReactNode;
   color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary';
