@@ -33,7 +33,7 @@ const venderScreen = () => {
 
           <CustomButton
             variant="desplegar"
-            options={["Tecnología","Ropa","Hogar","Accesorios","Coleccionables","Otros"]}
+            options={["tecnologia","ropa","hogar","accesorios","coleccion","Otors"]}
             placeholder="Categoria"
             onSelect={(value)=>console.log("elegido:",value)}
           />
