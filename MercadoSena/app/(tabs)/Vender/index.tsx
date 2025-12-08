@@ -60,7 +60,7 @@ const venderScreen = () => {
         <View>
           <CustomButton
             variant='contained'
-            className='bg-[#538392]'
+            className='bg-[#a7c7e7]'
           >
             <Text className='text-white text-lg font-semibold'>
               publicar producto
@@ -71,7 +71,7 @@ const venderScreen = () => {
         <View className='mt-2'>
           <CustomButton
             variant='contained'
-            className='bg-[#538392]'
+            className='bg-[#a7c7e7]'
           >
             <Text className='text-black text-lg font-semibold'>
               cancelar
