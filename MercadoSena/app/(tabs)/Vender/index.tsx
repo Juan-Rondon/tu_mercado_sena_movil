@@ -26,10 +26,21 @@ const venderScreen = () => {
             placeholder='Descripcion'
           ></CustomInput>
 
-          <CustomInput
-            type='number'
-            placeholder='Precio(COP)'
-          ></CustomInput>
+          <View className="flex-row gap-6 justify-center">
+
+            <CustomInput
+              type='number'
+              placeholder='Precio(COP)'
+              className="w-[130%] ml-2"
+            ></CustomInput>
+
+            <CustomInput
+              type='number'
+              placeholder='Cantidad'
+              className="w-[130%] ml-2"
+            ></CustomInput>
+
+          </View>
 
           <CustomButton
             variant="desplegar"
@@ -43,16 +54,13 @@ const venderScreen = () => {
             options={["nuevo","usado","reparado","reciclado","Otros"]}
             placeholder="Condicion"
             onSelect={(value)=>console.log("elegido:",value)}
-            className='mt-4'
+            className='mt-2'
           />
 
-          <CustomInput
-            placeholder='Condicion'
-            className='mt-4'
-          ></CustomInput>
 
           <CustomInput
             placeholder='imagen de producto '
+            className='mt-4'
           ></CustomInput>
 
         </View>
@@ -60,7 +68,7 @@ const venderScreen = () => {
         <View>
           <CustomButton
             variant='contained'
-            className='bg-[#a7c7e7]'
+            className='bg-quinary'
           >
             <Text className='text-white text-lg font-semibold'>
               publicar producto
@@ -71,9 +79,9 @@ const venderScreen = () => {
         <View className='mt-2'>
           <CustomButton
             variant='contained'
-            className='bg-[#a7c7e7]'
+            className='bg-red-600'
           >
-            <Text className='text-black text-lg font-semibold'>
+            <Text className='text-white text-lg font-semibold'>
               cancelar
             </Text>
           </CustomButton>
