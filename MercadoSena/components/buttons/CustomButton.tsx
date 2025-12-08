@@ -42,7 +42,7 @@ const CustomButton = React.forwardRef<View, Props>(
       actionText,
       underline,
       showFavorite,
-      isOwner,
+      isOwner = false,
       // jeancito toco esto
       options = [],
       placeholder = "Selecciona...",
@@ -132,18 +132,18 @@ const CustomButton = React.forwardRef<View, Props>(
 
         <Content />
 
-          <View className="flex-row justify-between items-center mt-3 px-2">
+          <View className={`flex-row ${isOwner === true ? 'justify-center' : 'justify-between' } items-center mt-3 px-2`}>
 
           <Pressable 
             onPress={onCartPress}
-            className="py-3 px-6 rounded-full border border-gray-800"
+            className={`${isOwner === true ? 'w-9/12 h-10' : 'py-3 px-6' } justify-center items-center rounded-full border border-gray-800`}
             >
             <Text className="text-black font-medium">
               {actionText ?? "Detalle"}
             </Text>
           </Pressable>
 
-          {isOwner && (
+          {!isOwner && (
             <Pressable 
             onPress={() => setIsFavorite(!isFavorite)}
             className="p-2 rounded-full border border-gray-800"

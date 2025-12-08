@@ -33,7 +33,7 @@ const homeScreen = () => {
           <View className="w-1/2 p-2">
             <CustomButton 
               variant="card"
-              isOwner={true}
+              isOwner={false}
               defaultImage={defaultProductImage}
               price="$9.99"
               onPress={() => router.push("/product/[id]")}

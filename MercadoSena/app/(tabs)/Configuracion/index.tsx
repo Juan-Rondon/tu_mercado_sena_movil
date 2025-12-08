@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { router } from 'expo-router';
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
@@ -10,11 +11,13 @@ export default function Configuracion() {
       <View className="px-4 mt-5">
 
         {/*CUENTA*/}
-        <Text className="text-lg font-bold mb-2">Cuenta</Text>
+        <Text 
+        className="text-lg font-bold mb-2">Cuenta</Text>
 
         <SettingItem
           icon="person-outline"
           title="Cuenta"
+          onPress={() => router.push('/profile')}
         />
 
         <SettingItem
