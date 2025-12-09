@@ -121,12 +121,12 @@ const CustomButton = React.forwardRef<View, Props>(
 
         <Pressable
         ref={ref}
-        className={`p-3 rounded-md w-full ${btnColor} active:opacity-90 ${className}`}
+        className={`p-3 rounded-md w-full ${btnColor} active:opacity-90 ${className} border border-black`}
         onPress={onPress}
         onLongPress={onLongPress}
       >
         <Image
-        style={{ width: '100%', height: 150, borderRadius: 8, marginBottom: 8 }} 
+        style={{ width: '100%', height: 150, borderRadius: 8, marginBottom: 8, borderWidth: 1 }} 
         source={source || defaultImage}
         />
 
