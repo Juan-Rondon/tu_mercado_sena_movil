@@ -83,7 +83,7 @@ const loginScreen = () => {
         <View className="items-center mt-4">
           
           <CustomButton
-            onPress={() => router.push('/(tabs)/Home')}
+            onPress={() => router.push('/Home')}
             className="w-3/4"
             FontText='text-xl'
             color="quinary"
