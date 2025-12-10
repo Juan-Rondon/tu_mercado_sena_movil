@@ -59,7 +59,7 @@ const CustomButton = React.forwardRef<View, Props>(
     const textColor = {
       primary: 'text-primary-90',
       secondary: 'text-secondary-500',
-      tertiary: 'text-tertiary-100',
+      tertiary: 'text-tertiary-900',
       quaternary: 'text-quaternary-50',
       quinary: 'text-quinary-50',
     }[color];
@@ -67,49 +67,66 @@ const CustomButton = React.forwardRef<View, Props>(
     const btnColor = {
       primary: 'bg-primary-400',
       secondary: 'bg-secondary-950',
-      tertiary: 'bg-tertiary-500',
+      tertiary: 'bg-tertiary-50',
       quaternary: 'bg-quaternary-700',
       quinary: 'bg-quinary-600',
-      gray: 'bg-gray-200',
     }[color];
 
-    // Estructura visual para texto + icono
-    const Content = () => (
-      variant === 'card' && price ?
+    const textOnlyColor = {
+      primary: 'text-primary-90',
+      secondary: 'text-secondary-500',
+      tertiary: 'text-tertiary-900',
+      quaternary: 'text-quaternary-600',
+      quinary: 'text-quinary-600',
+    }[color];
+
+  // Estructura visual para texto + icono
+    const Content = () => {
+  // para el texto "normal" (no card)
+    const effectiveTextColor = variant === 'text-only' ? textOnlyColor : textColor;
+
+  if (variant === 'card' && price) {
+    return (
       <>
-      <View
-        className={`flex-row items-center justify-center`}
-      >
-        <Text className={`text-center w-full ${textColor} ${FontText}`}>{children}</Text>
-      </View>
+        <View className="flex-row items-center justify-center">
+          <Text className={`text-center w-full ${textColor} ${FontText}`}>
+            {children}
+          </Text>
+        </View>
 
-      <View
-        className={`flex-row items-center justify-center`}
-      >
-        <Text className={`text-center text-sm ${textColor} ${FontText}`}>{price}</Text>
-      </View>
+        <View className="flex-row items-center justify-center">
+          <Text className={`text-center text-sm ${textColor} ${FontText}`}>
+            {price}
+          </Text>
+        </View>
       </>
-
-      :
-
-      <View
-        className={`flex-row items-center justify-center ${
-          icon && iconPosition === 'right' ? 'flex-row-reverse' : ''
-        }`}
-      >
-        {icon && <View className="mr-2">{icon}</View>}
-        <Text className={`text-center ${textColor} ${underline ? 'underline' : ''} ${FontText}`}>
-          {children}
-        </Text>
-      </View>
     );
+  }
+
+  return (
+    <View
+      className={`flex-row items-center justify-center ${
+        icon && iconPosition === 'right' ? 'flex-row-reverse' : ''
+      }`}
+    >
+      {icon && <View className="mr-2">{icon}</View>}
+      <Text
+        className={`text-center ${effectiveTextColor} ${
+          underline ? 'underline' : ''
+        } ${FontText}`}
+      >
+        {children}
+      </Text>
+    </View>
+  );
+};
 
     // Mismo if que tú usabas
     if (variant === 'text-only') {
       return (
         <Pressable
           ref={ref}
-          className={`p-3 ${className} ${textColor} active:opacity-70`}
+          className={`p-3 ${className} ${textOnlyColor} active:opacity-70`}
           onPress={onPress}
           onLongPress={onLongPress}
         >
