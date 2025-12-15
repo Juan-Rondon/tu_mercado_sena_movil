@@ -62,7 +62,7 @@ const LoginScreen = () => {
         <View className="items-end mt-3">
           <CustomButton
             variant="text-only"
-            color="quinary"
+            color="secondary"
             FontText="text-xl"
             underline={true}
             onPress={() => router.push("/resetPassword")}
@@ -96,7 +96,7 @@ const LoginScreen = () => {
 
         <CustomButton
           variant="text-only"
-          color="quinary"
+          color="secondary"
           FontText="text-xl"
           underline={true}
           onPress={() => router.push("/register")}
