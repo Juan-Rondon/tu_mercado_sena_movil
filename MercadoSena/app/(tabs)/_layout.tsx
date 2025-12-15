@@ -13,7 +13,7 @@ const tabsLayout = () => {
         options={{
           title: 'Inicio',
           tabBarIcon: ({ color = '#538392' }) => (
-            <Ionicons name="home-outline" size={28} color={'#538392'} />
+            <Ionicons name="home-outline" size={28} color={'#000000'} />
           ),
         }}
       />
@@ -23,7 +23,7 @@ const tabsLayout = () => {
         options={{
           title: 'Chats',
           tabBarIcon: ({ color }) => (
-            <Feather name="message-circle" size={28} color={'#538392'} />
+            <Feather name="message-circle" size={28} color={'#000000'} />
           ),
         }}
       />
@@ -44,7 +44,7 @@ const tabsLayout = () => {
         options={{
           title: 'Favoritos',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="heart-outline" size={26} color={'#538392'} />
+            <Ionicons name="heart-outline" size={26} color={'#000000'} />
           ),
         }}
       />
@@ -54,7 +54,7 @@ const tabsLayout = () => {
         options={{
           title: 'Configuracion',
           tabBarIcon: ({ color }) => (
-            <Feather name="settings" size={26} color={'#538392'} />
+            <Feather name="settings" size={26} color={'#000000'} />
           ),
         }}
       />
@@ -70,7 +70,7 @@ function FloatButtom({ onPress }) {
       width: 70, 
       height: 70, 
       borderRadius: 40, 
-      backgroundColor: '#538392',
+      backgroundColor: '#2f9d48',
       justifyContent: 'center', 
       alignItems: 'center',
       top: -25,

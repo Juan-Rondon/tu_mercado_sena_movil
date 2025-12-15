@@ -4,7 +4,7 @@ import { Image, Pressable, PressableProps, Text, View } from 'react-native';
 
 interface Props extends PressableProps {
   children?: React.ReactNode;
-  color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary';
+  color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary' | 'sextary';
   className?: string;
   variant?: 'contained' | 'text-only' | 'card' | 'icon-only' | 'desplegar';
   icon?: React.ReactNode;
@@ -62,6 +62,7 @@ const CustomButton = React.forwardRef<View, Props>(
       tertiary: 'text-tertiary-900',
       quaternary: 'text-quaternary-50',
       quinary: 'text-quinary-50',
+      sextary: 'text-sextary-900',
     }[color];
 
     const btnColor = {
@@ -70,6 +71,8 @@ const CustomButton = React.forwardRef<View, Props>(
       tertiary: 'bg-tertiary-50',
       quaternary: 'bg-quaternary-700',
       quinary: 'bg-quinary-600',
+      sextary: 'bg-sextary-400',
+      gray: 'bg-gray-100'
     }[color];
 
     const textOnlyColor = {
@@ -143,7 +146,7 @@ const CustomButton = React.forwardRef<View, Props>(
         onLongPress={onLongPress}
       >
         <Image
-        style={{ width: '100%', height: 150, borderRadius: 8, marginBottom: 8, borderWidth: 1 }} 
+        style={{ width: '100%', height: 150, borderRadius: 8, marginBottom: 8 }} 
         source={source || defaultImage}
         />
 

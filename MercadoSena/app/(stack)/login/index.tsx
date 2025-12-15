@@ -78,8 +78,8 @@ const LoginScreen = () => {
           variant="contained"
           onPress={() => router.push("/Home")}
           className="w-96 p-5 rounded-l-3xl rounded-r-3xl border"
-          FontText="text-xl"
-          color="quinary"
+          FontText="text-2xl"
+          color="sextary"
         >
           Iniciar Sesión
         </CustomButton>

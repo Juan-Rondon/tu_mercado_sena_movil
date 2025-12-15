@@ -31,12 +31,12 @@ const homeScreen = () => {
             <CustomButton 
               variant="card"
               isOwner={false}
-              defaultImage={defaultProductImage}
-              price="$9.99"
+              source={require('../../../assets/images/monitorpc.png')}
+              price="$ 100.000 COP"
               onPress={() => router.push("/product/[id]")}
               onCartPress={() => router.push("/product/[id]?modal=true")}
             >
-              Comprar ahora
+              Monitor Samsung LED de 24 Pulg
             </CustomButton>
           </View>
           
@@ -44,12 +44,38 @@ const homeScreen = () => {
             <CustomButton 
               variant="card"
               isOwner={false}
-              defaultImage={defaultProductImage}
-              price="$9.99"
+              source={require('../../../assets/images/zapatillas.png')}
+              price="$ 75.300 COP"
               onPress={() => router.push("/product/[id]")}
               onCartPress={() => router.push("/product/[id]?modal=true")}
             >
-              Comprar ahora
+              Zapatillas deportivas para mujer
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              isOwner={false}
+              source={require('../../../assets/images/pulsera.png')}
+              price="$ 13.200 COP"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Pulseras unisex
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              isOwner={false}
+              source={require('../../../assets/images/jeancorto.png')}
+              price="$ 53.500 COP"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Jean corto para mujer
             </CustomButton>
           </View>
 
