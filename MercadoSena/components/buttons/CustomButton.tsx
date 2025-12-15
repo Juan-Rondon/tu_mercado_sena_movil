@@ -215,7 +215,7 @@ const CustomButton = React.forwardRef<View, Props>(
 
           {showOptions && (
 
-            <View className="bg-gray mt-1 rounded-lg border border-black-500 p-2">
+            <View className="bg-gray mt-1 rounded-lg border border-[#538392] p-2">
 
               {options.map((item, index) => (
 
