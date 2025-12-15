@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 
 import CustomButton from "@/components/buttons/CustomButton";
@@ -8,6 +8,7 @@ import CustomInput from "@/components/inputs/CustomInput";
 
 const LoginScreen = () => {
   const router = useRouter();
+   const [openReset, setOpenReset] = useState(false);
 
   return (
     <View className="flex-1 bg-white px-6 pt-16 pb-4">
