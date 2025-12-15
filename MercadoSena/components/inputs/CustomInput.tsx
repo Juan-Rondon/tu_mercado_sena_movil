@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
 interface Props {
   type?: "text" | "password" | "email" | "number" | "string";
@@ -23,35 +23,36 @@ const CustomInput = ({
 
   const isPassword = type === 'password';
   const isNumber = type === 'number';
+  const isEmail = type === 'email';
 
   return (
-    <TextInput
-      value={value}
-      onChangeText={onChangeText}
-      placeholder={placeholder}
-      secureTextEntry={isPassword}
-      keyboardType={isNumber ? 'numeric' : 'default'}
-      style={styles.input}
-      className={className}
-      placeholderTextColor={placeholderTextColor}
-      {...(icon ? { left: icon } : {})}
-    />
+    <View
+      className={`flex-row items-center rounded-full bg-[#F5F5F7] px-4 mb-3 ${className ?? ''}`}
+    >
+      {icon && <View className="mr-2">{icon}</View>}
+
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        secureTextEntry={isPassword}
+        keyboardType={
+          isNumber ? 'numeric' : isEmail ? 'email-address' : 'default'
+        }
+        style={styles.input}
+        placeholderTextColor={placeholderTextColor}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   input: {
+    flex: 1,
     fontFamily: 'Opensans-Bold',
-    marginBottom: 12,
-    marginHorizontal: 15,
-    fontSize: 18,
+    fontSize: 16,
     color: '#1a202a',
-    textAlign: 'center',
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 6,
-    padding: 8,
-    backgroundColor: 'white',
+    paddingVertical: 10,
   },
 });
 

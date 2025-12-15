@@ -1,95 +1,120 @@
-import logo from '@/assets/images/logo.png';
-import CustomButton from '@/components/buttons/CustomButton';
-import CustomInput from '@/components/inputs/CustomInput';
-import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
-import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import React from "react";
+import { Text, View } from "react-native";
 
-const registerScreen = () => {
+import CustomButton from "@/components/buttons/CustomButton";
+import CustomInput from "@/components/inputs/CustomInput";
+
+const LoginScreen = () => {
+  const router = useRouter();
+
   return (
-    <LinearGradient
-          colors={['#538392', '#B1CCD2']}
-          start={{ x: 0, y: 0 }}          
-          end={{ x: 1, y: 1 }}             
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}
-        >
-    
-          <Image source={logo} 
-                 style={{ 
-                  width: 210, 
-                  height: 210, 
-                  position: 'absolute',
-                  top: 60,
-                  left: 135,
-                  }} />
-    
-          <View style={{ position: 'relative', top: 50, left: 0, alignItems: 'flex-end' }}>
-            <Text className="font-Opensans-bold text-4xl text-white mb-2">
-              Tu Mercado SENA
-            </Text>
-          </View>
+    <View className="flex-1 bg-white px-6 pt-16 pb-4">
 
-          <View className="w-3/4 top-20">
+      <View>
+        <Text className="font-Opensans-bold text-4xl text-black mt-16">
+          Registrarme
+        </Text>
+
+        <Text className="text-ml text-gray-400 mt-2">
+          Por favor registrese con su correo institucional
+        </Text>
+      </View>
+
+      <View className="mt-16">
+  
+        <Text className="text-2xl font-Opensans-medium text-black mb-2">
+          Nombre de Usuario
+        </Text>
+
         <CustomInput
-          placeholder="Correo Institucional"
+          className="p-1.5"
+          placeholder="Ingrese su nombre de usuario"
           placeholderTextColor="#CDCDCD"
           type="email"
+          icon={<Ionicons 
+            name="person"
+            size={20}
+            color="#9CA3AF"
+            />
+          }
         />
+        
+        <Text className="text-2xl font-Opensans-medium text-black mb-2">
+          Correo Institucional
+        </Text>
 
         <CustomInput
-          placeholder="Nombre"
+          className="p-1.5"
+          placeholder="Ingrese su correo institucional"
           placeholderTextColor="#CDCDCD"
-          type="text"
+          type="email"
+          icon={<Ionicons 
+            name="mail-outline"
+            size={20}
+            color="#9CA3AF"
+            />
+          }
         />
 
+        <Text className="text-2xl font-Opensans-medium text-black mb-2">
+          Contraseña
+        </Text>
+
         <CustomInput
-          placeholder="Contraseña"
+        className="p-1.5"
+          placeholder="Ingrese su contraseña"
           placeholderTextColor="#CDCDCD"
           type="password"
+          icon={<Ionicons
+            name="lock-closed-outline"
+            size={20}
+            color="#9CA3AF"
+            />
+          }
         />
-
-        <CustomInput
-          placeholder="Confirmar Contraseña"
-          placeholderTextColor="#CDCDCD"
-          type="password"
-        />
-
-        <View className="items-center mt-4">
-
-          <CustomButton 
-          onPress={() => router.push('/(stack)/login')} 
-          className="w-3/4"
-          FontText='text-xl' 
-          color="quinary"
-          >
-            Registrar Cuenta
-          </CustomButton>
-
       </View>
 
-        <View className="items-center mt-20">
-          
-          <Text className='text-white text-2xl text-justify leading-6 px-4 mb-1 mt-10'>
-            ¿Ya tienes una cuenta?
-          </Text>
+      {/* Botón principal */}
+      <View className="items-center mt-8">
+        <CustomButton
+          variant="contained"
+          onPress={() => router.push("/Home")}
+          className="w-96 p-5 rounded-l-3xl rounded-r-3xl border"
+          FontText="text-2xl"
+          color="sextary"
+        >
+          Registrar Cuenta
+        </CustomButton>
+      </View>
 
-          <CustomButton 
-          variant="text-only" 
-          className="w-1/2" 
-          color="quaternary"
-          FontText='text-xl'
+      {/* Separador */}
+      <View className="mt-10 mb-6 border-t border-gray-300" />
+
+      {/* Registro */}
+      <View className="items-center">
+        <Text className="text-xl text-gray-400 mb-1">
+          ¿Ya tienes una cuenta?
+        </Text>
+
+        <CustomButton
+          variant="text-only"
+          color="secondary"
+          FontText="text-xl"
           underline={true}
-          onPress={() => router.push('/')}
-          >
-            Iniciar Sesión  
-          </CustomButton>
-
-        </View>
-
+          onPress={() => router.push("/login")}
+        >
+          Iniciar Sesión
+        </CustomButton>
       </View>
-    </LinearGradient>
-  )
-}
 
-export default registerScreen
+      {/* Versión abajo */}
+      <View className="flex-1 justify-end items-center">
+        <Text className="text-xl text-gray-400 mb-10">Versión 0.0.1</Text>
+      </View>
+    </View>
+  );
+};
+
+export default LoginScreen;

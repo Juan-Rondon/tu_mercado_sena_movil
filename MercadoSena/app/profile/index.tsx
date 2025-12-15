@@ -107,6 +107,7 @@ const ProfileScreen = () => {
         <View className="w-1/2 p-2">
           <CustomButton 
             variant="card"
+            isOwner={true}
             defaultImage={defaultProductImage}
             price="$9.99"
             onPress={() => router.push("/product/[id]")}
@@ -119,6 +120,7 @@ const ProfileScreen = () => {
         <View className="w-1/2 p-2">
           <CustomButton 
             variant="card"
+            isOwner={true}
             defaultImage={defaultProductImage}
             price="$9.99"
             onPress={() => router.push("/product/[id]")}
@@ -131,6 +133,33 @@ const ProfileScreen = () => {
         <View className="w-1/2 p-2">
           <CustomButton 
             variant="card"
+            isOwner={true}
+            defaultImage={defaultProductImage}
+            price="$9.99"
+            onPress={() => router.push("/product/[id]")}
+            onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+            Comprar ahora
+          </CustomButton>
+        </View>
+
+        <View className="w-1/2 p-2">
+          <CustomButton 
+            variant="card"
+            isOwner={true}
+            defaultImage={defaultProductImage}
+            price="$9.99"
+            onPress={() => router.push("/product/[id]")}
+            onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+            Comprar ahora
+          </CustomButton>
+        </View>
+
+        <View className="w-1/2 p-2">
+          <CustomButton 
+            variant="card"
+            isOwner={true}
             defaultImage={defaultProductImage}
             price="$9.99"
             onPress={() => router.push("/product/[id]")}
@@ -143,30 +172,7 @@ const ProfileScreen = () => {
         <View className="w-1/2 p-2">
           <CustomButton 
             variant="card"
-            defaultImage={defaultProductImage}
-            price="$9.99"
-            onPress={() => router.push("/product/[id]")}
-            onCartPress={() => router.push("/product/[id]?modal=true")}
-            >
-            Comprar ahora
-          </CustomButton>
-        </View>
-
-        <View className="w-1/2 p-2">
-          <CustomButton 
-            variant="card"
-            defaultImage={defaultProductImage}
-            price="$9.99"
-            onPress={() => router.push("/product/[id]")}
-            onCartPress={() => router.push("/product/[id]?modal=true")}
-            >
-            Comprar ahora
-          </CustomButton>
-        </View>
-
-        <View className="w-1/2 p-2">
-          <CustomButton 
-            variant="card"
+            isOwner={true}
             defaultImage={defaultProductImage}
             price="$9.99"
             onPress={() => router.push("/product/[id]")}

@@ -8,7 +8,6 @@ const homeScreen = () => {
 
   const [search, setSearch] = useState("")
   const router = useRouter()
-  const defaultAvatar = require("../../../assets/images/default_user.png")
   const defaultProductImage = require("../../../assets/images/imagedefault.png")
 
   return (
@@ -20,8 +19,6 @@ const homeScreen = () => {
        <SearchBar
         value={search}
         onChangeText={setSearch}
-        avatar={defaultAvatar}
-        onAvatarPress={() => router.push("/profile")}
       />
 
       </View>
@@ -33,13 +30,52 @@ const homeScreen = () => {
           <View className="w-1/2 p-2">
             <CustomButton 
               variant="card"
-              isOwner={true}
-              defaultImage={defaultProductImage}
-              price="$9.99"
+              isOwner={false}
+              source={require('../../../assets/images/monitorpc.png')}
+              price="$ 100.000 COP"
               onPress={() => router.push("/product/[id]")}
               onCartPress={() => router.push("/product/[id]?modal=true")}
             >
-              Comprar ahora
+              Monitor Samsung LED de 24 Pulg
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              isOwner={false}
+              source={require('../../../assets/images/zapatillas.png')}
+              price="$ 75.300 COP"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Zapatillas deportivas para mujer
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              isOwner={false}
+              source={require('../../../assets/images/pulsera.png')}
+              price="$ 13.200 COP"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Pulseras unisex
+            </CustomButton>
+          </View>
+          
+          <View className="w-1/2 p-2">
+            <CustomButton 
+              variant="card"
+              isOwner={false}
+              source={require('../../../assets/images/jeancorto.png')}
+              price="$ 53.500 COP"
+              onPress={() => router.push("/product/[id]")}
+              onCartPress={() => router.push("/product/[id]?modal=true")}
+            >
+              Jean corto para mujer
             </CustomButton>
           </View>
 

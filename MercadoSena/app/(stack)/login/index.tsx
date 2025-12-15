@@ -1,121 +1,116 @@
-import logo from '@/assets/images/logo.png'
-import CustomButton from '@/components/buttons/CustomButton'
-import CustomInput from '@/components/inputs/CustomInput'
-import { LinearGradient } from 'expo-linear-gradient'
-import { router } from 'expo-router'
-import React from 'react'
-import { Image, Text, View } from 'react-native'
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import React from "react";
+import { Text, View } from "react-native";
 
-const loginScreen = () => {
+import CustomButton from "@/components/buttons/CustomButton";
+import CustomInput from "@/components/inputs/CustomInput";
+
+const LoginScreen = () => {
+  const router = useRouter();
+
   return (
+    <View className="flex-1 bg-white px-6 pt-16 pb-4">
 
-    <LinearGradient
-      colors={['#538392', '#B1CCD2']}
-      start={{ x: 0, y: 0 }}          
-      end={{ x: 1.5, y: 1.5 }}             
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}
-    >
+      <View>
+        <Text className="font-Opensans-bold text-4xl text-black mt-16">
+          Iniciar Sesión
+        </Text>
 
-      <Image source={logo} 
-             style={{ 
-              width: 210, 
-              height: 210, 
-              position: 'absolute',
-              top: 100,
-              left: 135,
-              }} />
-
-      <View style={{ position: 'relative', top: 150, left: 0, alignItems: 'flex-end' }}>
-        <Text className="font-Opensans-bold text-4xl text-white mb-2">
-          Tu Mercado SENA
+        <Text className="text-ml text-gray-400 mt-2">
+          Por favor inicie sesión con una cuenta registrada
         </Text>
       </View>
 
-        {/* // Navegador a la pantalla de información. */}
-        
-        {/* <View style={{ position: 'relative', top: 160, right: 0, alignItems: 'flex-end' }}>
+      <View className="mt-16">
+  
+        <Text className="text-2xl font-Opensans-medium text-black mb-2">
+          Correo Institucional
+        </Text>
+
+        <CustomInput
+          className="p-1.5"
+          placeholder="Ingrese su correo institucional"
+          placeholderTextColor="#CDCDCD"
+          type="email"
+          icon={<Ionicons 
+            name="mail-outline"
+            size={20}
+            color="#9CA3AF"
+            />
+          }
+        />
+
+        <Text className="text-2xl font-Opensans-medium text-black mt-6 mb-2">
+          Contraseña
+        </Text>
+
+        <CustomInput
+        className="p-1.5"
+          placeholder="Ingrese su contraseña"
+          placeholderTextColor="#CDCDCD"
+          type="password"
+          icon={<Ionicons
+            name="lock-closed-outline"
+            size={20}
+            color="#9CA3AF"
+            />
+          }
+        />
+
+        {/* Olvidaste tu contraseña */}
+        <View className="items-end mt-3">
+          <CustomButton
+            variant="text-only"
+            color="secondary"
+            FontText="text-xl"
+            underline={true}
+            onPress={() => router.push("/resetPassword")}
+          >
+            Olvidaste tu contraseña?
+          </CustomButton>
+        </View>
+      </View>
+
+      {/* Botón principal */}
+      <View className="items-center mt-8">
+        <CustomButton
+          variant="contained"
+          onPress={() => router.push("/Home")}
+          className="w-96 p-5 rounded-l-3xl rounded-r-3xl border"
+          FontText="text-2xl"
+          color="sextary"
+        >
+          Iniciar Sesión
+        </CustomButton>
+      </View>
+
+      {/* Separador */}
+      <View className="mt-10 mb-6 border-t border-gray-300" />
+
+      {/* Registro */}
+      <View className="items-center">
+        <Text className="text-xl text-gray-400 mb-1">
+          ¿No tienes una cuenta?
+        </Text>
+
         <CustomButton
           variant="text-only"
-          color="primary"
-          onPress={() => router.push('/')}
+          color="secondary"
+          FontText="text-xl"
+          underline={true}
+          onPress={() => router.push("/register")}
         >
-        <Text className='text-quinary-50 text-2xl font-Opensans-bold'> 
-          ¿QUÉ ES?
-        </Text>
+          Registrarte
         </CustomButton>
-        </View> */}
-
-        {/* Inputs de inicio de sesión */}
-
-      <View className="w-3/4 mt-52">
-        
-        <CustomInput 
-        placeholder="Correo Institucional"
-        placeholderTextColor='#CDCDCD' 
-        type="email"
-        />
-
-        <CustomInput 
-        placeholder="Contraseña"
-        placeholderTextColor='#CDCDCD' 
-        type="password"
-        />
-
-        {/* Navegador a la pantalla de restablecimiento de contraseña */}
-
-         <View className="items-center">
-
-          <CustomButton 
-          variant="text-only" 
-          color="quaternary"
-          FontText='text-xl'
-          underline={true}
-          onPress={() => router.push('/resetPassword')}
-          >
-            Olvidé mi contraseña
-          </CustomButton>
-
-        </View>
-
-        
-        {/* Botón para iniciar sesión */}
-
-        <View className="items-center mt-4">
-          
-          <CustomButton
-            onPress={() => router.push('/(tabs)/Home')}
-            className="w-3/4"
-            FontText='text-xl'
-            color="quinary"
-          >
-            Iniciar Sesión
-          </CustomButton>
-        </View>
-
-        {/* Navegador a la pantalla de registro */}
-
-        <View className="items-center mt-20">
-
-          <Text className='text-white text-2xl text-justify leading-6 px-4 mb-1 mt-10'>
-          ¿No tienes una cuenta?
-          </Text>
-
-          <CustomButton 
-          variant="text-only" 
-          className="w-1/2 underline" 
-          color="quaternary"
-          FontText='text-xl'
-          underline={true}
-          onPress={() => router.push('/register')}
-          >
-            Registrarme
-          </CustomButton>
-
-        </View>
-
       </View>
-    </LinearGradient>
-  )
-}
 
-export default loginScreen
+      {/* Versión abajo */}
+      <View className="flex-1 justify-end items-center">
+        <Text className="text-xl text-gray-400 mb-10">Versión 0.0.1</Text>
+      </View>
+    </View>
+  );
+};
+
+export default LoginScreen;

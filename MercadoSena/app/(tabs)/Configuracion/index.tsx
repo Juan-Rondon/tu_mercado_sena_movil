@@ -1,25 +1,25 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-export default function Configuracion() {
+  export default function Configuracion() {
+    const router = useRouter();
+
   return (
-    <ScrollView className="flex-1 bg-[#D1D5DB]">
+    <ScrollView className="flex-1 bg-[#ffffff]">
 
       {/* CONTENIDO */}
       <View className="px-4 mt-5">
 
         {/*CUENTA*/}
-        <Text className="text-lg font-bold mb-2">Cuenta</Text>
+        <Text 
+        className="text-lg font-bold mb-2">Cuenta</Text>
 
         <SettingItem
           icon="person-outline"
           title="Cuenta"
-        />
-
-        <SettingItem
-          icon="information-circle-outline"
-          title="Información personal"
+          onPress={() => router.push('/profile')}
         />
 
         {/*SEGURIDAD*/}
@@ -28,6 +28,7 @@ export default function Configuracion() {
         <SettingItem
           icon="lock-closed-outline"
           title="Cambiar contraseña"
+          onPress={() => router.push('/')}
         />
 
         <SettingItem
@@ -49,12 +50,6 @@ export default function Configuracion() {
           icon="notifications-outline"
           title="Notificaciones"
           subtitle="Sonido, vibración, recordatorios"
-        />
-
-        <SettingItem
-          icon="remove-circle-outline"
-          title="Bloqueo de Usuarios"
-          subtitle="Gestión de usuarios"
         />
 
         {/*INFORMACIÓN*/}
@@ -86,9 +81,12 @@ export default function Configuracion() {
 }
 
 /*COMPONENTE REUTILIZABLE*/
-function SettingItem({ icon, title, subtitle }: any) {
+function SettingItem({ icon, title, subtitle, onPress }: any) {
   return (
-    <TouchableOpacity className="bg-white rounded-xl p-4 mb-3 flex-row items-center justify-between shadow">
+    <TouchableOpacity
+      onPress={onPress}
+      className="bg-white rounded-xl p-4 mb-3 flex-row items-center justify-between shadow"
+    >
       <View className="flex-row items-center gap-3">
         <Ionicons name={icon} size={24} color="black" />
         <View>

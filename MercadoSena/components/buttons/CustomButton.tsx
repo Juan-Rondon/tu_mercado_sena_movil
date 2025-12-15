@@ -4,7 +4,7 @@ import { Image, Pressable, PressableProps, Text, View } from 'react-native';
 
 interface Props extends PressableProps {
   children?: React.ReactNode;
-  color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary';
+  color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary' | 'sextary';
   className?: string;
   variant?: 'contained' | 'text-only' | 'card' | 'icon-only' | 'desplegar';
   icon?: React.ReactNode;
@@ -42,7 +42,7 @@ const CustomButton = React.forwardRef<View, Props>(
       actionText,
       underline,
       showFavorite,
-      isOwner,
+      isOwner = false,
       // jeancito toco esto
       options = [],
       placeholder = "Selecciona...",
@@ -59,57 +59,77 @@ const CustomButton = React.forwardRef<View, Props>(
     const textColor = {
       primary: 'text-primary-90',
       secondary: 'text-secondary-500',
-      tertiary: 'text-tertiary-100',
+      tertiary: 'text-tertiary-900',
       quaternary: 'text-quaternary-50',
       quinary: 'text-quinary-50',
+      sextary: 'text-sextary-900',
     }[color];
 
     const btnColor = {
       primary: 'bg-primary-400',
       secondary: 'bg-secondary-950',
-      tertiary: 'bg-tertiary-500',
+      tertiary: 'bg-tertiary-50',
       quaternary: 'bg-quaternary-700',
       quinary: 'bg-quinary-600',
-      gray: 'bg-gray-200',
+      sextary: 'bg-sextary-400',
+      gray: 'bg-gray-100'
     }[color];
 
-    // Estructura visual para texto + icono
-    const Content = () => (
-      variant === 'card' && price ?
+    const textOnlyColor = {
+      primary: 'text-primary-90',
+      secondary: 'text-secondary-500',
+      tertiary: 'text-tertiary-900',
+      quaternary: 'text-quaternary-600',
+      quinary: 'text-quinary-600',
+    }[color];
+
+  // Estructura visual para texto + icono
+    const Content = () => {
+  // para el texto "normal" (no card)
+    const effectiveTextColor = variant === 'text-only' ? textOnlyColor : textColor;
+
+  if (variant === 'card' && price) {
+    return (
       <>
-      <View
-        className={`flex-row items-center justify-center`}
-      >
-        <Text className={`text-center w-full ${textColor} ${FontText}`}>{children}</Text>
-      </View>
+        <View className="flex-row items-center justify-center">
+          <Text className={`text-center w-full ${textColor} ${FontText}`}>
+            {children}
+          </Text>
+        </View>
 
-      <View
-        className={`flex-row items-center justify-center`}
-      >
-        <Text className={`text-center text-sm ${textColor} ${FontText}`}>{price}</Text>
-      </View>
+        <View className="flex-row items-center justify-center">
+          <Text className={`text-center text-sm ${textColor} ${FontText}`}>
+            {price}
+          </Text>
+        </View>
       </>
-
-      :
-
-      <View
-        className={`flex-row items-center justify-center ${
-          icon && iconPosition === 'right' ? 'flex-row-reverse' : ''
-        }`}
-      >
-        {icon && <View className="mr-2">{icon}</View>}
-        <Text className={`text-center ${textColor} ${underline ? 'underline' : ''} ${FontText}`}>
-          {children}
-        </Text>
-      </View>
     );
+  }
+
+  return (
+    <View
+      className={`flex-row items-center justify-center ${
+        icon && iconPosition === 'right' ? 'flex-row-reverse' : ''
+      }`}
+    >
+      {icon && <View className="mr-2">{icon}</View>}
+      <Text
+        className={`text-center ${effectiveTextColor} ${
+          underline ? 'underline' : ''
+        } ${FontText}`}
+      >
+        {children}
+      </Text>
+    </View>
+  );
+};
 
     // Mismo if que tú usabas
     if (variant === 'text-only') {
       return (
         <Pressable
           ref={ref}
-          className={`p-3 ${className} ${textColor} active:opacity-70`}
+          className={`p-3 ${className} ${textOnlyColor} active:opacity-70`}
           onPress={onPress}
           onLongPress={onLongPress}
         >
@@ -121,7 +141,7 @@ const CustomButton = React.forwardRef<View, Props>(
 
         <Pressable
         ref={ref}
-        className={`p-3 rounded-md w-full ${btnColor} active:opacity-90 ${className}`}
+        className={`p-3 rounded-md w-full ${btnColor} active:opacity-90 ${className} border border-black`}
         onPress={onPress}
         onLongPress={onLongPress}
       >
@@ -132,18 +152,18 @@ const CustomButton = React.forwardRef<View, Props>(
 
         <Content />
 
-          <View className="flex-row justify-between items-center mt-3 px-2">
+          <View className={`flex-row ${isOwner === true ? 'justify-center' : 'justify-between' } items-center mt-3 px-2`}>
 
           <Pressable 
             onPress={onCartPress}
-            className="py-3 px-6 rounded-full border border-gray-800"
+            className={`${isOwner === true ? 'w-9/12 h-10' : 'py-3 px-6' } justify-center items-center rounded-full border border-gray-800`}
             >
             <Text className="text-black font-medium">
               {actionText ?? "Detalle"}
             </Text>
           </Pressable>
 
-          {isOwner && (
+          {!isOwner && (
             <Pressable 
             onPress={() => setIsFavorite(!isFavorite)}
             className="p-2 rounded-full border border-gray-800"
@@ -182,10 +202,14 @@ const CustomButton = React.forwardRef<View, Props>(
           <Pressable
             onPress={() =>setShowOptions(!showOptions)}
 <<<<<<< HEAD
+<<<<<<< HEAD
             className={`rounded-lg bg-white border border-black p-2 ${className}`}
 =======
             className={`p-3 rounded-lg bg-white border border-black-500 p-2 ${className}`}
 >>>>>>> cd3cdeee3967821d3e0a29c8e0671f118db45ecf
+=======
+            className={`p-3 rounded-lg bg-white border border-black-500 ${className}`}
+>>>>>>> c3a6c53f7ffdb883b114092cf88336e28bde0671
           >
             <View className="flex-row items-center justify-between">
               <Text className="text-grey text-lg font-semibold">

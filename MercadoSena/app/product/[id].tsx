@@ -19,7 +19,8 @@ export default function ProductDetail() {
   };
 
   return (
-    <ScrollView className="bg-white flex-1">
+
+    <>
 
         <View className="left-14 top-16">
           <CustomButton
@@ -66,10 +67,17 @@ export default function ProductDetail() {
         Productos que quizás te interesen
       </Text>
 
-      <View className="flex-row flex-wrap px-4 pb-6">
 
-        
-          <View className="w-1/2 p-2">
+      <View className="flex-1 px-4 pb-6">
+
+        <ScrollView 
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        >
+
+          <View className="flex-row space-x-5 px-1">
+
+          <View className="w-52">
             <CustomButton
               variant="card"
               defaultImage={defaultProductImage}
@@ -81,7 +89,7 @@ export default function ProductDetail() {
             </CustomButton>
           </View>
           
-          <View className="w-1/2 p-2">
+          <View className="w-52">
             <CustomButton
               variant="card"
               defaultImage={defaultProductImage}
@@ -93,7 +101,7 @@ export default function ProductDetail() {
             </CustomButton>
           </View>
           
-          <View className="w-1/2 p-2">
+          <View className="w-52">
             <CustomButton
               variant="card"
               defaultImage={defaultProductImage}
@@ -105,20 +113,11 @@ export default function ProductDetail() {
             </CustomButton>
           </View>
           
-          <View className="w-1/2 p-2">
-            <CustomButton
-              variant="card"
-              defaultImage={defaultProductImage}
-              price="$9.99"
-              onPress={() => router.push(`/product/[id]`)}
-              onCartPress={() => router.push(`/product/[id]?modal=true`)}
-            >
-              Comprar ahora
-            </CustomButton>
-          </View>
+        </View>
+      </ScrollView>
+    </View>
 
-      </View>
+  </>
 
-    </ScrollView>
   );
 }
