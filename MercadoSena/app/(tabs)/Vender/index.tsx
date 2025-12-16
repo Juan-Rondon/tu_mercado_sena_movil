@@ -42,9 +42,35 @@ const venderScreen = () => {
     setImages(prev => prev.filter((_, i) => i !== index));
   };
 
+  const ImageBox = ({ uri, index, height = 120 }: any) => (
+    <View
+      className={`w-[120px] h-[${height}px] rounded-xl border-2 border-dashed border-quinary-400 bg-white overflow-hidden`}
+    >
+      {uri ? (
+        <>
+          <Image
+            source={{ uri }}
+            style={{ width: '100%', height: '100%' }}
+            resizeMode="cover"
+          />
+          <Pressable
+            onPress={() => removeImage(index)}
+            className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 items-center justify-center"
+          >
+            <Text className="text-white font-bold">×</Text>
+          </Pressable>
+        </>
+      ) : (
+        <View className="flex-1 items-center justify-center">
+          <Text className="text-gray-400 text-lg">+</Text>
+        </View>
+      )}
+    </View>
+  );
+
   return (
     <ScrollView className="bg-white">
-      {/* HEADER */}
+      
       <View className="bg-quinary-400 py-4 items-center">
         <View className="border border-white rounded-lg px-6 py-2">
           <Text className="text-white text-lg font-semibold">
@@ -55,50 +81,42 @@ const venderScreen = () => {
 
       <View className="bg-white m-4 rounded-xl border border-quinary-400 p-4">
 
-        
-        
         <Text className="font-semibold mb-1">Nombre del Producto *</Text>
-        <CustomInput placeholder="" />
+        <CustomInput />
 
-        
         <Text className="font-semibold mb-1 mt-2">Descripcion *</Text>
-        <CustomInput placeholder="" />
+        <CustomInput />
 
-        
         <View className="flex-row justify-between mt-2">
           <View className="w-[48%]">
             <Text className="font-semibold mb-1">Precio (COP)*</Text>
             <CustomInput type="number" />
           </View>
-
           <View className="w-[48%]">
             <Text className="font-semibold mb-1">Cantidad Disponible *</Text>
             <CustomInput type="number" />
           </View>
         </View>
 
-        
         <Text className="font-semibold mb-1 mt-3">Categoria *</Text>
         <CustomButton
           variant="desplegar"
           options={["Tecnologia", "Ropa", "Hogar", "Accesorios", "Coleccion", "Otros"]}
           placeholder="Seleccione una categoria"
         />
-        
-        <Text className="font-semibold mb-1 mt-3">Condición *</Text>
 
+        <Text className="font-semibold mb-1 mt-3">Condición *</Text>
         <CustomButton
           variant="desplegar"
           options={[
-            'Nuevo - alta calidad, recién hecho o sin desempacar',
-            'Usado - el producto esta en buena calidad pero ya ha sido usado o tiene algun tipo de desgaste',
-            'Reparado - el producto puede tener fallas pero aun funciona',
-            'Reciclado - el procto esta inutilizable, pero puede ser reutilizado, reparado o desarmado',
+            'Nuevo - alta calidad',
+            'Usado - buen estado',
+            'Reparado',
+            'Reciclado',
           ]}
           placeholder="Seleccione una condición"
         />
 
-        
         <Text className="font-semibold text-center mt-4">
           Imagen del producto
         </Text>
@@ -106,90 +124,39 @@ const venderScreen = () => {
           Máximo 3
         </Text>
 
-        
         <View className="items-center mb-4">
           <View className="flex-row gap-3">
 
-            
+            {/* CUADRO GRANDE */}
             <Pressable
-              onPress={!images[0] ? pickImages : undefined}
-              className="w-[120px] h-[120px] rounded-xl border-2 border-dashed border-quinary-400 bg-white items-center justify-center overflow-hidden"
+              onPress={pickImages}
+              className="w-[120px] h-[120px] rounded-xl border-2 border-dashed border-quinary-400 bg-white items-center justify-center"
             >
-              {images[0] ? (
-                <>
-                  <Image
-                    source={{ uri: images[0] }}
-                    style={{ width: '100%', height: '100%' }}
-                    resizeMode="cover"
-                  />
-                  <Pressable
-                    onPress={() => removeImage(0)}
-                    className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 items-center justify-center"
-                  >
-                    <Text className="text-white font-bold">×</Text>
-                  </Pressable>
-                </>
-              ) : (
-                <Text className="text-gray-400 text-xs text-center">
-                  Subir{'\n'}imagen
-                </Text>
-              )}
+              <Text className="text-gray-400 text-xs text-center">
+                Subir{'\n'}imagen
+              </Text>
+              <Text className="text-gray-300 text-xs mt-2">
+                {images.length}/3
+              </Text>
             </Pressable>
 
-            
-            <Pressable
-              onPress={!images[1] ? pickImages : undefined}
-              className="w-[120px] h-[120px] rounded-xl border-2 border-dashed border-quinary-400 bg-white items-center justify-center overflow-hidden"
-            >
-              {images[1] ? (
-                <>
-                  <Image
-                    source={{ uri: images[1] }}
-                    style={{ width: '100%', height: '100%' }}
-                    resizeMode="cover"
-                  />
-                  <Pressable
-                    onPress={() => removeImage(1)}
-                    className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 items-center justify-center"
-                  >
-                    <Text className="text-white font-bold">×</Text>
-                  </Pressable>
-                </>
-              ) : (
-                <Text className="text-gray-400 text-lg">+</Text>
-              )}
-            </Pressable>
+            {/* IMAGEN 1 */}
+            <ImageBox uri={images[0]} index={0} />
 
-            {/* COLUMNA DERECHA (2 CUADROS PEQUEÑOS) */}
+            {/* IMAGEN 2 y 3 */}
             <View className="justify-between">
-              <Pressable
-                onPress={!images[2] ? pickImages : undefined}
-                className="w-[120px] h-[56px] rounded-xl border-2 border-dashed border-quinary-400 bg-white items-center justify-center overflow-hidden"
-              >
-                <Text className="text-gray-400 text-lg">+</Text>
-              </Pressable>
-
-              <Pressable
-                onPress={!images[2] ? pickImages : undefined}
-                className="w-[120px] h-[56px] rounded-xl border-2 border-dashed border-quinary-400 bg-white items-center justify-center overflow-hidden mt-2"
-              >
-                <Text className="text-gray-400 text-lg">+</Text>
-              </Pressable>
+              <ImageBox uri={images[1]} index={1} height={56} />
+              <View className="mt-2">
+                <ImageBox uri={images[2]} index={2} height={56} />
+              </View>
             </View>
 
           </View>
-
-          <Pressable onPress={pickImages} className="mt-3">
-            <Text className="text-quinary-400 font-semibold">
-              Subir imágenes
-            </Text>
-          </Pressable>
         </View>
 
-        {/* BOTONES */}
         <CustomButton
           variant="contained"
-          className="bg-[#7CFF5B] rounded-full py-3"
+          className="rounded-full py-3 bg-sextary-400"
         >
           <Text className="text-white text-lg font-semibold text-center">
             Publicar Producto
@@ -204,6 +171,7 @@ const venderScreen = () => {
             Cancelar
           </Text>
         </CustomButton>
+
       </View>
     </ScrollView>
   );
