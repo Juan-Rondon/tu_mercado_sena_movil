@@ -47,7 +47,7 @@ const LoginScreen = () => {
 
         <CustomInput
           className="p-1.5"
-          placeholder="Ingrese su correo institucional"
+          placeholder="Ejemplo@sena.edu.co"
           placeholderTextColor="#CDCDCD"
           type="email"
           icon={<Ionicons 
@@ -81,7 +81,7 @@ const LoginScreen = () => {
         <CustomButton
           variant="contained"
           onPress={() => router.push("/Home")}
-          className="w-96 p-5 rounded-l-3xl rounded-r-3xl border"
+          className="w-80 p-5 rounded-l-3xl rounded-r-3xl border border-[#2DC75C]"
           FontText="text-2xl"
           color="sextary"
         >
