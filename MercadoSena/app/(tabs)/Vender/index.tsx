@@ -85,15 +85,16 @@ const venderScreen = () => {
         <Text className="font-semibold mb-1">Nombre del Producto *</Text>
         <CustomInput />
 
-        <Text className="font-semibold mb-1 mt-2">Descripción (minimo 185 caractares) *</Text>
+        <Text className="font-semibold mb-1 mt-2">Descripcción (minimo 185 caractares) *</Text>
         <TextInput
           style={styles.input}
           multiline
           maxLength={185}
           placeholder='Ingrese descripcion de producto'
 
-        />
-
+        >
+          
+        </TextInput>
 
         <View className="flex-row justify-between mt-2">
           <View className="w-[48%]">
