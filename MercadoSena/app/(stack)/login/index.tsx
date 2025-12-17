@@ -1,11 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 
 import CustomButton from "@/components/buttons/CustomButton";
 import CustomInput from "@/components/inputs/CustomInput";
 import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
+
+const RADIUS = 200;
 
 const LoginScreen = () => {
   const router = useRouter();
@@ -14,8 +16,32 @@ const LoginScreen = () => {
   return (
     <View className="flex-1 bg-white px-6 pt-16 pb-4">
 
+        <View className="absolute top-6 right-6 z-50">
+          <CustomButton
+            variant="contained"
+            className="w-52 h-52 rounded-full items-center justify-center"
+            style={{
+              width: 280,
+              height: 280,
+              backgroundColor: "#2DC75C",
+              borderRadius: 140,
+              overflow: "hidden",
+              left: 120,
+              top: -80,
+            }}
+            onPress={() => {}}
+            >
+            <View style={{ position: "absolute", top: 20, left: 15 }}>
+            <Image
+            source={require("../../../assets/images/logo.png")}
+            style={{ width: 240, height: 240, left: -20, top: 0 }}
+            />
+            </View>
+          </CustomButton> 
+        </View>
+
       <View>
-        <Text className="font-Opensans-bold text-4xl text-black mt-16">
+        <Text className="font-Opensans-bold text-4xl text-black mt-40">
           Iniciar Sesión
         </Text>
 
@@ -161,10 +187,36 @@ const LoginScreen = () => {
             Enviar Código
           </CustomButton>
         </View>
-        
+
       </ResetPasswordSheet>
     </View>
   );
 };
+
+// const styles = StyleSheet.create({
+//   lightBg: {
+//     position: "fixed",
+//     top: -90,
+//     left: 175,
+//     right: 0,
+//     height: "35%",
+//     backgroundColor: "#2DC75C",
+//     borderBottomLeftRadius: RADIUS,
+//     borderBottomRightRadius: RADIUS,
+//   },
+//   content: {
+//     flex: 1,
+//     alignItems: "center",
+//     paddingTop: 90,
+//     paddingHorizontal: 24,
+//   },
+//   logo: {
+//     top: -510,
+//     left: 120,
+//     width: 350,
+//     height: 350,
+//     marginBottom: 16,
+//   },
+// })
 
 export default LoginScreen;
