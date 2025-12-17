@@ -1,4 +1,3 @@
-
 import CustomButton from '@/components/buttons/CustomButton';
 import CustomInput from '@/components/inputs/CustomInput';
 import * as ImagePicker from 'expo-image-picker';
@@ -8,7 +7,9 @@ import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View 
 
 const venderScreen = () => {
   const router = useRouter();
-  const [images, setImages] = useState<string[]>([]); // máximo 3
+  const [images, setImages] = useState<string[]>([]);
+
+  
 
   const pickImages = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -45,7 +46,8 @@ const venderScreen = () => {
 
   const ImageBox = ({ uri, index, height = 120 }: any) => (
     <View
-      className={`w-[120px] h-[${height}px] rounded-xl border-2 border-dashed border-quinary-400 bg-white overflow-hidden`}
+      className="w-[120px] rounded-xl border-2 border-dashed border-quinary-400 bg-white overflow-hidden"
+      style={{ height }}
     >
       {uri ? (
         <>
@@ -69,8 +71,11 @@ const venderScreen = () => {
     </View>
   );
 
+  
+
   return (
     <ScrollView className="bg-white">
+
       
       <View className="bg-quinary-400 py-4 items-center">
         <View className="border border-white rounded-lg px-6 py-2">
@@ -82,50 +87,65 @@ const venderScreen = () => {
 
       <View className="bg-white m-4 rounded-xl border border-quinary-400 p-4">
 
+        
         <Text className="font-semibold mb-1">Nombre del Producto *</Text>
-        <CustomInput />
+        <CustomInput placeholder="Ingrese nombre del producto" />
 
-        <Text className="font-semibold mb-1 mt-2">Descripcción (minimo 185 caractares) *</Text>
+        
+        <Text className="font-semibold mb-1 mt-2">
+          Descripción (mínimo 185 caracteres) *
+        </Text>
+
         <TextInput
-          style={styles.input}
+          style={styles.textArea}
           multiline
           maxLength={185}
-          placeholder='Ingrese descripcion de producto'
+          placeholder="Ingrese descripción del producto"
+          textAlignVertical="top"
+        />
 
-        >
-          
-        </TextInput>
-
-        <View className="flex-row justify-between mt-2">
+        
+        <View className="flex-row justify-between mt-3">
           <View className="w-[48%]">
             <Text className="font-semibold mb-1">Precio (COP)*</Text>
-            <CustomInput type="number" />
+            <CustomInput type="number" placeholder="Ingrese precio" />
           </View>
+
           <View className="w-[48%]">
             <Text className="font-semibold mb-1">Cantidad Disponible *</Text>
-            <CustomInput type="number" />
+            <CustomInput type="number" placeholder="Ingrese cantidad" />
           </View>
         </View>
 
-        <Text className="font-semibold mb-1 mt-3">Categoria *</Text>
+        
+        <Text className="font-semibold mb-1 mt-3">Categoría *</Text>
         <CustomButton
           variant="desplegar"
-          options={["Tecnologia", "Ropa", "Hogar", "Accesorios", "Coleccion", "Otros"]}
-          placeholder="Seleccione una categoria"
+          options={[
+            'Tecnología',
+            'Ropa',
+            'Hogar',
+            'Accesorios',
+            'Colección',
+            'Otros'
+          ]}
+          placeholder="Seleccione una categoría"
         />
 
+        
         <Text className="font-semibold mb-1 mt-3">Condición *</Text>
         <CustomButton
           variant="desplegar"
           options={[
             'Nuevo - alta calidad',
             'Usado - buen estado',
-            'Reparado',
-            'Reciclado',
+            'Reparado - arreglado',
+            'Reciclado . se puede reutilizar',
           ]}
           placeholder="Seleccione una condición"
         />
 
+        
         <Text className="font-semibold text-center mt-4">
           Imagen del producto
         </Text>
@@ -136,7 +156,7 @@ const venderScreen = () => {
         <View className="items-center mb-4">
           <View className="flex-row gap-3">
 
-            {/* CUADRO GRANDE */}
+            
             <Pressable
               onPress={pickImages}
               className="w-[120px] h-[120px] rounded-xl border-2 border-dashed border-quinary-400 bg-white items-center justify-center"
@@ -149,10 +169,10 @@ const venderScreen = () => {
               </Text>
             </Pressable>
 
-            {/* IMAGEN 1 */}
+           
             <ImageBox uri={images[0]} index={0} />
 
-            {/* IMAGEN 2 y 3 */}
+            
             <View className="justify-between">
               <ImageBox uri={images[1]} index={1} height={56} />
               <View className="mt-2">
@@ -163,6 +183,7 @@ const venderScreen = () => {
           </View>
         </View>
 
+       
         <CustomButton
           variant="contained"
           className="rounded-full py-3 bg-sextary-400"
@@ -187,19 +208,17 @@ const venderScreen = () => {
 };
 
 
+
 const styles = StyleSheet.create({
-  input:{
+  textArea: {
     height: 100,
     backgroundColor: '#F5F5F7',
     borderRadius: 12,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    textAlign:'auto',
     padding: 10,
     fontFamily: 'Opensans-Bold',
     fontSize: 15,
     textAlignVertical: 'top',
-  }
+  },
 });
 
 export default venderScreen;
