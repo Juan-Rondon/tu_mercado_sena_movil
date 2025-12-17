@@ -55,7 +55,7 @@ const slides: CarouselSlide[] = [
 
         <CustomButton
         variant="contained"
-        className="w-3/4 p-5 rounded-r-3xl rounded-l-3xl shadow-xl border border-[#32CD32]"
+        className="w-3/4 p-5 rounded-r-3xl rounded-l-3xl shadow-lg"
         color="tertiary"
         FontText="text-2xl"
         onPress={() => router.push('/(stack)/login')}
@@ -69,7 +69,7 @@ const slides: CarouselSlide[] = [
 
         <CustomButton
         variant="contained"
-        className="w-3/4 p-5 rounded-r-3xl rounded-l-3xl shadow-xl border border-[#8BACP5]"
+        className="w-3/4 p-5 rounded-r-3xl rounded-l-3xl shadow-lg border border-[#2DC75C]"
         color="sextary"
         FontText="text-2xl"
         onPress={() => router.push('/(stack)/register')}
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: "35%",
-    backgroundColor: "#32CD32",
+    backgroundColor: "#2DC75C",
     borderBottomLeftRadius: RADIUS,
     borderBottomRightRadius: RADIUS,
   },

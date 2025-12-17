@@ -47,6 +47,8 @@ const CustomButton = React.forwardRef<View, Props>(
       options = [],
       placeholder = "Selecciona...",
       onSelect,
+      style,
+      ...rest
     },
     ref
   ) => {
@@ -249,6 +251,8 @@ const CustomButton = React.forwardRef<View, Props>(
         className={`p-3 rounded-md flex-auto ${btnColor} active:opacity-90 ${className}`}
         onPress={onPress}
         onLongPress={onLongPress}
+        style={style}
+        {...rest}
       >
         <Content />
       </Pressable>

@@ -4,7 +4,7 @@
     "slug": "MercadoSena",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splash_screen.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "mercadosena",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
