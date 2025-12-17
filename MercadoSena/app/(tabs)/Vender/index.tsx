@@ -1,9 +1,10 @@
+
 import CustomButton from '@/components/buttons/CustomButton';
 import CustomInput from '@/components/inputs/CustomInput';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, Image, Pressable, ScrollView, Text, View } from 'react-native';
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 const venderScreen = () => {
   const router = useRouter();
@@ -84,8 +85,15 @@ const venderScreen = () => {
         <Text className="font-semibold mb-1">Nombre del Producto *</Text>
         <CustomInput />
 
-        <Text className="font-semibold mb-1 mt-2">Descripcion *</Text>
-        <CustomInput />
+        <Text className="font-semibold mb-1 mt-2">Descripción (minimo 185 caractares) *</Text>
+        <TextInput
+          style={styles.input}
+          multiline
+          maxLength={185}
+          placeholder='Ingrese descripcion de producto'
+
+        />
+
 
         <View className="flex-row justify-between mt-2">
           <View className="w-[48%]">
@@ -176,5 +184,21 @@ const venderScreen = () => {
     </ScrollView>
   );
 };
+
+
+const styles = StyleSheet.create({
+  input:{
+    height: 100,
+    backgroundColor: '#F5F5F7',
+    borderRadius: 12,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    textAlign:'auto',
+    padding: 10,
+    fontFamily: 'Opensans-Bold',
+    fontSize: 15,
+    textAlignVertical: 'top',
+  }
+});
 
 export default venderScreen;
