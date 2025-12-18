@@ -3,21 +3,25 @@ import CustomInput from '@/components/inputs/CustomInput';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 const venderScreen = () => {
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
 
-  
-
   const pickImages = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert(
-        'Permiso requerido',
-        'Necesito acceso a tu galería para seleccionar imágenes.'
-      );
+      Alert.alert('Permiso requerido', 'Necesito acceso a tu galería.');
       return;
     }
 
@@ -34,118 +38,94 @@ const venderScreen = () => {
       quality: 0.8,
     });
 
-    if (result.canceled) return;
-
-    const picked = result.assets.map(a => a.uri);
-    setImages(prev => [...prev, ...picked].slice(0, 3));
+    if (!result.canceled) {
+      const picked = result.assets.map(a => a.uri);
+      setImages(prev => [...prev, ...picked].slice(0, 3));
+    }
   };
 
   const removeImage = (index: number) => {
     setImages(prev => prev.filter((_, i) => i !== index));
   };
 
-  const ImageBox = ({ uri, index, height = 120 }: any) => (
-    <View
-      className="w-[120px] rounded-xl border-2 border-dashed border-quinary-400 bg-white overflow-hidden"
-      style={{ height }}
+  const Box = ({ uri, index, isUpload }: any) => (
+    <Pressable
+      onPress={isUpload ? pickImages : undefined}
+      style={styles.box}
     >
       {uri ? (
         <>
-          <Image
-            source={{ uri }}
-            style={{ width: '100%', height: '100%' }}
-            resizeMode="cover"
-          />
+          <Image source={{ uri }} style={styles.image} />
           <Pressable
             onPress={() => removeImage(index)}
-            className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 items-center justify-center"
+            style={styles.removeBtn}
           >
-            <Text className="text-white font-bold">×</Text>
+            <Text style={styles.removeText}>×</Text>
           </Pressable>
         </>
       ) : (
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-gray-400 text-lg">+</Text>
+        <View style={styles.placeholder}>
+          {isUpload ? (
+            <>
+              <Text style={styles.uploadText}>Subir imagen</Text>
+              <Text style={styles.counter}>{images.length}/3</Text>
+            </>
+          ) : (
+            <Text style={styles.plus}>+</Text>
+          )}
         </View>
       )}
-    </View>
+    </Pressable>
   );
-
-  
 
   return (
     <ScrollView className="bg-white">
-
-      
       <View className="bg-quinary-400 py-4 items-center">
-        <View className="border border-white rounded-lg px-6 py-2">
-          <Text className="text-white text-lg font-semibold">
-            Publicar Nuevo Producto
-          </Text>
-        </View>
+        <Text className="text-white text-lg font-semibold">
+          Publicar Nuevo Producto
+        </Text>
       </View>
 
-      <View className="bg-white m-4 rounded-xl border border-quinary-400 p-4">
+      <View className="m-4 rounded-xl border border-quinary-400 p-4 bg-white">
 
-        
         <Text className="font-semibold mb-1">Nombre del Producto *</Text>
-        <CustomInput placeholder="Ingrese nombre del producto" />
+        <CustomInput />
 
-        
         <Text className="font-semibold mb-1 mt-2">
-          Descripción (mínimo 185 caracteres) *
+          Descripción (máx 185 caracteres) *
         </Text>
-
         <TextInput
-          style={styles.textArea}
+          style={styles.input}
           multiline
           maxLength={185}
-          placeholder="Ingrese descripción del producto"
-          textAlignVertical="top"
+          placeholder="Ingrese descripción"
         />
 
-        
         <View className="flex-row justify-between mt-3">
-          <View className="w-[48%]">
+          <View style={{ width: '48%' }}>
             <Text className="font-semibold mb-1">Precio (COP)*</Text>
-            <CustomInput type="number" placeholder="Ingrese precio" />
+            <CustomInput type="number" />
           </View>
-
-          <View className="w-[48%]">
-            <Text className="font-semibold mb-1">Cantidad Disponible *</Text>
-            <CustomInput type="number" placeholder="Ingrese cantidad" />
+          <View style={{ width: '48%' }}>
+            <Text className="font-semibold mb-1">Cantidad *</Text>
+            <CustomInput type="number" />
           </View>
         </View>
 
-        
         <Text className="font-semibold mb-1 mt-3">Categoría *</Text>
         <CustomButton
           variant="desplegar"
-          options={[
-            'Tecnología',
-            'Ropa',
-            'Hogar',
-            'Accesorios',
-            'Colección',
-            'Otros'
-          ]}
+          options={['Tecnologia', 'Ropa', 'Hogar', 'Accesorios', 'Otros']}
           placeholder="Seleccione una categoría"
         />
 
-        
         <Text className="font-semibold mb-1 mt-3">Condición *</Text>
         <CustomButton
           variant="desplegar"
-          options={[
-            'Nuevo - alta calidad',
-            'Usado - buen estado',
-            'Reparado - arreglado',
-            'Reciclado . se puede reutilizar',
-          ]}
+          options={['Nuevo', 'Usado', 'Reparado']}
           placeholder="Seleccione una condición"
         />
 
-        
         <Text className="font-semibold text-center mt-4">
           Imagen del producto
         </Text>
@@ -153,42 +133,19 @@ const venderScreen = () => {
           Máximo 3
         </Text>
 
-        <View className="items-center mb-4">
-          <View className="flex-row gap-3">
-
-            
-            <Pressable
-              onPress={pickImages}
-              className="w-[120px] h-[120px] rounded-xl border-2 border-dashed border-quinary-400 bg-white items-center justify-center"
-            >
-              <Text className="text-gray-400 text-xs text-center">
-                Subir{'\n'}imagen
-              </Text>
-              <Text className="text-gray-300 text-xs mt-2">
-                {images.length}/3
-              </Text>
-            </Pressable>
-
-           
-            <ImageBox uri={images[0]} index={0} />
-
-            
-            <View className="justify-between">
-              <ImageBox uri={images[1]} index={1} height={56} />
-              <View className="mt-2">
-                <ImageBox uri={images[2]} index={2} height={56} />
-              </View>
-            </View>
-
-          </View>
+        {/* GRID 2x2 */}
+        <View style={styles.grid}>
+          <Box isUpload />
+          <Box uri={images[0]} index={0} />
+          <Box uri={images[1]} index={1} />
+          <Box uri={images[2]} index={2} />
         </View>
 
-       
         <CustomButton
           variant="contained"
-          className="rounded-full py-3 bg-sextary-400"
+          className="rounded-full py-3 bg-sextary-400 mt-4"
         >
-          <Text className="text-white text-lg font-semibold text-center">
+          <Text className="text-white text-lg text-center">
             Publicar Producto
           </Text>
         </CustomButton>
@@ -197,7 +154,7 @@ const venderScreen = () => {
           variant="contained"
           className="bg-red-600 rounded-full py-3 mt-3"
         >
-          <Text className="text-white text-lg font-semibold text-center">
+          <Text className="text-white text-lg text-center">
             Cancelar
           </Text>
         </CustomButton>
@@ -207,17 +164,75 @@ const venderScreen = () => {
   );
 };
 
-
-
 const styles = StyleSheet.create({
-  textArea: {
+  input: {
     height: 100,
     backgroundColor: '#F5F5F7',
     borderRadius: 12,
     padding: 10,
-    fontFamily: 'Opensans-Bold',
-    fontSize: 15,
     textAlignVertical: 'top',
+  },
+
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+
+  box: {
+    width: '48%',
+    aspectRatio: 1,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: '#9CA3AF',
+    borderRadius: 12,
+    marginBottom: 8,
+    backgroundColor: '#fff',
+    overflow: 'hidden',
+  },
+
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+
+  placeholder: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  plus: {
+    fontSize: 24,
+    color: '#9CA3AF',
+  },
+
+  uploadText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#6B7280',
+  },
+
+  counter: {
+    marginTop: 6,
+    color: '#9CA3AF',
+  },
+
+  removeBtn: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  removeText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 
