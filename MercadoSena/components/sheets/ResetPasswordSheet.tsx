@@ -2,7 +2,6 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import {
   Animated,
-  Dimensions,
   KeyboardAvoidingView,
   Modal,
   PanResponder,
@@ -10,6 +9,7 @@ import {
   Pressable,
   StyleSheet,
   View,
+  useWindowDimensions,
 } from "react-native";
 
 type Props = {
@@ -19,7 +19,8 @@ type Props = {
 };
 
 export default function ResetPasswordSheet({ visible, onClose, children }: Props) {
-  const { height } = Dimensions.get("window");
+  const { height } = useWindowDimensions();
+
   const sheetHeight = useMemo(() => Math.min(520, height * 0.65), [height]);
 
   const translateY = useRef(new Animated.Value(sheetHeight)).current;
@@ -55,47 +56,54 @@ export default function ResetPasswordSheet({ visible, onClose, children }: Props
         duration: 220,
         useNativeDriver: true,
       }),
-    ]).start(() => {
-      onClose(); // <- aquí apagas visible en Login
-    });
+    ]).start(() => onClose());
   };
 
   useEffect(() => {
     if (visible) open();
-  }, [visible]);
+    // si se cierra desde afuera, resetea animación
+    if (!visible) {
+      translateY.setValue(sheetHeight);
+      backdrop.setValue(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, sheetHeight]);
 
-  // Gesture SOLO en el handle (barrita)
   const panResponder = useRef(
-  PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponder: (_, g) => g.dy > 2 && Math.abs(g.dx) < 15,
-    onPanResponderMove: (_, g) => {
-      const nextY = Math.max(0, Math.min(sheetHeight, g.dy));
-      translateY.setValue(nextY);
-      backdrop.setValue(1 - nextY / sheetHeight);
-    },
-    onPanResponderRelease: (_, g) => {
-      const shouldClose = g.dy > 90 || g.vy > 1.0; // un poco más sensible
-      if (shouldClose) closeAnimated();
-      else {
-        Animated.parallel([
-          Animated.spring(translateY, { toValue: 0, useNativeDriver: true }),
-          Animated.timing(backdrop, { toValue: 1, duration: 120, useNativeDriver: true }),
-        ]).start();
-      }
-    },
-  })
-).current;
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (_, g) => g.dy > 2 && Math.abs(g.dx) < 15,
+      onPanResponderMove: (_, g) => {
+        const nextY = Math.max(0, Math.min(sheetHeight, g.dy));
+        translateY.setValue(nextY);
+        backdrop.setValue(1 - nextY / sheetHeight);
+      },
+      onPanResponderRelease: (_, g) => {
+        const shouldClose = g.dy > 90 || g.vy > 1.0;
+        if (shouldClose) closeAnimated();
+        else {
+          Animated.parallel([
+            Animated.spring(translateY, { toValue: 0, useNativeDriver: true }),
+            Animated.timing(backdrop, { toValue: 1, duration: 120, useNativeDriver: true }),
+          ]).start();
+        }
+      },
+    })
+  ).current;
 
   return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={closeAnimated}>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="none"
+      onRequestClose={closeAnimated}
+      statusBarTranslucent
+    >
       <View style={styles.root}>
-        {/* Backdrop clickeable */}
         <Animated.View style={[styles.backdrop, { opacity: backdrop }]}>
           <Pressable style={StyleSheet.absoluteFill} onPress={closeAnimated} />
         </Animated.View>
 
-        {/* Sheet */}
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           style={styles.sheetWrap}
@@ -109,26 +117,11 @@ export default function ResetPasswordSheet({ visible, onClose, children }: Props
               },
             ]}
           >
-            {/* Handle (aquí sí se arrastra) */}
-            <View
-  {...panResponder.panHandlers}
-  style={{
-    paddingVertical: 18,        // 👈 más alto = más fácil agarrarlo
-    alignItems: "center",
-    backgroundColor: "transparent",
-  }}
->
-  <View
-    style={{
-      width: 60,
-      height: 5,
-      borderRadius: 999,
-      backgroundColor: "#D1D5DB",
-    }}
-  />
-</View>
+            {/* Handle */}
+            <View {...panResponder.panHandlers} style={styles.handleArea}>
+              <View style={styles.handle} />
+            </View>
 
-            {/* Contenido */}
             <View style={{ paddingHorizontal: 18, paddingBottom: 18 }}>
               {children}
             </View>
@@ -158,7 +151,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   handleArea: {
-    paddingVertical: 12,
+    paddingVertical: 18,
     alignItems: "center",
   },
   handle: {
