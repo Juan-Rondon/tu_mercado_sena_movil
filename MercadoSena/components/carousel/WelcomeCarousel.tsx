@@ -1,18 +1,14 @@
-// components/carousel/WelcomeCarousel.tsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
-    Dimensions,
-    FlatList,
-    Image,
-    ImageSourcePropType,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    StyleSheet,
-    Text,
-    View,
+  FlatList,
+  Image,
+  ImageSourcePropType,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-
-const { width } = Dimensions.get("window");
 
 export type CarouselSlide = {
   id: string;
@@ -34,6 +30,9 @@ export default function WelcomeCarousel({
 }: Props) {
   const listRef = useRef<FlatList<CarouselSlide>>(null);
 
+  // ✅ ancho REAL del carrusel (no el de la pantalla)
+  const [pageW, setPageW] = useState<number>(0);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const currentIndexRef = useRef(0);
 
@@ -48,15 +47,12 @@ export default function WelcomeCarousel({
 
   const startAutoplay = () => {
     stopAutoplay();
-    if (!slides || slides.length <= 1) return;
+    if (!slides || slides.length <= 1 || pageW <= 0) return;
 
     intervalRef.current = setInterval(() => {
       const next = (currentIndexRef.current + 1) % slides.length;
 
-      listRef.current?.scrollToIndex({
-        index: next,
-        animated: true,
-      });
+      listRef.current?.scrollToIndex({ index: next, animated: true });
 
       currentIndexRef.current = next;
       setActiveIndex(next);
@@ -68,15 +64,22 @@ export default function WelcomeCarousel({
   }, [activeIndex]);
 
   useEffect(() => {
-    // iniciar autoplay al montar o si cambia el número de slides
     startAutoplay();
     return () => stopAutoplay();
-    
-  }, [slides?.length, autoplayMs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slides?.length, autoplayMs, pageW]);
+
+  // ✅ si cambia el ancho medido, reubica el slide actual
+  useEffect(() => {
+    if (!slides?.length || pageW <= 0) return;
+    listRef.current?.scrollToIndex({ index: currentIndexRef.current, animated: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageW]);
 
   const onMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (pageW <= 0) return;
     const x = e.nativeEvent.contentOffset.x;
-    const index = Math.round(x / width);
+    const index = Math.round(x / pageW);
     currentIndexRef.current = index;
     setActiveIndex(index);
   };
@@ -93,36 +96,54 @@ export default function WelcomeCarousel({
     ));
   }, [slides, activeIndex]);
 
+  // ✅ cardW depende del ancho real
+  const cardW = pageW > 0 ? Math.min(pageW * 0.93, 560) : 0;
+
   return (
-    <View style={[styles.wrapper, { height }]}>
+    <View
+      style={[styles.wrapper, { height }]}
+      onLayout={(e) => {
+        const w = e.nativeEvent.layout.width;
+        if (w && w !== pageW) setPageW(w);
+      }}
+    >
       <FlatList
         ref={listRef}
         data={slides}
         keyExtractor={(item) => item.id}
         horizontal
-        pagingEnabled
         showsHorizontalScrollIndicator={false}
+        pagingEnabled
+
+        // ✅ mejora el “snap” y evita medias cartas
+        decelerationRate="fast"
+        snapToInterval={pageW || 1}
+        snapToAlignment="start"
+
         onMomentumScrollEnd={onMomentumEnd}
-        onScrollBeginDrag={stopAutoplay}             
+        onScrollBeginDrag={stopAutoplay}
         onScrollEndDrag={() => setTimeout(startAutoplay, 350)}
         getItemLayout={(_, index) => ({
-          length: width,
-          offset: width * index,
+          length: pageW || 0,
+          offset: (pageW || 0) * index,
           index,
         })}
         onScrollToIndexFailed={(info) => {
-          // fallback si aún no hemos medido items
           setTimeout(() => {
             listRef.current?.scrollToOffset({
-              offset: info.index * width,
+              offset: info.index * (pageW || 0),
               animated: true,
             });
           }, 200);
         }}
         renderItem={({ item }) => (
-          <View style={[styles.slide, { width, height }]}>
-            <View style={styles.card}>
-              <Image source={item.image} style={styles.image} resizeMode="cover" />
+          <View style={[styles.slide, { width: pageW || 0, height }]}>
+            <View style={[styles.card, { width: cardW }]}>
+              <Image 
+              source={item.image} 
+              style={[styles.image, { maxHeight: height * 0.58 }]} 
+              resizeMode="cover" 
+              />
               <View style={styles.textBox}>
                 <Text style={styles.title}>{item.title}</Text>
                 {!!item.description && (
@@ -145,8 +166,7 @@ const styles = StyleSheet.create({
   wrapper: { width: "100%", justifyContent: "center" },
   slide: { justifyContent: "center", alignItems: "center" },
   card: {
-    width: width * 0.88,
-    height: "100%",
+    height: "95%",
     borderRadius: 18,
     backgroundColor: "#ffffff",
     overflow: "hidden",
@@ -155,19 +175,15 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 6 },
     elevation: 6,
-    // borderWidth: 2,
-    // borderColor: "#000000"
   },
-  image: { width: "100%", height: "62%" },
+  image: { 
+    width: "100%", 
+    aspectRatio: 1037 / 428, 
+  },
   textBox: { paddingHorizontal: 14, paddingVertical: 12, gap: 6 },
-  title: { fontSize: 18, fontWeight: "700", color: "#1f2937" },
-  desc: { fontSize: 14, color: "#4b5563" },
-  dotsRow: {
-    marginTop: 10,
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 8,
-  },
+  title: { fontWeight: "700", color: "#1f2937", fontSize: 18 },
+  desc: { color: "#4b5563", fontSize: 14 },
+  dotsRow: { marginTop: 10, flexDirection: "row", justifyContent: "center", gap: 8 },
   dot: { width: 8, height: 8, borderRadius: 999 },
   dotActive: { backgroundColor: "#32CD32", width: 18 },
   dotInactive: { backgroundColor: "#cbd5e1" },
