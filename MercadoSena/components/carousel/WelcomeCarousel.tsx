@@ -1,15 +1,15 @@
 // components/carousel/WelcomeCarousel.tsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
-    Dimensions,
-    FlatList,
-    Image,
-    ImageSourcePropType,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    StyleSheet,
-    Text,
-    View,
+  Dimensions,
+  FlatList,
+  Image,
+  ImageSourcePropType,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 const { width } = Dimensions.get("window");
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   wrapper: { width: "100%", justifyContent: "center" },
   slide: { justifyContent: "center", alignItems: "center" },
   card: {
-    width: width * 0.88,
+    width: width * 0.95,
     height: "100%",
     borderRadius: 18,
     backgroundColor: "#ffffff",

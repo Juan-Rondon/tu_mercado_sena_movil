@@ -116,13 +116,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   logo: {
-    top: -140,
+    top: -160,
     width: 400,
     height: 400,
     marginBottom: 16,
   },
   title: {
-    top: -260,
+    top: -280,
     fontSize: 35,
     fontWeight: "bold",
     color: "#ffffff",

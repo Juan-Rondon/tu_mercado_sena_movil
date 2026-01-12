@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import CustomButton from "@/components/buttons/CustomButton";
 import CustomInput from "@/components/inputs/CustomInput";
@@ -14,31 +14,7 @@ const LoginScreen = () => {
   const [openReset, setOpenReset] = useState(false);
 
   return (
-    <View className="flex-1 bg-white px-6 pt-16 pb-4">
-
-        <View className="absolute top-6 right-6 z-50">
-          <CustomButton
-            variant="contained"
-            className="w-52 h-52 rounded-full items-center justify-center"
-            style={{
-              width: 280,
-              height: 280,
-              backgroundColor: "#2DC75C",
-              borderRadius: 140,
-              overflow: "hidden",
-              left: 120,
-              top: -80,
-            }}
-            onPress={() => {}}
-            >
-            <View style={{ position: "absolute", top: 20, left: 15 }}>
-            <Image
-            source={require("../../../assets/images/logo.png")}
-            style={{ width: 240, height: 240, left: -20, top: 0 }}
-            />
-            </View>
-          </CustomButton> 
-        </View>
+    <View className="flex-1 bg-white px-6 pt-1 pb-4">
 
       <View>
         <Text className="font-Opensans-bold text-4xl text-black mt-40">
