@@ -21,7 +21,10 @@ export default function ProductDetail() {
   return (
 
     <>
+    <ScrollView contentContainerStyle={{ padding: 16 }}>
 
+    
+      
         <View className="left-14 top-16">
           <CustomButton
             variant="text-only"
@@ -113,9 +116,21 @@ export default function ProductDetail() {
             </CustomButton>
           </View>
           
+
+          <View>
+            <Text
+              className="text-blue-600 text-lg font-medium mt-20"
+              onPress={() => router.push(`/(tabs)/Home`)}
+            >
+              ver más... 
+            </Text> 
+          
+          </View>
+
         </View>
       </ScrollView>
     </View>
+      </ScrollView>
 
   </>
 

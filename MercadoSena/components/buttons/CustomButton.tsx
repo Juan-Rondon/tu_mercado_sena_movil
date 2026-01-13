@@ -162,7 +162,7 @@ const CustomButton = React.forwardRef<View, Props>(
 
           <Content />
 
-          <View className={`flex-row ${isOwner ? "justify-center" : "justify-between"} items-center mt-3 px-2`}>
+          {/* <View className={`flex-row ${isOwner ? "justify-center" : "justify-between"} items-center mt-3 px-2`}>
             <Pressable
               onPress={onCartPress}
               className={`${isOwner ? "w-9/12 h-10" : "py-3 px-6"} justify-center items-center rounded-full border border-gray-800`}
@@ -170,19 +170,8 @@ const CustomButton = React.forwardRef<View, Props>(
               <Text className="text-black font-medium">{actionText ?? "Detalle"}</Text>
             </Pressable>
 
-            {!isOwner && (
-              <Pressable
-                onPress={() => setIsFavorite(!isFavorite)}
-                className="p-2 rounded-full border border-gray-800"
-              >
-                {isFavorite ? (
-                  <AntDesign name="heart" size={22} color="red" />
-                ) : (
-                  <AntDesign name="heart" size={22} color="gray" />
-                )}
-              </Pressable>
-            )}
-          </View>
+            
+          </View> */}
         </Pressable>
       );
     }
