@@ -1,93 +1,161 @@
-import React from 'react';
-import { Image, Text, View, ViewProps } from 'react-native';
+import React from "react";
+import {
+  Image,
+  ImageSourcePropType,
+  Platform,
+  StatusBar,
+  Text,
+  View,
+  ViewProps,
+  useWindowDimensions,
+} from "react-native";
+
+type ColorKey =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "quaternary"
+  | "quinary"
+  | "sextary";
+type Variant = "normal" | "text-only" | "icon-only";
 
 interface HeaderProps extends ViewProps {
-  children: string;
-  color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary' | 'sextary';
+  children?: React.ReactNode;
+  color?: ColorKey;
+  txtColor?: ColorKey;
   className?: string;
-  variant?: 'normal' | 'text-only' | 'icon-only';
-  source?: {};
-  txtColor?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary' | 'sextary';
+  variant?: Variant;
+  source?: ImageSourcePropType;
+
+  // Puedes dejar FontText para otras clases (bold, tracking, etc)
   FontText?: string;
+
+  showLogo?: boolean;
+  height?: number;
+  radius?: number;
+
+  // NUEVOS: control real
+  logoSize?: number;
+  titleSize?: number;
+
+  // si alguna pantalla NO quiere padding por status bar
+  includeStatusBarPadding?: boolean;
 }
+
+export const HEADER_DEFAULT_HEIGHT = 220;
 
 const Header = React.forwardRef<View, HeaderProps>(
   (
     {
       children,
-      color = 'primary',
-      className,
-      variant = 'normal',
+      color = "primary",
+      txtColor = "primary",
+      className = "",
+      variant = "normal",
       source,
-      txtColor = 'primary',
-      FontText,
+      FontText = "font-bold",
+      showLogo = false,
+      height = HEADER_DEFAULT_HEIGHT,
+      radius = 60,
+      logoSize,
+      titleSize = 40,
+      includeStatusBarPadding = true,
       ...rest
     },
     ref
   ) => {
+    const { width } = useWindowDimensions();
+
     const textColor =
       {
-        primary: 'text-primary-50',
-        secondary: 'text-secondary-500',
-        tertiary: 'text-tertiary-900',
-        quaternary: 'text-quaternary-50',
-        quinary: 'text-quinary-50',
-        sextary: 'text-sextary-900',
-      }[txtColor];
+        primary: "text-primary-50",
+        secondary: "text-secondary-500",
+        tertiary: "text-tertiary-900",
+        quaternary: "text-quaternary-50",
+        quinary: "text-quinary-50",
+        sextary: "text-sextary-900",
+      }[txtColor] ?? "text-white";
 
     const headerColor =
       {
-        primary: 'bg-primary-400',
-        secondary: 'bg-secondary-950',
-        tertiary: 'bg-tertiary-50',
-        quaternary: 'bg-quaternary-700',
-        quinary: 'bg-quinary-600',
-        sextary: 'bg-sextary-500',
-      }[color];
+        primary: "bg-primary-400",
+        secondary: "bg-secondary-950",
+        tertiary: "bg-tertiary-50",
+        quaternary: "bg-quaternary-700",
+        quinary: "bg-quinary-600",
+        sextary: "bg-sextary-500",
+      }[color] ?? "bg-[#2DC75C]";
 
-    const Content = () => {
+    // Logo responsivo (si no lo mandas por prop)
+    const computedLogo = logoSize ?? Math.max(96, Math.min(170, width * 0.32));
 
-      if (variant === 'normal' && children) {
-        return (
-          <View className={`absolute items-center top-0 left-0 right-0 h-[280px] ${headerColor} rounded-b-[60px]`}>
-            <Image
-              className="w-44 h-44 mt-14"
-              source={source}
-              resizeMode="contain"
-            />
-            <Text className={`text-[100px] font-bold ${className} ${textColor} ${FontText} mb-3 text-center`}>{children}</Text>
-          </View>
-        );
-      }
+    // Alto del status bar (aprox en iPhone)
+    const statusBarPadding = !includeStatusBarPadding
+      ? 0
+      : Platform.OS === "ios"
+      ? 44
+      : StatusBar.currentHeight ?? 0;
 
-      if (variant === 'text-only' && children) {
-        return (
-          <View className={`absolute top-0 left-0 right-0 h-[280px] ${headerColor} rounded-b-[60px]`}>
-            <Text className={`text-[100px] font-bold ${className} ${textColor} ${FontText} mb-3 text-center`}>{children}</Text>
-          </View>
-        );
-      }
-
-      if (variant === 'icon-only' && source) {
-        return (
-          <View className={className}>
-            <Image
-              source={source}
-              resizeMode="contain"
-            />
-          </View>
-        );
-      }
-
-      return null;
-    };
+    const containerClass = `absolute top-0 left-0 right-0 ${headerColor} items-center justify-center ${className}`;
 
     return (
       <View ref={ref} {...rest}>
-        <Content />
+        {(variant === "normal" || variant === "text-only") && (
+          <View
+            className={containerClass}
+            style={{
+              height,
+              paddingTop: statusBarPadding,
+              borderBottomLeftRadius: radius,
+              borderBottomRightRadius: radius,
+            }}
+          >
+            {showLogo && (
+              <Image
+                source={source ?? require("../../assets/images/logo.png")}
+                resizeMode="contain"
+                style={{
+                  width: computedLogo,
+                  height: computedLogo,
+                  marginBottom: 8,
+                }}
+              />
+            )}
+
+            {typeof children === "string" ? (
+              <Text
+                className={`${FontText} ${textColor} text-center`}
+                style={{ fontSize: titleSize }}
+              >
+                {children}
+              </Text>
+            ) : (
+              children
+            )}
+          </View>
+        )}
+
+        {variant === "icon-only" && (
+          <View
+            className={containerClass}
+            style={{
+              height,
+              paddingTop: statusBarPadding,
+              borderBottomLeftRadius: radius,
+              borderBottomRightRadius: radius,
+            }}
+          >
+            <Image
+              source={source ?? require("../../assets/images/logo.png")}
+              resizeMode="contain"
+              style={{ width: computedLogo, height: computedLogo }}
+            />
+          </View>
+        )}
       </View>
     );
   }
 );
 
+Header.displayName = "Header";
 export default Header;

@@ -21,7 +21,10 @@ export default function ProductDetail() {
   return (
 
     <>
+    <ScrollView contentContainerStyle={{ padding: 16 }}>
 
+    
+      
         <View className="left-14 top-16">
           <CustomButton
             variant="text-only"
@@ -68,16 +71,17 @@ export default function ProductDetail() {
       </Text>
 
 
-      <View className="flex-1 px-4 pb-6">
+      <View className="flex-1 px-4 pb-6 gap-4">
 
         <ScrollView 
         horizontal
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 4 }}
         >
 
-          <View className="flex-row space-x-5 px-1">
+          <View className="flex-row">
 
-          <View className="w-52">
+          <View className="w-52 mr-3">
             <CustomButton
               variant="card"
               defaultImage={defaultProductImage}
@@ -89,7 +93,7 @@ export default function ProductDetail() {
             </CustomButton>
           </View>
           
-          <View className="w-52">
+          <View className="w-52 mr-3">
             <CustomButton
               variant="card"
               defaultImage={defaultProductImage}
@@ -101,7 +105,7 @@ export default function ProductDetail() {
             </CustomButton>
           </View>
           
-          <View className="w-52">
+          <View className="w-52 mr-3">
             <CustomButton
               variant="card"
               defaultImage={defaultProductImage}
@@ -113,9 +117,23 @@ export default function ProductDetail() {
             </CustomButton>
           </View>
           
+
+          <View className="w-52 mr-5">
+            <CustomButton
+              variant="text-only"
+              color="gray"
+              className="top-20"
+              FontText="text-3xl font-medium text-blue-600"
+              onPress={() => router.push(`/(tabs)/Home`)}
+              >
+              Ver más...
+            </CustomButton>
+          </View>
+
         </View>
       </ScrollView>
     </View>
+      </ScrollView>
 
   </>
 

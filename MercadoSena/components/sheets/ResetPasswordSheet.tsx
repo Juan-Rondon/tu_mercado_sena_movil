@@ -15,7 +15,7 @@ import {
 type Props = {
   visible: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function ResetPasswordSheet({ visible, onClose, children }: Props) {

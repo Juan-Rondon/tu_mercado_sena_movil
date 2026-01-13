@@ -1,7 +1,6 @@
 // components/carousel/WelcomeCarousel.tsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
-  Dimensions,
   FlatList,
   Image,
   ImageSourcePropType,
@@ -10,9 +9,8 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from "react-native";
-
-const { width } = Dimensions.get("window");
 
 export type CarouselSlide = {
   id: string;
@@ -32,6 +30,7 @@ export default function WelcomeCarousel({
   height = 220,
   autoplayMs = 3000,
 }: Props) {
+  const { width } = useWindowDimensions(); // ✅ ancho real dinámico
   const listRef = useRef<FlatList<CarouselSlide>>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -53,10 +52,7 @@ export default function WelcomeCarousel({
     intervalRef.current = setInterval(() => {
       const next = (currentIndexRef.current + 1) % slides.length;
 
-      listRef.current?.scrollToIndex({
-        index: next,
-        animated: true,
-      });
+      listRef.current?.scrollToIndex({ index: next, animated: true });
 
       currentIndexRef.current = next;
       setActiveIndex(next);
@@ -68,11 +64,19 @@ export default function WelcomeCarousel({
   }, [activeIndex]);
 
   useEffect(() => {
-    // iniciar autoplay al montar o si cambia el número de slides
     startAutoplay();
     return () => stopAutoplay();
-    
   }, [slides?.length, autoplayMs]);
+
+  // ✅ si cambia el ancho (rotación), reubica el índice actual
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      listRef.current?.scrollToIndex({
+        index: currentIndexRef.current,
+        animated: false,
+      });
+    });
+  }, [width]);
 
   const onMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const x = e.nativeEvent.contentOffset.x;
@@ -93,6 +97,10 @@ export default function WelcomeCarousel({
     ));
   }, [slides, activeIndex]);
 
+  // ✅ ancho de la tarjeta responsivo (con límite para tablets)
+  const cardWidth = Math.min(width * 0.95, 520);
+  const imageHeight = height * 0.62;
+
   return (
     <View style={[styles.wrapper, { height }]}>
       <FlatList
@@ -103,7 +111,7 @@ export default function WelcomeCarousel({
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={onMomentumEnd}
-        onScrollBeginDrag={stopAutoplay}             
+        onScrollBeginDrag={stopAutoplay}
         onScrollEndDrag={() => setTimeout(startAutoplay, 350)}
         getItemLayout={(_, index) => ({
           length: width,
@@ -111,7 +119,6 @@ export default function WelcomeCarousel({
           index,
         })}
         onScrollToIndexFailed={(info) => {
-          // fallback si aún no hemos medido items
           setTimeout(() => {
             listRef.current?.scrollToOffset({
               offset: info.index * width,
@@ -121,10 +128,16 @@ export default function WelcomeCarousel({
         }}
         renderItem={({ item }) => (
           <View style={[styles.slide, { width, height }]}>
-            <View style={styles.card}>
-              <Image source={item.image} style={styles.image} resizeMode="cover" />
+            <View style={[styles.card, { width: cardWidth }]}>
+              <Image
+                source={item.image}
+                style={[styles.image, { height: imageHeight }]}
+                resizeMode="cover"
+              />
               <View style={styles.textBox}>
-                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.title} numberOfLines={1}>
+                  {item.title}
+                </Text>
                 {!!item.description && (
                   <Text style={styles.desc} numberOfLines={2}>
                     {item.description}
@@ -145,7 +158,6 @@ const styles = StyleSheet.create({
   wrapper: { width: "100%", justifyContent: "center" },
   slide: { justifyContent: "center", alignItems: "center" },
   card: {
-    width: width * 0.95,
     height: "100%",
     borderRadius: 18,
     backgroundColor: "#ffffff",
@@ -155,10 +167,8 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 6 },
     elevation: 6,
-    // borderWidth: 2,
-    // borderColor: "#000000"
   },
-  image: { width: "100%", height: "62%" },
+  image: { width: "100%" },
   textBox: { paddingHorizontal: 14, paddingVertical: 12, gap: 6 },
   title: { fontSize: 18, fontWeight: "700", color: "#1f2937" },
   desc: { fontSize: 14, color: "#4b5563" },
