@@ -71,7 +71,7 @@ const LoginScreen = () => {
             underline
             onPress={() => setOpenReset(true)}
           >
-            Olvidaste tu contraseña?
+            ¿Olvidaste tu contraseña?
           </CustomButton>
         </View>
       </View>

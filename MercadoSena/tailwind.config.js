@@ -87,7 +87,7 @@ module.exports = {
         },
 
         sextary: {
-          DEFAULT: '32CD32',
+          DEFAULT: '#32CD32',
           50: "#EAFAEA",
           100: "#C6F1C6",
           200: "#A1E8A1",

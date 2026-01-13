@@ -1,8 +1,9 @@
 import CustomButton from "@/components/buttons/CustomButton";
 import WelcomeCarousel, { CarouselSlide } from "@/components/carousel/WelcomeCarousel";
+import Header from '@/components/headers/Header';
 import { useRouter } from 'expo-router';
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 const RADIUS = 90;
 
@@ -35,21 +36,20 @@ const slides: CarouselSlide[] = [
 
     <View style={styles.container}>
 
-      {/* <View style={styles.darkBg} /> */}
-      <View style={styles.lightBg} />
-      
-      <View style={styles.content}>
-        <Image
+        <Header 
+        variant="normal" 
+        color="sextary" 
+        txtColor="primary"
+        FontText="text-[40px]"
+        className="bottom-[-5px]"
         source={require('../../../assets/images/logo.png')}
-        style={styles.logo}
-        resizeMode="contain"
-        />
-        <Text style={styles.title}>Tu Mercado SENA</Text>
-      </View>
+        >
+          Tu Mercado SENA
+        </Header>
 
-      <View style={{ marginTop: -240 }}>
-        <WelcomeCarousel slides={slides} height={240} autoplayMs={3000} />
-      </View>
+        <View style={{ marginTop: 360 }}>
+          <WelcomeCarousel slides={slides} height={240} autoplayMs={3000} />
+        </View>
 
       <View className="items-center top-44">
 
@@ -89,53 +89,36 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
   },
-  // darkBg: {
+  // lightBg: {
   //   position: "absolute",
-  //   top: 80,
+  //   top: 0,
   //   left: 0,
   //   right: 0,
-  //   bottom: 240,
-  //   backgroundColor: "#32CD32",
+  //   height: "35%",
+  //   backgroundColor: "#2DC75C",
   //   borderBottomLeftRadius: RADIUS,
   //   borderBottomRightRadius: RADIUS,
   // },
-  lightBg: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: "35%",
-    backgroundColor: "#2DC75C",
-    borderBottomLeftRadius: RADIUS,
-    borderBottomRightRadius: RADIUS,
-  },
   content: {
     flex: 1,
     alignItems: "center",
     paddingTop: 90,
     paddingHorizontal: 24,
   },
-  logo: {
-    top: -160,
-    width: 400,
-    height: 400,
-    marginBottom: 16,
-  },
-  title: {
-    top: -280,
-    fontSize: 35,
-    fontWeight: "bold",
-    color: "#ffffff",
-    marginBottom: 12,
-    textAlign: "center",
-  },
-//   subtitle: {
-//     top: -100,
-//     fontSize: 20,
-//     color: "black",
-//     textAlign: "center",
-//     lineHeight: 18,
-//   },
+  // logo: {
+  //   top: -160,
+  //   width: 400,
+  //   height: 400,
+  //   marginBottom: 16,
+  // },
+  // title: {
+  //   top: -280,
+  //   fontSize: 35,
+  //   fontWeight: "bold",
+  //   color: "#ffffff",
+  //   marginBottom: 12,
+  //   textAlign: "center",
+  // },
 });
 
 export default welcomeScreen;
