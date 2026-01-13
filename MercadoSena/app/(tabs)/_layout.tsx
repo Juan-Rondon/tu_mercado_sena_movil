@@ -83,7 +83,7 @@ function FloatButtom({ onPress }) {
     }}
     >
       <Image
-      source={require('../../assets/images/logo.png')}
+      source={require('../../assets/images/logo1.png')}
       style={{ width: 80, height: 130, top: -3 }} 
       />
     </TouchableOpacity>
