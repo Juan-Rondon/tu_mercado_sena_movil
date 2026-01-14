@@ -1,22 +1,15 @@
 import CustomButton from "@/components/buttons/CustomButton";
 import WelcomeCarousel, { CarouselSlide } from "@/components/carousel/WelcomeCarousel";
+import Header from "@/components/headers/Header";
 import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Image, Text, View, useWindowDimensions } from "react-native";
+import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const WelcomeScreen = () => {
+const welcomeScreen = () => {
   const router = useRouter();
-  const { width, height } = useWindowDimensions();
-
-  // ✅ Header realmente responsivo (entre 220 y 320 aprox)
-  const headerH = Math.min(Math.max(height * 0.34, 240), 320);
-
-  const logoSize = Math.min(width * 0.42, 170);
-  const carouselH = Math.min(Math.max(height * 0.28, 220), 280);
-
-  // ✅ Solo esto mueve el bloque superior (logo+título) SIN tocar lo demás
-  const topBlockMargin = -headerH * -0.1;
+  const { height, width } = useWindowDimensions();
 
   const slides: CarouselSlide[] = [
     {
@@ -39,82 +32,101 @@ const WelcomeScreen = () => {
     },
   ];
 
+  const carouselHeight = Math.min(260, Math.max(200, height * 0.28));
+  // const titleSize = 
+  // width < 360 ? 32 : 
+  // width < 420 ? 40 : 
+  // 46;
+
+  // Haz el header un poco más grande si lo sientes pequeño
+  const headerHeight = Math.min(250, Math.max(240, height * 0.30));
+
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      {/* ✅ HEADER VERDE como fondo absoluto (NO afecta layout) */}
-      <View
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: headerH,
-          backgroundColor: "#2DC75C",
-          borderBottomLeftRadius: 90,
-          borderBottomRightRadius: 90,
-        }}
-      />
+    <SafeAreaView edges={["bottom"]} style={styles.safe}>
+    <StatusBar style="light" translucent />
 
-      {/* ✅ CONTENIDO normal (sin marginTop global que mueva todo) */}
-      <View className="flex-1 px-6">
-        {/* ✅ SOLO este bloque se mueve */}
-        <View className="items-center" style={{ marginTop: topBlockMargin }}>
-          <View
-            className="items-center justify-center"
-            style={{ width: logoSize, height: logoSize }}
-          >
-            <Image
-              source={require("../../../assets/images/logo.png")}
-              style={{
-                width: logoSize * 3,
-                height: logoSize * 3,
-              }}
-              resizeMode="contain"
-            />
-          </View>
-
-          <Text
-            className="text-white font-Opensans-bold text-3xl mt-5 text-center"
-            style={{ maxWidth: 420 }}
+    <View style={styles.root}>
+      <Header
+        variant="normal"
+        color="sextary"
+        txtColor="primary"
+        showLogo
+        height={headerHeight}
+        radius={70}
+        logoSize={130}
+        titleSize={34}
+        FontText="font-bold"
+        style={styles.headerShadow}
+      >
+        <Text
+          className="font-bold text-white text-center"
+          style={{
+            fontSize: 34,
+            textShadowColor: "rgba(0,0,0,0.35)",
+            textShadowOffset: { width: 0, height: 2 },
+            textShadowRadius: 4,
+          }}
           >
             Tu Mercado SENA
-          </Text>
+        </Text>
+      </Header>
+
+        {/* Reservar espacio real del header absolute */}
+        <View style={{ height: headerHeight }} />
+
+        {/* Carrusel FULL WIDTH (sin padding) */}
+        <View style={styles.carouselWrap}>
+          <WelcomeCarousel slides={slides} height={carouselHeight} autoplayMs={3000} />
         </View>
 
-        {/* Carrusel (NO se mueve si ajustas topBlockMargin) */}
-        <View className="mt-20">
-          <WelcomeCarousel slides={slides} height={carouselH} autoplayMs={3000} />
-        </View>
+        {/* Aquí sí aplica padding para botones */}
+        <View style={styles.buttonsWrap}>
+          <CustomButton
+            variant="contained"
+            className="w-full p-5 rounded-r-full rounded-l-full shadow-lg"
+            color="tertiary"
+            FontText="text-2xl"
+            onPress={() => router.push("/(stack)/login")}
+          >
+            Iniciar Sesión
+          </CustomButton>
 
-        {/* Botones abajo */}
-        <View className="flex-1 justify-end pb-16">
-          <View className="items-center">
-            <CustomButton
-              variant="contained"
-              className="w-3/4 p-5 rounded-3xl shadow-lg"
-              color="tertiary"
-              FontText="text-2xl"
-              onPress={() => router.push("/(stack)/login")}
-            >
-              Iniciar Sesión
-            </CustomButton>
-
-            <View className="h-4" />
-
-            <CustomButton
-              variant="contained"
-              className="w-3/4 p-5 rounded-3xl shadow-lg border border-[#2DC75C]"
-              color="sextary"
-              FontText="text-2xl"
-              onPress={() => router.push("/(stack)/register")}
-            >
-              Registrarme
-            </CustomButton>
-          </View>
+          <CustomButton
+            variant="contained"
+            className="w-full p-5 rounded-r-full rounded-l-full shadow-lg border border-[#2DC75C]"
+            color="sextary"
+            FontText="text-2xl"
+            onPress={() => router.push("/(stack)/register")}
+          >
+            Registrarme
+          </CustomButton>
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default WelcomeScreen;
+export default welcomeScreen;
+
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: "#ffffff" },
+
+  // Contenedor principal SIN padding
+  root: { flex: 1, backgroundColor: "#ffffff", justifyContent: "space-between" },
+
+  form: { flex: 1, paddingHorizontal: 24 },
+
+  carouselWrap: { flex: 1, justifyContent: "center" },
+
+  // Padding solo en botones
+  buttonsWrap: { paddingHorizontal: 20, paddingBottom: 60, gap: 16 },
+
+  headerShadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.35,
+    shadowRadius: 14,
+    elevation: 18, // Android
+  },
+
+});

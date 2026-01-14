@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from "react-native";
 
 export type CarouselSlide = {
@@ -28,6 +29,7 @@ export default function WelcomeCarousel({
   height = 220,
   autoplayMs = 3000,
 }: Props) {
+  const { width } = useWindowDimensions(); // ✅ ancho real dinámico
   const listRef = useRef<FlatList<CarouselSlide>>(null);
 
   // ✅ ancho REAL del carrusel (no el de la pantalla)
@@ -66,15 +68,17 @@ export default function WelcomeCarousel({
   useEffect(() => {
     startAutoplay();
     return () => stopAutoplay();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slides?.length, autoplayMs, pageW]);
+  }, [slides?.length, autoplayMs]);
 
-  // ✅ si cambia el ancho medido, reubica el slide actual
+  // ✅ si cambia el ancho (rotación), reubica el índice actual
   useEffect(() => {
-    if (!slides?.length || pageW <= 0) return;
-    listRef.current?.scrollToIndex({ index: currentIndexRef.current, animated: false });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageW]);
+    requestAnimationFrame(() => {
+      listRef.current?.scrollToIndex({
+        index: currentIndexRef.current,
+        animated: false,
+      });
+    });
+  }, [width]);
 
   const onMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (pageW <= 0) return;
@@ -96,8 +100,9 @@ export default function WelcomeCarousel({
     ));
   }, [slides, activeIndex]);
 
-  // ✅ cardW depende del ancho real
-  const cardW = pageW > 0 ? Math.min(pageW * 0.93, 560) : 0;
+  // ✅ ancho de la tarjeta responsivo (con límite para tablets)
+  const cardWidth = Math.min(width * 0.95, 520);
+  const imageHeight = height * 0.62;
 
   return (
     <View
@@ -137,15 +142,17 @@ export default function WelcomeCarousel({
           }, 200);
         }}
         renderItem={({ item }) => (
-          <View style={[styles.slide, { width: pageW || 0, height }]}>
-            <View style={[styles.card, { width: cardW }]}>
-              <Image 
-              source={item.image} 
-              style={[styles.image, { maxHeight: height * 0.58 }]} 
-              resizeMode="cover" 
+          <View style={[styles.slide, { width, height }]}>
+            <View style={[styles.card, { width: cardWidth }]}>
+              <Image
+                source={item.image}
+                style={[styles.image, { height: imageHeight }]}
+                resizeMode="cover"
               />
               <View style={styles.textBox}>
-                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.title} numberOfLines={1}>
+                  {item.title}
+                </Text>
                 {!!item.description && (
                   <Text style={styles.desc} numberOfLines={2}>
                     {item.description}
@@ -166,7 +173,7 @@ const styles = StyleSheet.create({
   wrapper: { width: "100%", justifyContent: "center" },
   slide: { justifyContent: "center", alignItems: "center" },
   card: {
-    height: "95%",
+    height: "100%",
     borderRadius: 18,
     backgroundColor: "#ffffff",
     overflow: "hidden",
@@ -176,10 +183,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 6 },
     elevation: 6,
   },
-  image: { 
-    width: "100%", 
-    aspectRatio: 1037 / 428, 
-  },
+  image: { width: "100%" },
   textBox: { paddingHorizontal: 14, paddingVertical: 12, gap: 6 },
   title: { fontWeight: "700", color: "#1f2937", fontSize: 18 },
   desc: { color: "#4b5563", fontSize: 14 },

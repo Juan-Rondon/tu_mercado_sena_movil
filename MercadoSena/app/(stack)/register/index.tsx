@@ -1,120 +1,169 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React from "react";
-import { Text, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import CustomButton from "@/components/buttons/CustomButton";
+import Header from "@/components/headers/Header";
 import CustomInput from "@/components/inputs/CustomInput";
+import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
 
 const LoginScreen = () => {
   const router = useRouter();
+  const [openReset, setOpenReset] = useState(false);
+  const { height, width } = useWindowDimensions();
+
+  // 🔹 1) ALTURA VISUAL DEL HEADER (puedes cambiarla libremente)
+  const headerHeight = Math.min(220, Math.max(180, height * 0.25));
+
+  // 🔹 2) POSICIÓN FIJA DEL CONTENIDO (NO CAMBIA)
+  const CONTENT_OFFSET = 260;
+
+  const titleSize =
+    width < 360 ? 34 :
+    width < 420 ? 40 :
+    46;
 
   return (
-    <View className="flex-1 bg-white px-6 pt-16 pb-4">
+    <SafeAreaView edges={["bottom"]} style={styles.safe}>
+      <StatusBar style="light" translucent />
 
-      <View>
-        <Text className="font-Opensans-bold text-4xl text-black mt-16">
-          Registrarme
-        </Text>
-
-        <Text className="text-ml text-gray-400 mt-2">
-          Por favor registrese con su correo institucional
-        </Text>
-      </View>
-
-      <View className="mt-16">
-  
-        <Text className="text-2xl font-Opensans-medium text-black mb-2">
-          Nombre de Usuario
-        </Text>
-
-        <CustomInput
-          className="p-1.5"
-          placeholder="Ingrese su nombre de usuario"
-          placeholderTextColor="#CDCDCD"
-          type="email"
-          icon={<Ionicons 
-            name="person"
-            size={20}
-            color="#9CA3AF"
-            />
-          }
-        />
-        
-        <Text className="text-2xl font-Opensans-medium text-black mb-2">
-          Correo Institucional
-        </Text>
-
-        <CustomInput
-          className="p-1.5"
-          placeholder="Ejemplo@sena.edu.co"
-          placeholderTextColor="#CDCDCD"
-          type="email"
-          icon={<Ionicons 
-            name="mail-outline"
-            size={20}
-            color="#9CA3AF"
-            />
-          }
-        />
-
-        <Text className="text-2xl font-Opensans-medium text-black mb-2">
-          Contraseña
-        </Text>
-
-        <CustomInput
-        className="p-1.5"
-          placeholder="Ingrese su contraseña"
-          placeholderTextColor="#CDCDCD"
-          type="password"
-          icon={<Ionicons
-            name="lock-closed-outline"
-            size={20}
-            color="#9CA3AF"
-            />
-          }
-        />
-      </View>
-
-      {/* Botón principal */}
-      <View className="items-center mt-8">
-        <CustomButton
-          variant="contained"
-          onPress={() => router.push("/Home")}
-          className="w-80 p-5 rounded-l-3xl rounded-r-3xl border border-[#2DC75C]"
-          FontText="text-2xl"
+      <View style={styles.root}>
+        {/* HEADER (solo visual) */}
+        <Header
+          variant="normal"
+          height={headerHeight}
+          radius={70}
           color="sextary"
+          titleSize={titleSize}
+          showLogo={false}
+          style={styles.headerShadow}
         >
-          Registrar Cuenta
-        </CustomButton>
+          <View className="items-center px-6">
+            
+            <Text
+              className="font-Opensans-bold text-white text-center"
+              style={{ marginTop: 5, fontSize: 40, textShadowColor: "rgba(0,0,0,0.35)",
+              textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 4, }}
+            >
+              Registrarse
+            </Text>
+            
+            <Text 
+            className="text-white text-lg text-center mt-5 font-semibold"
+            style={{ fontSize: 20 }}
+            >
+              Por favor registrese{"\n"}con su correo institucional
+            </Text>
+          
+          </View>
+        </Header>
+
+        {/* 🔒 ESPACIO FIJO DEL CONTENIDO (NO depende del header) */}
+        <View style={{ height: CONTENT_OFFSET }} />
+
+        {/* FORMULARIO (YA NO SE MUEVE) */}
+        <View style={styles.form}>
+          
+          <Text className="text-2xl font-Opensans-medium text-black mb-2">
+            Nombre de Usuario
+          </Text>
+
+          <CustomInput
+            className="p-1.5"
+            placeholder="Nombre de Usuario"
+            placeholderTextColor="#CDCDCD"
+            type="text"
+            icon={<Ionicons name="person-outline" size={20} color="#9CA3AF" />}
+          />
+          
+          <Text className="text-2xl font-Opensans-medium text-black mt-3 mb-2">
+            Correo Institucional
+          </Text>
+
+          <CustomInput
+            className="p-1.5"
+            placeholder="Ejemplo@sena.edu.co"
+            placeholderTextColor="#CDCDCD"
+            type="email"
+            icon={<Ionicons name="mail-outline" size={20} color="#9CA3AF" />}
+          />
+
+          <Text className="text-2xl font-Opensans-medium text-black mt-3 mb-2">
+            Contraseña
+          </Text>
+
+          <CustomInput
+            className="p-1.5"
+            placeholder="Ingrese su contraseña"
+            placeholderTextColor="#CDCDCD"
+            type="password"
+            icon={<Ionicons name="lock-closed-outline" size={20} color="#9CA3AF" />}
+          />
+
+          <View className="items-center mt-8">
+            <CustomButton
+              variant="contained"
+              onPress={() => router.push("/Home")}
+              className="w-full p-5 rounded-r-full rounded-l-full border border-[#2DC75C]"
+              FontText="text-2xl"
+              color="sextary"
+            >
+              Registrar Cuenta
+            </CustomButton>
+          </View>
+
+          <View className="mt-10 mb-6 border-t border-gray-300" />
+
+          <View className="items-center">
+            <Text className="text-xl text-gray-400 mb-1">
+              ¿Ya tienes una cuenta?
+            </Text>
+
+            <CustomButton
+              variant="text-only"
+              color="secondary"
+              FontText="text-xl"
+              underline
+              onPress={() => router.push("/login")}
+            >
+              Iniciar Sesión
+            </CustomButton>
+          </View>
+        </View>
+
+        {/* FOOTER */}
+        <View className="items-center pb-6">
+          <Text className="text-xl text-gray-400">
+            Versión 0.0.1
+          </Text>
+        </View>
       </View>
 
-      {/* Separador */}
-      <View className="mt-10 mb-6 border-t border-gray-300" />
-
-      {/* Registro */}
-      <View className="items-center">
-        <Text className="text-xl text-gray-400 mb-1">
-          ¿Ya tienes una cuenta?
-        </Text>
-
-        <CustomButton
-          variant="text-only"
-          color="secondary"
-          FontText="text-xl"
-          underline={true}
-          onPress={() => router.push("/login")}
-        >
-          Iniciar Sesión
-        </CustomButton>
-      </View>
-
-      {/* Versión abajo */}
-      <View className="flex-1 justify-end items-center">
-        <Text className="text-xl text-gray-400 mb-10">Versión 0.0.1</Text>
-      </View>
-    </View>
+      <ResetPasswordSheet
+        visible={openReset}
+        onClose={() => setOpenReset(false)}
+      >
+        {/* igual que antes */}
+      </ResetPasswordSheet>
+    </SafeAreaView>
   );
 };
 
 export default LoginScreen;
+
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: "#ffffff" },
+  root: { flex: 1, backgroundColor: "#ffffff" },
+  form: { flex: 1, paddingHorizontal: 24 }, 
+
+  headerShadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.35,
+    shadowRadius: 14,
+    elevation: 18, // Android
+  },
+});

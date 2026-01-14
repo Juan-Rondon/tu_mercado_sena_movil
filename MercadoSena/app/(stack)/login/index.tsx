@@ -1,198 +1,172 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
+import ResetPasswordFlow from "@/components/auth/ResetPasswordFlow";
 import CustomButton from "@/components/buttons/CustomButton";
+import Header from "@/components/headers/Header";
 import CustomInput from "@/components/inputs/CustomInput";
 import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
-
-const RADIUS = 200;
 
 const LoginScreen = () => {
   const router = useRouter();
   const [openReset, setOpenReset] = useState(false);
+  const { height, width } = useWindowDimensions();
+
+  // 🔹 1) ALTURA VISUAL DEL HEADER (puedes cambiarla libremente)
+  const headerHeight = Math.min(220, Math.max(180, height * 0.25));
+
+  // 🔹 2) POSICIÓN FIJA DEL CONTENIDO (NO CAMBIA)
+  const CONTENT_OFFSET = 280;
+
+  const titleSize =
+    width < 360 ? 34 :
+    width < 420 ? 40 :
+    46;
 
   return (
-    <View className="flex-1 bg-white px-6 pt-1 pb-4">
+    <SafeAreaView edges={["bottom"]} style={styles.safe}>
+      <StatusBar style="light" translucent />
 
-      <View>
-        <Text className="font-Opensans-bold text-4xl text-black mt-40">
-          Iniciar Sesión
-        </Text>
-
-        <Text className="text-ml text-gray-400 mt-2">
-          Por favor inicie sesión con una cuenta registrada
-        </Text>
-      </View>
-
-      <View className="mt-16">
-        <Text className="text-2xl font-Opensans-medium text-black mb-2">
-          Correo Institucional
-        </Text>
-
-        <CustomInput
-          className="p-1.5"
-          placeholder="Ejemplo@sena.edu.co"
-          placeholderTextColor="#CDCDCD"
-          type="email"
-          icon={
-            <Ionicons
-              name="mail-outline"
-              size={20}
-              color="#9CA3AF"
-            />
-          }
-        />
-
-        <Text className="text-2xl font-Opensans-medium text-black mt-6 mb-2">
-          Contraseña
-        </Text>
-
-        <CustomInput
-          className="p-1.5"
-          placeholder="Ingrese su contraseña"
-          placeholderTextColor="#CDCDCD"
-          type="password"
-          icon={
-            <Ionicons
-              name="lock-closed-outline"
-              size={20}
-              color="#9CA3AF"
-            />
-          }
-        />
-
-        <View className="items-end mt-3">
-          <CustomButton
-            variant="text-only"
-            color="secondary"
-            FontText="text-xl"
-            underline
-            onPress={() => setOpenReset(true)}
-          >
-            ¿Olvidaste tu contraseña?
-          </CustomButton>
-        </View>
-      </View>
-
-      <View className="items-center mt-8">
-        <CustomButton
-          variant="contained"
-          onPress={() => router.push("/Home")}
-          className="w-80 p-5 rounded-l-3xl rounded-r-3xl border border-[#2DC75C]"
-          FontText="text-2xl"
+      <View style={styles.root}>
+        {/* HEADER (solo visual) */}
+        <Header
+          variant="normal"
+          height={headerHeight}
+          radius={70}
           color="sextary"
+          titleSize={titleSize}
+          showLogo={false}
+          style={styles.headerShadow}
         >
-          Iniciar Sesión
-        </CustomButton>
-      </View>
+          <View className="items-center px-6">
+            
+            <Text
+              className="font-Opensans-bold text-white text-center"
+              style={{ marginTop: 5, fontSize: 40, textShadowColor: "rgba(0,0,0,0.35)",
+              textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 4, }}
+            >
+              Iniciar Sesión
+            </Text>
+            
+            <Text 
+            className="text-white text-lg text-center mt-5 font-semibold"
+            style={{ fontSize: 20 }}
+            >
+              Por favor inicie sesión{"\n"}con una cuenta registrada
+            </Text>
+          
+          </View>
+        </Header>
 
-      <View className="mt-10 mb-6 border-t border-gray-300" />
+        {/* 🔒 ESPACIO FIJO DEL CONTENIDO (NO depende del header) */}
+        <View style={{ height: CONTENT_OFFSET }} />
 
-      <View className="items-center">
-        <Text className="text-xl text-gray-400 mb-1">
-          ¿No tienes una cuenta?
-        </Text>
+        {/* FORMULARIO (YA NO SE MUEVE) */}
+        <View style={styles.form}>
+          <Text className="text-2xl font-Opensans-medium text-black mb-2">
+            Correo Institucional
+          </Text>
 
-        <CustomButton
-          variant="text-only"
-          color="secondary"
-          FontText="text-xl"
-          underline
-          onPress={() => router.push("/register")}
-        >
-          Registrarte
-        </CustomButton>
-      </View>
+          <CustomInput
+            className="p-1.5"
+            placeholder="Ejemplo@sena.edu.co"
+            placeholderTextColor="#CDCDCD"
+            type="email"
+            icon={<Ionicons name="mail-outline" size={20} color="#9CA3AF" />}
+          />
 
-      <View className="flex-1 justify-end items-center">
-        <Text className="text-xl text-gray-400 mb-10">
-          Versión 0.0.1
-        </Text>
+          <Text className="text-2xl font-Opensans-medium text-black mt-6 mb-2">
+            Contraseña
+          </Text>
+
+          <CustomInput
+            className="p-1.5"
+            placeholder="Ingrese su contraseña"
+            placeholderTextColor="#CDCDCD"
+            type="password"
+            icon={<Ionicons name="lock-closed-outline" size={20} color="#9CA3AF" />}
+          />
+
+          <View className="items-end mt-3">
+            <CustomButton
+              variant="text-only"
+              color="secondary"
+              FontText="text-xl"
+              underline
+              onPress={() => setOpenReset(true)}
+            >
+              ¿Olvidaste tu contraseña?
+            </CustomButton>
+          </View>
+
+          <View className="items-center mt-8">
+            <CustomButton
+              variant="contained"
+              onPress={() => router.push("/Home")}
+              className="w-full p-5 rounded-r-full rounded-l-full border border-[#2DC75C]"
+              FontText="text-2xl"
+              color="sextary"
+            >
+              Iniciar Sesión
+            </CustomButton>
+          </View>
+
+          <View className="mt-10 mb-6 border-t border-gray-300" />
+
+          <View className="items-center">
+            <Text className="text-xl text-gray-400 mb-1">
+              ¿No tienes una cuenta?
+            </Text>
+
+            <CustomButton
+              variant="text-only"
+              color="secondary"
+              FontText="text-xl"
+              underline
+              onPress={() => router.push("/register")}
+            >
+              Registrarse
+            </CustomButton>
+          </View>
+        </View>
+
+        {/* FOOTER */}
+        <View className="items-center pb-6">
+          <Text className="text-xl text-gray-400">
+            Versión 0.0.1
+          </Text>
+        </View>
       </View>
 
       <ResetPasswordSheet
         visible={openReset}
         onClose={() => setOpenReset(false)}
-      >
-        <Text className="font-Opensans-bold text-2xl text-black mt-10">
-          Recuperar Contraseña
-        </Text>
-
-        <Text className="text-gray-400 mt-2 mb-4">
-          Ingrese su Correo Institucional
-        </Text>
-
-        <Text className="text-2xl font-Opensans-medium text-black mb-2 mt-7">
-          Correo Institucional
-        </Text>
-
-        <CustomInput
-          className="p-1.5"
-          placeholder="Ejemplo@sena.edu.co"
-          placeholderTextColor="#CDCDCD"
-          type="email"
-          icon={
-            <Ionicons
-              name="mail-outline"
-              size={20}
-              color="#9CA3AF"
-            />
-          }
+        >
+        <ResetPasswordFlow
+          // onCancel={() => setOpenReset(false)}
+          onDone={() => setOpenReset(false)}
         />
-
-        <View className="items-center mt-6">
-          <CustomButton
-            variant="contained"
-            className="w-80 p-5 rounded-l-3xl rounded-r-3xl border border-[#2DC75C]"
-            FontText="text-2xl"
-            color="sextary"
-            icon={
-              <Ionicons
-                name="send"
-                size={22}
-                color="#000000"
-                />
-            }
-            onPress={() => {
-              // lógica de envío de código
-              setOpenReset(false);
-            }}
-          >
-            Enviar Código
-          </CustomButton>
-        </View>
-
       </ResetPasswordSheet>
-    </View>
+    </SafeAreaView>
   );
 };
 
-// const styles = StyleSheet.create({
-//   lightBg: {
-//     position: "fixed",
-//     top: -90,
-//     left: 175,
-//     right: 0,
-//     height: "35%",
-//     backgroundColor: "#2DC75C",
-//     borderBottomLeftRadius: RADIUS,
-//     borderBottomRightRadius: RADIUS,
-//   },
-//   content: {
-//     flex: 1,
-//     alignItems: "center",
-//     paddingTop: 90,
-//     paddingHorizontal: 24,
-//   },
-//   logo: {
-//     top: -510,
-//     left: 120,
-//     width: 350,
-//     height: 350,
-//     marginBottom: 16,
-//   },
-// })
-
 export default LoginScreen;
+
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: "#ffffff" },
+  root: { flex: 1, backgroundColor: "#ffffff" },
+  form: { flex: 1, paddingHorizontal: 24 }, 
+
+  headerShadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.35,
+    shadowRadius: 14,
+    elevation: 18, // Android
+  },
+});
