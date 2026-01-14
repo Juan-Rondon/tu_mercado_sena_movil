@@ -3,10 +3,10 @@ import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Pressable,
-    ScrollView,
-    TextInput,
-    View,
+  Pressable,
+  ScrollView,
+  Text,
+  View
 } from 'react-native';
 
 const ChatID = () => {
@@ -15,6 +15,52 @@ const ChatID = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+
+    {/* encabezado de chat */}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 12,
+          paddingVertical: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: '#E5E5E5',
+          backgroundColor: '#FFF',
+        }}
+      >
+        {/* Volver */}
+        <Pressable onPress={() => router.push('/(tabs)/Chats')}>
+          <AntDesign name="arrow-left" size={24} color="#4C8392" />
+        </Pressable>
+
+        {/* Avatar */}
+        <View
+          style={{
+            width: 42,
+            height: 42,
+            borderRadius: 21,
+            borderWidth: 2,
+            borderColor: '#4C8392',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: 10,
+          }}
+        >
+          <AntDesign name="user" size={22} color="#4C8392" />
+        </View>
+
+        {/* Nombre */}
+        <Text
+          style={{
+            marginLeft: 10,
+            fontSize: 16,
+            fontWeight: '600',
+            color: '#000',
+          }}
+        >
+          Yhonaikerson Mejia
+        </Text>
+      </View>
       
       {/* MENSAJES */}
       <ScrollView
@@ -32,47 +78,12 @@ const ChatID = () => {
         </CustomButton>
       </ScrollView>
 
-      {/* CAMPO DE ENTRADA */}
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          padding: 10,
-          borderTopWidth: 1,
-          borderColor: '#DDD',
-          backgroundColor: '#FFF',
-        }}
-      >
-        <TextInput
-          placeholder="Escribe un mensaje..."
-          value={mensaje}
-          onChangeText={setMensaje}
-          style={{
-            flex: 1,
-            backgroundColor: '#F0F0F0',
-            borderRadius: 20,
-            paddingHorizontal: 14,
-            paddingVertical: 8,
-            fontSize: 15,
+        <CustomButton
+          variant="chat-input"
+          onSendMessage={(msg) => {
+            console.log('Mensaje:', msg);
           }}
         />
-
-        <Pressable
-          onPress={() => {
-            if (!mensaje.trim()) return;
-            console.log('Mensaje enviado:', mensaje);
-            setMensaje('');
-          }}
-          style={{
-            marginLeft: 8,
-            backgroundColor: '#4C8392',
-            padding: 10,
-            borderRadius: 20,
-          }}
-        >
-          <AntDesign name="arrow-up" size={18} color="#FFF" />
-        </Pressable>
-      </View>
     </View>
   );
 };

@@ -1,12 +1,13 @@
 import { AntDesign } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { Image, Pressable, PressableProps, Text, View } from 'react-native';
+import { Image, Pressable, PressableProps, Text, TextInput, View } from 'react-native';
 
 interface Props extends PressableProps {
   children?: React.ReactNode;
   color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'quinary' | 'sextary' | 'gray';
   className?: string;
-  variant?: 'contained' | 'text-only' | 'card' | 'icon-only' | 'desplegar' | 'card-center' | 'chat-card' | 'chat-bubble';
+  variant?: 'contained' | 'text-only' | 'card' | 'icon-only' | 'desplegar' | 'card-center' | 'chat-card' | 'chat-bubble'|'chat-input';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right' | 'up' | 'down' | 'center';
   source?: {};
@@ -26,6 +27,8 @@ interface Props extends PressableProps {
   // NUEVOS (opcionales) para responsividad sin romper nada
   imageAspectRatio?: number; // para variant="card"
   minCardHeight?: number;    // para variant="card-center"
+  // ponido por jean
+  onSendMessage?: (message: string) => void;
 }
 
 const CustomButton = React.forwardRef<View, Props>(
@@ -53,6 +56,7 @@ const CustomButton = React.forwardRef<View, Props>(
       options = [],
       placeholder = "Selecciona...",
       onSelect,
+      onSendMessage,
       style,
 
       // defaults seguros
@@ -69,6 +73,8 @@ const CustomButton = React.forwardRef<View, Props>(
     // jeancito tambien toco aqui
     const [showOptions, setShowOptions] = useState(false);
     const [selected, setSelected] = useState("");
+    const [inputMessage, setInputMessage] = useState('');
+
 
     const textColor = {
       primary: 'text-primary-90',
@@ -139,6 +145,29 @@ const CustomButton = React.forwardRef<View, Props>(
           </Text>
         </View>
       );
+    };
+      const openCamera = async () => {
+        const permission = await ImagePicker.requestCameraPermissionsAsync();
+          if (!permission.granted) return;
+
+          const result = await ImagePicker.launchCameraAsync({
+            quality: 0.7,
+          });
+
+          if (!result.canceled) {
+            console.log('Imagen cámara:', result.assets[0].uri);
+          }
+    };
+
+    const openGallery = async () => {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.7,
+      });
+
+      if (!result.canceled) {
+        console.log('Imagen galería:', result.assets[0].uri);
+      }
     };
 
     // Mismo if que tú usabas
@@ -319,6 +348,54 @@ const CustomButton = React.forwardRef<View, Props>(
         </Text>
       </View>
     </Pressable>
+  );
+} else if (variant === 'chat-input') {
+  return (
+    <View
+      className="
+        flex-row items-center
+        px-3 py-2
+        border-t border-gray-300
+        bg-white
+      "
+    >
+      {/* Cámara */}
+      <Pressable onPress={openCamera} className="p-2">
+        <AntDesign name="camera" size={22} color="#4C8392" />
+      </Pressable>
+
+      {/* Galería */}
+      <Pressable onPress={openGallery} className="p-2">
+        <AntDesign name="picture" size={22} color="#4C8392" />
+      </Pressable>
+
+      {/* Input */}
+      <TextInput
+        value={inputMessage}
+        onChangeText={setInputMessage}
+        placeholder="Escribe un mensaje..."
+        className="
+          flex-1
+          bg-gray-100
+          rounded-full
+          px-4 py-2
+          mx-2
+          text-base
+        "
+      />
+
+      {/* Enviar */}
+      <Pressable
+        onPress={() => {
+          if (!inputMessage.trim()) return;
+          onSendMessage?.(inputMessage);
+          setInputMessage('');
+        }}
+        className="p-2"
+      >
+        <AntDesign name="arrow-up" size={22} color="#4C8392" />
+      </Pressable>
+    </View>
   );
 }
 

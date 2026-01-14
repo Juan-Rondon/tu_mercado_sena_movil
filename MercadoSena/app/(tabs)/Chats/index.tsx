@@ -10,7 +10,7 @@ const chatScreen = () => {
     <View>
       <CustomButton
         variant="chat-card"
-        onPress={() => router.push('/')}
+        onPress={() => router.push('/chatUser/chatID')}
         actionText="Ese balón sí está bueno"
       >
         Styward Sneaydher
@@ -18,7 +18,7 @@ const chatScreen = () => {
 
       <CustomButton
         variant="chat-card"
-        onPress={() => router.push('/')}
+        onPress={() => router.push('/chatUser/chatID')}
         actionText="a como el pam de 1k"
       >
         Yhonaikerson Mejia
@@ -26,7 +26,7 @@ const chatScreen = () => {
 
       <CustomButton
         variant="chat-card"
-        onPress={() => router.push('/')}
+        onPress={() => router.push('/chatUser/chatID')}
         actionText="el perro vien por separado?"
       >
         Gabriel buena Vista Mira Flores (el ciego)
