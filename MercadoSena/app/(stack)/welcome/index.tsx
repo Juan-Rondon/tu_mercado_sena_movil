@@ -4,7 +4,7 @@ import Header from "@/components/headers/Header";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, View, useWindowDimensions } from "react-native";
+import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const welcomeScreen = () => {
@@ -56,8 +56,19 @@ const welcomeScreen = () => {
         logoSize={130}
         titleSize={34}
         FontText="font-bold"
+        style={styles.headerShadow}
       >
-        Tu Mercado SENA
+        <Text
+          className="font-bold text-white text-center"
+          style={{
+            fontSize: 34,
+            textShadowColor: "rgba(0,0,0,0.35)",
+            textShadowOffset: { width: 0, height: 2 },
+            textShadowRadius: 4,
+          }}
+          >
+            Tu Mercado SENA
+        </Text>
       </Header>
 
         {/* Reservar espacio real del header absolute */}
@@ -72,7 +83,7 @@ const welcomeScreen = () => {
         <View style={styles.buttonsWrap}>
           <CustomButton
             variant="contained"
-            className="w-full p-5 rounded-r-3xl rounded-l-3xl shadow-lg"
+            className="w-full p-5 rounded-r-full rounded-l-full shadow-lg"
             color="tertiary"
             FontText="text-2xl"
             onPress={() => router.push("/(stack)/login")}
@@ -82,7 +93,7 @@ const welcomeScreen = () => {
 
           <CustomButton
             variant="contained"
-            className="w-full p-5 rounded-r-3xl rounded-l-3xl shadow-lg border border-[#2DC75C]"
+            className="w-full p-5 rounded-r-full rounded-l-full shadow-lg border border-[#2DC75C]"
             color="sextary"
             FontText="text-2xl"
             onPress={() => router.push("/(stack)/register")}
@@ -101,21 +112,21 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: "#ffffff" },
 
   // Contenedor principal SIN padding
-  root: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    justifyContent: "space-between",
-  },
+  root: { flex: 1, backgroundColor: "#ffffff", justifyContent: "space-between" },
 
-  carouselWrap: {
-    flex: 1,
-    justifyContent: "center",
-  },
+  form: { flex: 1, paddingHorizontal: 24 },
+
+  carouselWrap: { flex: 1, justifyContent: "center" },
 
   // Padding solo en botones
-  buttonsWrap: {
-    paddingHorizontal: 20,
-    paddingBottom: 60,
-    gap: 16,
+  buttonsWrap: { paddingHorizontal: 20, paddingBottom: 60, gap: 16 },
+
+  headerShadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.35,
+    shadowRadius: 14,
+    elevation: 18, // Android
   },
+
 });

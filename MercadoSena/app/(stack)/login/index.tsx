@@ -19,7 +19,7 @@ const LoginScreen = () => {
   const headerHeight = Math.min(220, Math.max(180, height * 0.25));
 
   // 🔹 2) POSICIÓN FIJA DEL CONTENIDO (NO CAMBIA)
-  const CONTENT_OFFSET = 260;
+  const CONTENT_OFFSET = 280;
 
   const titleSize =
     width < 360 ? 34 :
@@ -106,7 +106,7 @@ const LoginScreen = () => {
             <CustomButton
               variant="contained"
               onPress={() => router.push("/Home")}
-              className="w-full p-5 rounded-3xl border border-[#2DC75C]"
+              className="w-full p-5 rounded-r-full rounded-l-full border border-[#2DC75C]"
               FontText="text-2xl"
               color="sextary"
             >
@@ -128,7 +128,7 @@ const LoginScreen = () => {
               underline
               onPress={() => router.push("/register")}
             >
-              Registrarte
+              Registrarse
             </CustomButton>
           </View>
         </View>
