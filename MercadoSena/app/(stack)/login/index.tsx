@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import ResetPasswordFlow from "@/components/auth/ResetPasswordFlow";
 import CustomButton from "@/components/buttons/CustomButton";
 import Header from "@/components/headers/Header";
 import CustomInput from "@/components/inputs/CustomInput";
@@ -144,8 +145,11 @@ const LoginScreen = () => {
       <ResetPasswordSheet
         visible={openReset}
         onClose={() => setOpenReset(false)}
-      >
-        {/* igual que antes */}
+        >
+        <ResetPasswordFlow
+          // onCancel={() => setOpenReset(false)}
+          onDone={() => setOpenReset(false)}
+        />
       </ResetPasswordSheet>
     </SafeAreaView>
   );

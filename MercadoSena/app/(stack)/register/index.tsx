@@ -103,18 +103,6 @@ const LoginScreen = () => {
             icon={<Ionicons name="lock-closed-outline" size={20} color="#9CA3AF" />}
           />
 
-          <View className="items-end mt-3">
-            <CustomButton
-              variant="text-only"
-              color="secondary"
-              FontText="text-xl"
-              underline
-              onPress={() => setOpenReset(true)}
-            >
-              ¿Olvidaste tu contraseña?
-            </CustomButton>
-          </View>
-
           <View className="items-center mt-8">
             <CustomButton
               variant="contained"
@@ -147,11 +135,11 @@ const LoginScreen = () => {
         </View>
 
         {/* FOOTER */}
-        {/* <View className="items-center pb-6">
+        <View className="items-center pb-6">
           <Text className="text-xl text-gray-400">
             Versión 0.0.1
           </Text>
-        </View> */}
+        </View>
       </View>
 
       <ResetPasswordSheet
