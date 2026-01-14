@@ -1,94 +1,194 @@
-import Feather from '@expo/vector-icons/Feather';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import Feather from "@expo/vector-icons/Feather";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { BlurView } from "expo-blur";
+import { Tabs } from "expo-router";
+import React, { useRef } from "react";
+import {
+  Animated,
+  Image,
+  Platform,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
-const tabsLayout = () => {
+const TAB_HEIGHT = 72;
+
+export default function tabsLayout() {
+  const insets = useSafeAreaInsets();
+
+  const bottom = Math.max(insets.bottom, 10) + 10;
+
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
-      
-      <Tabs.Screen
-        name="Home/index"
-        options={{
-          title: 'Inicio',
-          tabBarIcon: ({ color = '#538392' }) => (
-            <Ionicons name="home-outline" size={28} color={'#000000'} />
-          ),
-        }}
-      />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} edges={["top"]}>
+      <Tabs
+        screenOptions={{
+          headerShown: false,
 
-      <Tabs.Screen
-        name="Chats/index"
-        options={{
-          title: 'Chats',
-          tabBarIcon: ({ color }) => (
-            <Feather name="message-circle" size={28} color={'#000000'} />
-          ),
-        }}
-      />
+          tabBarActiveTintColor: "#2f9d48",
+          tabBarInactiveTintColor: "#111827",
 
-      <Tabs.Screen
-        name="Vender/index"
-        options={{
-          title: 'Vender',
-          tabBarButton: ( props ) =>
-            <FloatButtom 
-            {...props}
-            />
-        }}
-      />
+          sceneContainerStyle: {
+            paddingBottom: TAB_HEIGHT + bottom + 14,
+            backgroundColor: "#fff",
+          },
 
-      <Tabs.Screen
-        name="Favoritos/index"
-        options={{
-          title: 'Favoritos',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="heart-outline" size={26} color={'#000000'} />
-          ),
-        }}
-      />
+          tabBarBackground: () =>
+            Platform.OS === "ios" ? (
+              <BlurView
+                intensity={35}
+                tint="light"
+                style={{
+                  flex: 1,
+                  borderRadius: 40,
+                  overflow: "hidden",
+                }}
+              />
+            ) : null,
 
-      <Tabs.Screen
-        name="Configuracion/index"
-        options={{
-          title: 'Configuracion',
-          tabBarIcon: ({ color }) => (
-            <Feather name="settings" size={26} color={'#000000'} />
-          ),
+          tabBarStyle: {
+            position: "absolute",
+
+            left: 0,
+            right: 0,
+            marginHorizontal: 18,
+            bottom: bottom,
+
+            height: TAB_HEIGHT,
+            borderRadius: 40,
+            // overflow: "hidden",
+
+            backgroundColor:
+              Platform.OS === "android"
+                ? "rgba(255,255,255,0.85)"
+                : "transparent",
+
+            borderWidth: 1,
+            borderColor: "rgba(0,0,0,0.08)",
+
+            shadowColor: "#000",
+            shadowOpacity: 0.1,
+            shadowOffset: { width: 0, height: 10 },
+            shadowRadius: 18,
+            elevation: 8,
+
+            paddingTop: 8,
+            paddingBottom: 10,
+          },
+
+          tabBarLabelStyle: {
+            fontSize: 12,
+            marginBottom: 2,
+          },
         }}
-      />
-    </Tabs>
-  )
+      >
+        <Tabs.Screen
+          name="Home/index"
+          options={{
+            title: "Inicio",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="home-outline" size={26} color={color} />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="Chats/index"
+          options={{
+            title: "Chats",
+            tabBarIcon: ({ color }) => (
+              <Feather name="message-circle" size={26} color={color} />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="Vender/index"
+          options={{
+            title: "Vender",
+            tabBarButton: (props) => <FloatButtom {...props} />,
+          }}
+        />
+
+        <Tabs.Screen
+          name="Favoritos/index"
+          options={{
+            title: "Favoritos",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="heart-outline" size={24} color={color} />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="Configuracion/index"
+          options={{
+            title: "Config",
+            tabBarIcon: ({ color }) => (
+              <Feather name="settings" size={24} color={color} />
+            ),
+          }}
+        />
+      </Tabs>
+    </SafeAreaView>
+  );
 }
 
-function FloatButtom({ onPress }) {
-  return(
-    <TouchableOpacity
-    onPress={onPress}
-    style={{ 
-      width: 70, 
-      height: 70, 
-      borderRadius: 40, 
-      backgroundColor: '#2f9d48',
-      justifyContent: 'center', 
-      alignItems: 'center',
-      top: -25,
-      right: -5, 
-      shadowColor: '#000', 
-      shadowOpacity: 0.3, 
-      shadowRadius: 8, 
-      elevation: 6,
-      marginBottom: 20,
-    }}
+/** ✅ Botón flotante con micro-animación “bounce” */
+function FloatButtom({ onPress }: { onPress?: () => void }) {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const pressIn = () => {
+    Animated.spring(scale, {
+      toValue: 0.93,
+      useNativeDriver: true,
+      speed: 22,
+      bounciness: 6,
+    }).start();
+  };
+
+  const pressOut = () => {
+    Animated.spring(scale, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 22,
+      bounciness: 6,
+    }).start();
+  };
+
+  return (
+    <TouchableWithoutFeedback
+      onPress={onPress}
+      onPressIn={pressIn}
+      onPressOut={pressOut}
     >
-      <Image
-      source={require('../../assets/images/logo1.png')}
-      style={{ width: 80, height: 130, top: -3 }} 
-      />
-    </TouchableOpacity>
-  )
+      <Animated.View
+        style={{
+          transform: [{ scale }],
+
+          width: 66,
+          height: 66,
+          borderRadius: 40,
+          backgroundColor: "#2f9d48",
+          justifyContent: "center",
+          alignItems: "center",
+
+          // ✅ flota encima de la barra, sin descuadrar pantallas
+          marginTop: -28,
+          marginLeft: 5,
+
+          shadowColor: "#000",
+          shadowOpacity: 0.25,
+          shadowRadius: 10,
+          shadowOffset: { width: 0, height: 6 },
+          elevation: 10,
+        }}
+      >
+        <Image
+          source={require("../../assets/images/logo1.png")}
+          resizeMode="contain"
+          style={{ width: 78, height: 110, top: -3 }}
+        />
+      </Animated.View>
+    </TouchableWithoutFeedback>
+  );
 }
-
-export default tabsLayout
-

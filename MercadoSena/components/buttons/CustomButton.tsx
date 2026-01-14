@@ -106,7 +106,7 @@ const CustomButton = React.forwardRef<View, Props>(
         return (
           <>
             <View className="flex-row items-center justify-center">
-              <Text className={`text-center w-full ${textColor} ${FontText}`}>
+              <Text numberOfLines={2} className={`text-center w-full ${textColor} ${FontText}`}>
                 {children}
               </Text>
             </View>
@@ -163,13 +163,17 @@ const CustomButton = React.forwardRef<View, Props>(
           {...rest}
         >
           <Image
+            resizeMode="cover"
             // antes: height: 150 (fijo)
             // ahora: aspectRatio responsivo (default 16/9)
             style={{
               width: '100%',
-              aspectRatio: imageAspectRatio,
+              height: 150,
+              overflow: 'hidden',
+              // aspectRatio: imageAspectRatio,
               borderRadius: 8,
-              marginBottom: 8
+              marginBottom: 8,
+              // overflow: "hidden",
             }}
             source={source || defaultImage}
           />
@@ -183,7 +187,7 @@ const CustomButton = React.forwardRef<View, Props>(
       return (
         <Pressable
           ref={ref}
-          className={`p-3 rounded-md w-full ${btnColor} active:opacity-90 ${className} border border-gray-200`}
+          className={`p-3 rounded-md w-full ${btnColor} active:opacity-90 ${className} border border-gray-200 overflow-hidden`}
           onPress={onPress}
           onLongPress={onLongPress}
           style={style}
