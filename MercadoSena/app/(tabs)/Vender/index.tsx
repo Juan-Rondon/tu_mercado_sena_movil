@@ -80,7 +80,8 @@ const venderScreen = () => {
 
   return (
     <ScrollView className="bg-white">
-      <View className="bg-quinary-400 py-4 items-center">
+      {/* <View className="bg-quinary-400 py-4 items-center"></View> */}
+      <View className="bg-sextary-500 py-4 items-center">
         <Text className="text-white text-lg font-semibold">
           Publicar Nuevo Producto
         </Text>
@@ -92,7 +93,7 @@ const venderScreen = () => {
         <CustomInput />
 
         <Text className="font-semibold mb-1 mt-2">
-          Descripción (máx 185 caracteres) *
+          Descripción (max 185 caracteres) *
         </Text>
         <TextInput
           style={styles.input}

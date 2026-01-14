@@ -11,17 +11,20 @@ const chatScreen = () => {
       <CustomButton
         variant="chat-card"
         onPress={() => router.push('/chatUser/chatID')}
-        actionText="Ese balón sí está bueno"
+        actionText="Ese balon si esta bueno"
       >
         Styward Sneaydher
       </CustomButton>
 
+        
       <CustomButton
+
         variant="chat-card"
         onPress={() => router.push('/chatUser/chatID')}
         actionText="a como el pam de 1k"
       >
         Yhonaikerson Mejia
+        
       </CustomButton>
 
       <CustomButton

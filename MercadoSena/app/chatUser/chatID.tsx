@@ -6,7 +6,7 @@ import {
   Pressable,
   ScrollView,
   Text,
-  View
+  View,
 } from 'react-native';
 
 const ChatID = () => {
@@ -17,8 +17,10 @@ const ChatID = () => {
     <View style={{ flex: 1, backgroundColor: '#FFF' }}>
 
     {/* encabezado de chat */}
+    
       <View
         style={{
+          paddingTop: 35,
           flexDirection: 'row',
           alignItems: 'center',
           paddingHorizontal: 12,
@@ -61,7 +63,7 @@ const ChatID = () => {
           Yhonaikerson Mejia
         </Text>
       </View>
-      
+    
       {/* MENSAJES */}
       <ScrollView
         contentContainerStyle={{
