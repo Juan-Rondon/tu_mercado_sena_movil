@@ -9,21 +9,22 @@ interface Props {
   onAvatarPress?: () => void;
   placeholder?: string;
   className?: string;
+
+  // ✅ nuevo: para que Home no tenga doble padding
+  noOuterPadding?: boolean;
 }
 
-const SearchBar = ({ 
-  value, 
-  onChangeText, 
-  avatar, 
-  onAvatarPress, 
-  placeholder, 
-  className 
-
+const SearchBar = ({
+  value,
+  onChangeText,
+  avatar,
+  onAvatarPress,
+  placeholder,
+  className,
+  noOuterPadding = false,
 }: Props) => {
   return (
-
-    <View style={styles.container}>
-      
+    <View style={[styles.container, noOuterPadding && styles.containerNoPad]}>
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#666" style={{ marginRight: 8 }} />
 
@@ -36,19 +37,25 @@ const SearchBar = ({
           className={className}
         />
       </View>
-
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: "100%",
     paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 8,
     flexDirection: "row",
     alignItems: "center",
+  },
+
+  // ✅ mismo componente, solo quita padding externo cuando ya lo pone la pantalla
+  containerNoPad: {
+    paddingHorizontal: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
 
   searchContainer: {
