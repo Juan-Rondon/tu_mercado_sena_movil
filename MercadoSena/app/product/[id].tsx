@@ -59,7 +59,7 @@ export default function ProductDetail() {
                 source={img}
                 resizeMode="cover"
                 style={{
-                  width: 335, 
+                  width: 331, 
                   height: 240,
                   borderRadius: 16,
                   marginRight: 8,
