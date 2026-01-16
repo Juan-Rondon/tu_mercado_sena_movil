@@ -7,6 +7,11 @@ import { Image, Pressable, ScrollView, Text, View } from "react-native";
 const defaultProductImage = require("../../assets/images/imagedefault.png");
 
 export default function ProductDetail() {
+  const productImages = [
+    require("../../assets/images/imagedefault.png"),
+    require("../../assets/images/imagedefault.png"),
+    require("../../assets/images/imagedefault.png"),
+  ];
   const { id } = useLocalSearchParams();
   const router = useRouter();
 
@@ -17,6 +22,7 @@ export default function ProductDetail() {
     seller: "Usuario vendedor",
     image: require("../../assets/images/imagedefault.png"),
   };
+
 
   return (
 
@@ -41,11 +47,28 @@ export default function ProductDetail() {
 
       <View className="p-4">
 
-        <Image
-          source={product.image}
-          className="w-full h-60 rounded-xl mb-4 mt-16"
-          resizeMode="cover"
-        />
+        <View className="mt-16 mb-4">
+          <ScrollView
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+          >
+            {productImages.map((img, index) => (
+              <Image
+                key={index}
+                source={img}
+                resizeMode="cover"
+                style={{
+                  width: 335, 
+                  height: 240,
+                  borderRadius: 16,
+                  marginRight: 8,
+                }}
+              />
+            ))}
+          </ScrollView>
+        </View>
+
 
         <Text className="text-2xl font-bold mb-2">{product.name}</Text>
         <Text className="text-xl text-gray-700">{product.price}</Text>
