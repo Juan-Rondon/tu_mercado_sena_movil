@@ -1,33 +1,37 @@
-import CustomButton from '@/components/buttons/CustomButton';
-import CustomInput from '@/components/inputs/CustomInput';
-import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import CustomButton from "@/components/buttons/CustomButton";
+import CustomInput from "@/components/inputs/CustomInput";
+import * as ImagePicker from "expo-image-picker";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
 import {
   Alert,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
-} from 'react-native';
+} from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 const venderScreen = () => {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [images, setImages] = useState<string[]>([]);
 
   const pickImages = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permiso requerido', 'Necesito acceso a tu galería.');
+    if (status !== "granted") {
+      Alert.alert("Permiso requerido", "Necesito acceso a tu galería.");
       return;
     }
 
     const remaining = 3 - images.length;
     if (remaining <= 0) {
-      Alert.alert('Límite alcanzado', 'Máximo 3 imágenes.');
+      Alert.alert("Límite alcanzado", "Máximo 3 imágenes.");
       return;
     }
 
@@ -39,27 +43,21 @@ const venderScreen = () => {
     });
 
     if (!result.canceled) {
-      const picked = result.assets.map(a => a.uri);
-      setImages(prev => [...prev, ...picked].slice(0, 3));
+      const picked = result.assets.map((a) => a.uri);
+      setImages((prev) => [...prev, ...picked].slice(0, 3));
     }
   };
 
   const removeImage = (index: number) => {
-    setImages(prev => prev.filter((_, i) => i !== index));
+    setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const Box = ({ uri, index, isUpload }: any) => (
-    <Pressable
-      onPress={isUpload ? pickImages : undefined}
-      style={styles.box}
-    >
+    <Pressable onPress={isUpload ? pickImages : undefined} style={styles.box}>
       {uri ? (
         <>
-          <Image source={{ uri }} style={styles.image} />
-          <Pressable
-            onPress={() => removeImage(index)}
-            style={styles.removeBtn}
-          >
+          <Image source={{ uri }} style={styles.image} resizeMode="cover" />
+          <Pressable onPress={() => removeImage(index)} style={styles.removeBtn}>
             <Text style={styles.removeText}>×</Text>
           </Pressable>
         </>
@@ -79,162 +77,166 @@ const venderScreen = () => {
   );
 
   return (
-    <ScrollView className="bg-white">
-      {/* <View className="bg-quinary-400 py-4 items-center"></View> */}
-      <View className="bg-sextary-600 py-4 items-center">
-        <Text className="text-white text-lg font-semibold">
-          Publicar Nuevo Producto
-        </Text>
-      </View>
-
-      <View className="m-4 rounded-xl border border-sextary-600 p-4 bg-white">
-
-        <Text className="font-semibold mb-1">Nombre del Producto *</Text>
-        <CustomInput />
-
-        <Text className="font-semibold mb-1 mt-2">
-          Descripción (max 185 caracteres) *
-        </Text>
-        <TextInput
-          style={styles.input}
-          multiline
-          maxLength={185}
-          placeholder="Ingrese descripción"
-        />
-
-        <View className="flex-row justify-between mt-3">
-          <View style={{ width: '48%' }}>
-            <Text className="font-semibold mb-1">Precio (COP)*</Text>
-            <CustomInput type="number" />
-          </View>
-          <View style={{ width: '48%' }}>
-            <Text className="font-semibold mb-1">Cantidad *</Text>
-            <CustomInput type="number" />
-          </View>
-        </View>
-
-        <Text className="font-semibold mb-1 mt-3">Categoría *</Text>
-        <CustomButton
-          variant="desplegar"
-          options={['Tecnologia', 'Ropa', 'Hogar', 'Accesorios', 'Otros']}
-          placeholder="Seleccione una categoría"
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} edges={["top", "bottom"]}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
+        <ScrollView
+          style={{ flex: 1 }}
+          className="bg-white"
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{
+            paddingBottom: Math.max(insets.bottom, 12) + 90,
+          }}
+        >
           
-        />
+          {/* HEADER */}
+          <View
+            className="bg-sextary-600 items-center"
+            style={{ paddingTop: 12, paddingBottom: 12 }}
+          >
+            <Text className="text-white text-lg font-semibold">
+              Publicar Nuevo Producto
+            </Text>
+          </View>
 
-        <Text className="font-semibold mb-1 mt-3">Condición *</Text>
-        <CustomButton
-          variant="desplegar"
-          options={['Nuevo', 'Usado', 'Reparado']}
-          placeholder="Seleccione una condición"
-        />
+          {/* CARD FORM */}
+          <View className="m-4 rounded-xl border border-sextary-600 p-4 bg-white">
+            <Text className="font-semibold mb-1">Nombre del Producto *</Text>
+            <CustomInput />
 
-        <Text className="font-semibold text-center mt-4">
-          Imagen del producto
-        </Text>
-        <Text className="text-center text-gray-400 text-sm mb-3">
-          Máximo 3
-        </Text>
+            <Text className="font-semibold mb-1 mt-2">
+              Descripción (max 185 caracteres) *
+            </Text>
+            <TextInput
+              style={styles.input}
+              multiline
+              maxLength={185}
+              placeholder="Ingrese descripción"
+              placeholderTextColor="#9CA3AF"
+            />
 
-        {/* GRID 2x2 */}
-        <View style={styles.grid}>
-          <Box isUpload />
-          <Box uri={images[0]} index={0} />
-          <Box uri={images[1]} index={1} />
-          <Box uri={images[2]} index={2} />
-        </View>
+            <View className="flex-row justify-between mt-3">
+              <View style={{ width: "48%" }}>
+                <Text className="font-semibold mb-1">Precio (COP)*</Text>
+                <CustomInput type="number" />
+              </View>
+              <View style={{ width: "48%" }}>
+                <Text className="font-semibold mb-1">Cantidad *</Text>
+                <CustomInput type="number" />
+              </View>
+            </View>
 
-        <CustomButton
-          variant="contained"
-          className="rounded-full py-3 bg-sextary-600 mt-4"
-        >
-          <Text className="text-white text-lg text-center">
-            Publicar Producto
-          </Text>
-        </CustomButton>
+            <Text className="font-semibold mb-1 mt-3">Categoría *</Text>
+            <CustomButton
+              variant="desplegar"
+              options={["Tecnologia", "Ropa", "Hogar", "Accesorios", "Otros"]}
+              placeholder="Seleccione una categoría"
+            />
 
-        <CustomButton
-          variant="contained"
-          className="bg-red-600 rounded-full py-3 mt-3"
-        >
-          <Text className="text-white text-lg text-center">
-            Cancelar
-          </Text>
-        </CustomButton>
+            <Text className="font-semibold mb-1 mt-3">Condición *</Text>
+            <CustomButton
+              variant="desplegar"
+              options={["Nuevo", "Usado", "Reparado"]}
+              placeholder="Seleccione una condición"
+            />
 
-      </View>
-    </ScrollView>
+            <Text className="font-semibold text-center mt-4">Imagen del producto</Text>
+            <Text className="text-center text-gray-400 text-sm mb-3">Máximo 3</Text>
+
+            {/* GRID 2x2 (responsivo por % + aspectRatio) */}
+            <View style={styles.grid}>
+              <Box isUpload />
+              <Box uri={images[0]} index={0} />
+              <Box uri={images[1]} index={1} />
+              <Box uri={images[2]} index={2} />
+            </View>
+
+            <CustomButton variant="contained" className="rounded-full py-3 bg-sextary-600 mt-4">
+              <Text className="text-white text-lg text-center">Publicar Producto</Text>
+            </CustomButton>
+
+            <CustomButton variant="contained" className="bg-red-600 rounded-full py-3 mt-3">
+              <Text className="text-white text-lg text-center">Cancelar</Text>
+            </CustomButton>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   input: {
-    height: 100,
-    backgroundColor: '#F5F5F7',
+    height: 110, // ✅ un pelín más estable en pantallas pequeñas
+    backgroundColor: "#F5F5F7",
     borderRadius: 12,
     padding: 10,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
 
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
 
   box: {
-    width: '48%',
+    width: "48%",
     aspectRatio: 1,
     borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: '#9CA3AF',
+    borderStyle: "dashed",
+    borderColor: "#9CA3AF",
     borderRadius: 12,
     marginBottom: 8,
-    backgroundColor: '#fff',
-    overflow: 'hidden',
+    backgroundColor: "#fff",
+    overflow: "hidden",
   },
 
   image: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
 
   placeholder: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   plus: {
     fontSize: 24,
-    color: '#9CA3AF',
+    color: "#9CA3AF",
   },
 
   uploadText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#6B7280',
+    fontWeight: "600",
+    color: "#6B7280",
   },
 
   counter: {
     marginTop: 6,
-    color: '#9CA3AF',
+    color: "#9CA3AF",
   },
 
   removeBtn: {
-    position: 'absolute',
+    position: "absolute",
     top: 4,
     right: 4,
     width: 22,
     height: 22,
     borderRadius: 11,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "rgba(0,0,0,0.6)",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   removeText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 
