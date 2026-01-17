@@ -16,10 +16,10 @@ const LoginScreen = () => {
   const [openReset, setOpenReset] = useState(false);
   const { height, width } = useWindowDimensions();
 
-  // 🔹 1) ALTURA VISUAL DEL HEADER (puedes cambiarla libremente)
+  // ALTURA VISUAL DEL HEADER (puedes cambiarla libremente)
   const headerHeight = Math.min(220, Math.max(180, height * 0.25));
 
-  // 🔹 2) POSICIÓN FIJA DEL CONTENIDO (NO CAMBIA)
+  // POSICIÓN FIJA DEL CONTENIDO (NO CAMBIA)
   const CONTENT_OFFSET = 280;
 
   const titleSize =
@@ -62,7 +62,7 @@ const LoginScreen = () => {
           </View>
         </Header>
 
-        {/* 🔒 ESPACIO FIJO DEL CONTENIDO (NO depende del header) */}
+        {/* ESPACIO FIJO DEL CONTENIDO (NO depende del header) */}
         <View style={{ height: CONTENT_OFFSET }} />
 
         {/* FORMULARIO (YA NO SE MUEVE) */}
