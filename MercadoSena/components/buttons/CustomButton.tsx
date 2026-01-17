@@ -257,7 +257,7 @@ const CustomButton = React.forwardRef<View, Props>(
         <View className="w-full">
           <Pressable
             onPress={() => setShowOptions(!showOptions)}
-            className={`p-3 rounded-lg bg-white border border-black-500 ${className}`}
+            className={`p-3 rounded-lg bg-white border border-sextary-600 ${className}`}
             style={style}
             {...rest}
           >
@@ -296,7 +296,7 @@ const CustomButton = React.forwardRef<View, Props>(
           className={`
             flex-row items-center
             bg-[#E5E5E5]
-            border border-[#4C8392]
+            border border-sextary-600
             rounded-xl
             px-3 py-3
             mb-3
@@ -308,8 +308,8 @@ const CustomButton = React.forwardRef<View, Props>(
           {...rest}
         >
           {/* Avatar */}
-          <View className="w-12 h-12 rounded-full border-2 border-[#4C8392] items-center justify-center mr-3">
-            <AntDesign name="user" size={26} color="#4C8392" />
+          <View className="w-12 h-12 rounded-full border-2 border-sextary-600 items-center justify-center mr-3">
+            <AntDesign name="user" size={26} color="#2FBF2F" />
           </View>
 
           {/* Texto */}
@@ -365,12 +365,12 @@ const CustomButton = React.forwardRef<View, Props>(
     >
       {/* Cámara */}
       <Pressable onPress={openCamera} className="p-2">
-        <AntDesign name="camera" size={22} color="#4C8392" />
+        <AntDesign name="camera" size={22} color="#2FBF2F" />
       </Pressable>
 
       {/* Galería */}
       <Pressable onPress={openGallery} className="p-2">
-        <AntDesign name="picture" size={22} color="#4C8392" />
+        <AntDesign name="picture" size={22} color="#2FBF2F" />
       </Pressable>
 
       {/* Input */}
@@ -397,7 +397,7 @@ const CustomButton = React.forwardRef<View, Props>(
         }}
         className="p-2"
       >
-        <AntDesign name="arrow-up" size={22} color="#4C8392" />
+        <AntDesign name="arrow-up" size={22} color="#2FBF2F" />
       </Pressable>
     </View>
   );

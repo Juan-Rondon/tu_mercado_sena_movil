@@ -32,7 +32,7 @@ const ChatID = () => {
       >
         {/* Volver */}
         <Pressable onPress={() => router.push('/(tabs)/Chats')}>
-          <AntDesign name="arrow-left" size={24} color="#4C8392" />
+          <AntDesign name="arrow-left" size={24} color="#2FBF2F" />
         </Pressable>
 
         {/* Avatar */}
@@ -42,13 +42,13 @@ const ChatID = () => {
             height: 42,
             borderRadius: 21,
             borderWidth: 2,
-            borderColor: '#4C8392',
+            borderColor: '#2FBF2F',
             alignItems: 'center',
             justifyContent: 'center',
             marginLeft: 10,
           }}
         >
-          <AntDesign name="user" size={22} color="#4C8392" />
+          <AntDesign name="user" size={22} color="#2FBF2F" />
         </View>
 
         {/* Nombre */}

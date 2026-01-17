@@ -81,13 +81,13 @@ const venderScreen = () => {
   return (
     <ScrollView className="bg-white">
       {/* <View className="bg-quinary-400 py-4 items-center"></View> */}
-      <View className="bg-sextary-500 py-4 items-center">
+      <View className="bg-sextary-600 py-4 items-center">
         <Text className="text-white text-lg font-semibold">
           Publicar Nuevo Producto
         </Text>
       </View>
 
-      <View className="m-4 rounded-xl border border-quinary-400 p-4 bg-white">
+      <View className="m-4 rounded-xl border border-sextary-600 p-4 bg-white">
 
         <Text className="font-semibold mb-1">Nombre del Producto *</Text>
         <CustomInput />
@@ -118,6 +118,7 @@ const venderScreen = () => {
           variant="desplegar"
           options={['Tecnologia', 'Ropa', 'Hogar', 'Accesorios', 'Otros']}
           placeholder="Seleccione una categoría"
+          
         />
 
         <Text className="font-semibold mb-1 mt-3">Condición *</Text>
@@ -144,7 +145,7 @@ const venderScreen = () => {
 
         <CustomButton
           variant="contained"
-          className="rounded-full py-3 bg-sextary-400 mt-4"
+          className="rounded-full py-3 bg-sextary-600 mt-4"
         >
           <Text className="text-white text-lg text-center">
             Publicar Producto
