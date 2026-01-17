@@ -1,8 +1,9 @@
 import CustomButton from "@/components/buttons/CustomButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import React, { useMemo } from "react";
+import { Image, Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 const defaultProductImage = require("../../assets/images/imagedefault.png");
 
@@ -15,150 +16,120 @@ export default function ProductDetail() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
 
-  const product = {
-    id,
-    name: "Producto de ejemplo",
-    price: "$9.99",
-    seller: "Usuario vendedor",
-    image: require("../../assets/images/imagedefault.png"),
-  };
+  const { width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+
+  const product = useMemo(
+    () => ({
+      id,
+      name: "Producto de ejemplo",
+      price: "$9.99",
+      seller: "Usuario vendedor",
+      image: require("../../assets/images/imagedefault.png"),
+    }),
+    [id]
+  );
+
+  // Responsivo: altura imagen según pantalla
+  const imageHeight = Math.max(220, Math.min(320, width * 0.75));
+
+  // Responsivo: ancho de cards recomendadas
+  const cardWidth = Math.max(180, Math.min(220, width * 0.55));
 
 
   return (
-
-    <>
-    <ScrollView contentContainerStyle={{ padding: 16 }}>
-
-    
-      
-        <View className="left-14 top-16">
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} edges={["top", "bottom"]}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+          paddingTop: 12,
+          paddingBottom: 24 + insets.bottom,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header simple (sin posiciones fijas) */}
+        <View style={{ marginBottom: 12, alignItems: "flex-start" }}>
           <CustomButton
             variant="text-only"
             color="secondary"
-            className="w-1/2 right-28"
-            FontText='text-xl'
-            onPress={() => router.push('/(tabs)/Home')}
+            FontText="text-xl"
+            onPress={() => router.push("/(tabs)/Home")}
             icon={<Ionicons name="arrow-back" size={20} color="#1C65E3" />}
-            iconPosition='left'
+            iconPosition="left"
           >
             Volver
           </CustomButton>
         </View>
 
-      <View className="p-4">
+        {/* Imagen */}
+        <Image
+          source={product.image}
+          style={{ width: "100%", height: imageHeight, borderRadius: 16 }}
+          resizeMode="cover"
+        />
 
-        <View className="mt-16 mb-4">
-          <ScrollView
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
+        {/* Info */}
+        <View style={{ paddingTop: 16 }}>
+          <Text className="text-2xl font-bold mb-2">{product.name}</Text>
+          <Text className="text-xl text-gray-700">{product.price}</Text>
+
+          <Text className="mt-4 text-gray-600">Vendido por:</Text>
+          <Text className="text-lg font-medium">{product.seller}</Text>
+
+          <Pressable
+            style={{
+              marginTop: 18,
+              backgroundColor: "#16a34a",
+              paddingVertical: 14,
+              borderRadius: 14,
+            }}
+            onPress={() => router.push("/(tabs)/Chats")}
           >
-            {productImages.map((img, index) => (
-              <Image
-                key={index}
-                source={img}
-                resizeMode="cover"
-                style={{
-                  width: 331, 
-                  height: 240,
-                  borderRadius: 16,
-                  marginRight: 8,
-                }}
-              />
+            <Text style={{ color: "white", textAlign: "center", fontSize: 18, fontWeight: "600" }}>
+              Chatear con el vendedor
+            </Text>
+          </Pressable>
+        </View>
+
+        {/* Recomendados */}
+        <Text className="text-xl font-bold mb-3" style={{ marginTop: 24 }}>
+          Productos que quizás te interesen
+        </Text>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 4, paddingBottom: 8 }}
+        >
+          <View style={{ flexDirection: "row" }}>
+            {["1", "2", "3"].map((k) => (
+              <View key={k} style={{ width: cardWidth, marginRight: 12 }}>
+                <CustomButton
+                  variant="card"
+                  defaultImage={defaultProductImage}
+                  price="$9.99"
+                  onPress={() => router.push(`/product/[id]`)}
+                  onCartPress={() => router.push(`/product/[id]?modal=true`)}
+                >
+                  Comprar ahora
+                </CustomButton>
+              </View>
             ))}
-          </ScrollView>
-        </View>
 
-
-        <Text className="text-2xl font-bold mb-2">{product.name}</Text>
-        <Text className="text-xl text-gray-700">{product.price}</Text>
-
-        <Text className="mt-4 text-gray-600">Vendido por:</Text>
-        <Text className="text-lg font-medium">{product.seller}</Text>
-
-        <Pressable
-          className="mt-6 bg-green-600 p-4 rounded-xl"
-          onPress={() => router.push("/(tabs)/Chats")}
-        >
-          <Text className="text-white text-center text-lg">
-            Chatear con el vendedor
-          </Text>
-        </Pressable>
-
-      </View>
-
-      <Text 
-        className="text-xl font-bold px-4 mb-4"
-        >
-        Productos que quizás te interesen
-      </Text>
-
-
-      <View className="flex-1 px-4 pb-6 gap-4">
-
-        <ScrollView 
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 4 }}
-        >
-
-          <View className="flex-row">
-
-          <View className="w-52 mr-3">
-            <CustomButton
-              variant="card"
-              defaultImage={defaultProductImage}
-              price="$9.99"
-              onPress={() => router.push(`/product/[id]`)}
-              onCartPress={() => router.push(`/product/[id]?modal=true`)}
-            >
-              Comprar ahora
-            </CustomButton>
-          </View>
-          
-          <View className="w-52 mr-3">
-            <CustomButton
-              variant="card"
-              defaultImage={defaultProductImage}
-              price="$9.99"
-              onPress={() => router.push(`/product/[id]`)}
-              onCartPress={() => router.push(`/product/[id]?modal=true`)}
-            >
-              Comprar ahora
-            </CustomButton>
-          </View>
-          
-          <View className="w-52 mr-3">
-            <CustomButton
-              variant="card"
-              defaultImage={defaultProductImage}
-              price="$9.99"
-              onPress={() => router.push(`/product/[id]`)}
-              onCartPress={() => router.push(`/product/[id]?modal=true`)}
-            >
-              Comprar ahora
-            </CustomButton>
-          </View>
-          
-
-          <View className="w-52 mr-5">
-            <CustomButton
-              variant="text-only"
-              color="gray"
-              className="top-20"
-              FontText="text-3xl font-medium text-blue-600"
-              onPress={() => router.push(`/(tabs)/Home`)}
+            {/* Ver más */}
+            <View style={{ width: cardWidth, marginRight: 12, justifyContent: "center" }}>
+              <CustomButton
+                variant="text-only"
+                color="gray"
+                FontText="text-3xl font-medium text-blue-600"
+                onPress={() => router.push("/(tabs)/Home")}
               >
-              Ver más...
-            </CustomButton>
+                Ver más...
+              </CustomButton>
+            </View>
           </View>
-
-        </View>
+        </ScrollView>
       </ScrollView>
-    </View>
-      </ScrollView>
-
-  </>
-
+    </SafeAreaView>
   );
 }

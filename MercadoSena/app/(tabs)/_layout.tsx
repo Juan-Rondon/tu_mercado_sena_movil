@@ -16,7 +16,7 @@ const TAB_HEIGHT = 72;
 export default function tabsLayout() {
   const insets = useSafeAreaInsets();
 
-  const bottom = Math.max(insets.bottom, 10) + 10;
+  const bottom = Math.max(insets.bottom, 10) + 4;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} edges={["top"]}>
@@ -133,7 +133,7 @@ export default function tabsLayout() {
   );
 }
 
-/** ✅ Botón flotante con micro-animación “bounce” */
+/** Botón flotante con micro-animación “bounce” */
 function FloatButtom({ onPress }: { onPress?: () => void }) {
   const scale = useRef(new Animated.Value(1)).current;
 
@@ -172,7 +172,7 @@ function FloatButtom({ onPress }: { onPress?: () => void }) {
           justifyContent: "center",
           alignItems: "center",
 
-          // ✅ flota encima de la barra, sin descuadrar pantallas
+          // flota encima de la barra, sin descuadrar pantallas
           marginTop: -28,
           marginLeft: 5,
 
