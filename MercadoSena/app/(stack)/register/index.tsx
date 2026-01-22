@@ -11,7 +11,7 @@ import CustomInput from "@/components/inputs/CustomInput";
 import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
 import { saveToken } from "@/src/lib/authToken";
 
-const API_BASE_URL = "http://192.168.1.8:8000";
+const API_BASE_URL = "http://192.168.1.4:8000";
 
 const RegisterScreen = () => {
   const router = useRouter();
@@ -196,7 +196,7 @@ const RegisterScreen = () => {
               color="secondary"
               FontText="text-xl"
               underline
-              onPress={() => router.push("/login")}
+              onPress={() => router.push("/(stack)/login")}
             >
               Iniciar Sesión
             </CustomButton>

@@ -22,7 +22,7 @@ export default function Configuracion() {
           style: "destructive",
           onPress: async () => {
             await deleteToken();
-            router.replace("/(stack)/login");
+            router.replace("/(stack)/welcome");
           },
         },
       ],
