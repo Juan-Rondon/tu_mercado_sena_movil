@@ -13,7 +13,7 @@ export default function AuthGate() {
       if (token) {
         router.replace("/(tabs)/Home");
       } else {
-        router.replace("/(stack)/login");
+        router.replace("/(stack)/welcome");
       }
     })();
   }, []);
