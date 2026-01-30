@@ -11,7 +11,7 @@ import CustomInput from "@/components/inputs/CustomInput";
 import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
 import { saveToken } from "@/src/lib/authToken";
 
-const API_BASE_URL = "http://192.168.1.4:8000";
+const API_BASE_URL = "http://192.168.1.7:8000";
 
 const RegisterScreen = () => {
   const router = useRouter();
