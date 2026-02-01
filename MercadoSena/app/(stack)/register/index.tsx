@@ -35,56 +35,60 @@ const RegisterScreen = () => {
   const titleSize = width < 360 ? 34 : width < 420 ? 40 : 46;
 
   const handleRegister = async () => {
-    if (!name.trim() || !email.trim() || !password.trim()) {
-      Alert.alert("Faltan datos", "Por favor completa nombre, correo y contraseña.");
+  if (!name.trim() || !email.trim() || !password.trim()) {
+    Alert.alert("Faltan datos", "Por favor completa nombre, correo y contraseña.");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const res = await fetch(`${API_BASE_URL}/api/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name: name.trim(),
+        email: email.trim(),
+        password,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      const msg =
+        data?.message ||
+        data?.errors?.email?.[0] ||
+        data?.errors?.password?.[0] ||
+        data?.errors?.name?.[0] ||
+        "No se pudo registrar.";
+      Alert.alert("Error", msg);
       return;
     }
 
-    // (opcional) validar correo institucional
-    // if (!email.trim().toLowerCase().endsWith("@sena.edu.co")) {
-    //   Alert.alert("Correo inválido", "Usa tu correo institucional @sena.edu.co");
-    //   return;
-    // }
-
-    try {
-      setLoading(true);
-
-      const res = await fetch(`${API_BASE_URL}/api/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          password,
-        }),
+    // Si el backend exige verificación, NO guardes token aún
+    if (data?.requires_verification) {
+      router.replace({
+        pathname: "/verify",
+        params: { email: email.trim() },
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        const msg =
-          data?.message ||
-          data?.errors?.email?.[0] ||
-          data?.errors?.password?.[0] ||
-          data?.errors?.name?.[0] ||
-          "No se pudo registrar.";
-        Alert.alert("Error", msg);
-        return;
-      }
-
-      if (!data?.token) {
-        Alert.alert("Error", "El servidor no devolvió token.");
-        return;
-      }
-
-      await saveToken(data.token);
-      router.replace("/(tabs)/Home");
-    } catch (e) {
-      Alert.alert("Error", "No fue posible conectar con el servidor.");
-    } finally {
-      setLoading(false);
+      return;
     }
-  };
+
+    // Si NO requiere verificación, debe venir token
+    if (!data?.token) {
+      Alert.alert("Error", "El servidor no devolvió token.");
+      return;
+    }
+
+    await saveToken(data.token);
+    router.replace("/(tabs)/Home");
+  } catch (e) {
+    Alert.alert("Error", "No fue posible conectar con el servidor.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <SafeAreaView edges={["bottom"]} style={styles.safe}>

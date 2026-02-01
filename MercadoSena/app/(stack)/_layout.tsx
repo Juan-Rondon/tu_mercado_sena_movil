@@ -15,6 +15,11 @@ export default function StackLayout() {
         options={{ title: "Registrarse" }} 
       />
 
+      <Stack.Screen
+      name="verify/index"
+      options={{ title: "Verificar" }}
+      />
+
       <Stack.Screen 
         name="resetPassword/index" 
         options={{ title: "Restablecer Contraseña" }} 
