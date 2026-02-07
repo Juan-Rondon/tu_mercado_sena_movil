@@ -57,19 +57,21 @@ export default function Configuracion() {
         <SettingItem
           icon="lock-closed-outline"
           title="Cambiar contraseña"
-          onPress={() => router.push("/")}
+          onPress={() => router.push("/security/changePassword")}
         />
 
         <SettingItem
           icon="eye-outline"
           title="Privacidad"
           subtitle="Quién puede ver tu perfil, actividad en línea"
+          onPress={() => router.push("/security/privacy")}
         />
 
         <SettingItem
           icon="remove-circle-outline"
           title="Bloqueo de Usuarios"
           subtitle="Gestión de usuarios"
+          onPress={() => router.push("/security/blockedUser")}
         />
 
         {/* PREFERENCIAS */}
@@ -79,6 +81,14 @@ export default function Configuracion() {
           icon="notifications-outline"
           title="Notificaciones"
           subtitle="Sonido, vibración, recordatorios"
+          onPress={() => router.push("/preferences/notifications")}
+        />
+
+        <SettingItem
+          icon="moon-outline"
+          title="Modo oscuro"
+          subtitle="Tema claro u oscuro"
+          onPress={() => router.push("/preferences/darkmode")}
         />
 
         {/* INFORMACIÓN */}
