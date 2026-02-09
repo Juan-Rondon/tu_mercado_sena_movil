@@ -11,8 +11,10 @@ import CustomInput from "@/components/inputs/CustomInput";
 import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
 import { saveToken } from "@/src/lib/authToken";
 
-// const API_BASE_URL = "http://192.168.1.7:8000";
-const API_BASE_URL = "http://10.32.17.143:8000";
+const API_BASE_URL = "http://192.168.1.7:8000";
+// const API_BASE_URL = "http://10.32.17.143:8000";
+//const API_BASE_URL = "http://192.168.1.7:8000"; // ip jean
+// const API_BASE_URL = "http://192.168.18.4:8000"; IP Sebas
 
 const RegisterScreen = () => {
   const router = useRouter();
