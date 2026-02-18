@@ -20,10 +20,10 @@ export default function StackLayout() {
       options={{ title: "Verificar" }}
       />
 
-      <Stack.Screen 
+      {/* <Stack.Screen 
         name="resetPassword/index" 
         options={{ title: "Restablecer Contraseña" }} 
-      />
+      /> */}
     </Stack>
   );
 }

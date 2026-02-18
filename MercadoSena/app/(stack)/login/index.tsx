@@ -12,10 +12,11 @@ import CustomInput from "@/components/inputs/CustomInput";
 import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
 import { saveToken } from "@/src/lib/authToken";
 
-const API_BASE_URL = "http://192.168.1.7:8000";
+// const API_BASE_URL = "http://192.168.1.7:8000";
 // const API_BASE_URL = "http://10.32.17.143:8000";
 //const API_BASE_URL = "http://192.168.1.7:8000"; // ip jean
 // const API_BASE_URL = "http://192.168.18.4:8000"; IP Sebas
+const API_BASE_URL = "http://10.32.17.129:8000";
 
 const LoginScreen = () => {
   const router = useRouter();
@@ -38,48 +39,54 @@ const LoginScreen = () => {
   const titleSize = width < 360 ? 34 : width < 420 ? 40 : 46;
 
     const handleLogin = async () => {
-    if (!email.trim() || !password.trim()) {
-      Alert.alert("Faltan datos", "Por favor ingresa correo y contraseña.");
+  if (!email.trim() || !password.trim()) {
+    Alert.alert("Faltan datos", "Por favor ingresa correo y contraseña.");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const res = await fetch(`${API_BASE_URL}/api/auth/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        email: email.trim(),
+        password,
+        device_name: "ExpoApp",
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      const msg =
+        data?.message ||
+        data?.errors?.email?.[0] ||
+        data?.errors?.password?.[0] ||
+        "No se pudo iniciar sesión.";
+      Alert.alert("Error", msg);
       return;
     }
 
-    try {
+    const token = data?.data?.token;
 
-      setLoading(true);
-
-      const res = await fetch(`${API_BASE_URL}/api/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          email: email.trim(),
-          password,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        const msg =
-          data?.message ||
-          data?.errors?.email?.[0] ||
-          "No se pudo iniciar sesión.";
-        Alert.alert("Error", msg);
-        return;
-      }
-
-      if (!data?.token) {
-        Alert.alert("Error", "El servidor no devolvió token.");
-        return;
-      }
-
-      await saveToken(data.token);
-      router.replace("/(tabs)/Home");
-    } catch (e) {
-      Alert.alert("Error", "No fue posible conectar con el servidor.");
-    } finally {
-      setLoading(false);
+    if (!token) {
+      Alert.alert("Error", "El servidor no devolvió token.");
+      return;
     }
-  };
+
+    await saveToken(token);
+    router.replace("/(tabs)/Home");
+  } catch (e) {
+    Alert.alert("Error", "No fue posible conectar con el servidor.");
+  } finally {
+    setLoading(false);
+  }
+};
 
 
   return (

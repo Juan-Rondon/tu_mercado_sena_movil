@@ -1,21 +1,34 @@
-import { getToken } from "@/src/lib/authToken";
+import { meService } from "@/services/authService";
+import { deleteToken, getToken } from "@/src/lib/authToken";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 
-export default function AuthGate() {
+export default function Index() {
   const router = useRouter();
 
   useEffect(() => {
-    (async () => {
+    const bootstrap = async () => {
       const token = await getToken();
 
-      if (token) {
+      if (!token) {
+        router.replace("/(stack)/welcome");
+        return;
+      }
+
+      try {
+        // Validar token con backend
+        await meService();
+
         router.replace("/(tabs)/Home");
-      } else {
+      } catch (error) {
+        // Token inválido / expirado
+        await deleteToken();
         router.replace("/(stack)/welcome");
       }
-    })();
+    };
+
+    bootstrap();
   }, []);
 
   return (
