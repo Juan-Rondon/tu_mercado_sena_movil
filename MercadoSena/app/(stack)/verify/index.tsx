@@ -20,8 +20,8 @@ import {
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
-// const API_BASE_URL = "http://192.168.1.7:8000";
-const API_BASE_URL = "http://10.32.17.129:8000";
+const API_BASE_URL = "http://192.168.1.5:8000";
+// const API_BASE_URL = "http://10.32.17.129:8000";
 
 export default function VerifyScreen() {
   const router = useRouter();

@@ -2,8 +2,8 @@ import { getToken } from "@/src/lib/authToken";
 import axios from "axios";
 
 const api = axios.create({
-  // baseURL: "http://192.168.1.7:8000/api",
-  baseURL: "http://10.32.17.129:8000/api",
+  baseURL: "http://192.168.1.5:8000/api",
+  // baseURL: "http://10.32.17.129:8000/api",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
