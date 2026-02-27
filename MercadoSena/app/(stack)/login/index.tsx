@@ -47,7 +47,7 @@ const LoginScreen = () => {
   try {
     setLoading(true);
 
-    const res = await fetch(`${API_BASE_URL}/api/auth/`, {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const LoginScreen = () => {
       body: JSON.stringify({
         email: email.trim(),
         password,
-        device_name: "ExpoApp",
+        device_name: "movil",
       }),
     });
 
