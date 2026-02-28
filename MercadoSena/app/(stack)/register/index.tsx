@@ -21,7 +21,8 @@ import CustomInput from "@/components/inputs/CustomInput";
 import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
 import { savePendingRegister } from "@/src/lib/pendingRegister";
 
-const API_BASE_URL = "http://192.168.1.5:8000";
+// const API_BASE_URL = "http://192.168.1.5:8000";
+const API_BASE_URL = "http://10.32.17.227:8000";
 // const API_BASE_URL = "http://10.32.17.129:8000";
 
 const RegisterScreen = () => {
