@@ -94,9 +94,24 @@ export default function Configuracion() {
         {/* INFORMACIÓN */}
         <Text className="text-lg font-bold mt-6 mb-2">Información</Text>
 
-        <SettingItem icon="information-circle-outline" title="Sobre nosotros" />
-        <SettingItem icon="help-circle-outline" title="Acerca de nosotros" />
-        <SettingItem icon="document-text-outline" title="Términos y condiciones" />
+        <SettingItem 
+          icon="information-circle-outline" 
+          title="Sobre nosotros" 
+          onPress={() => router.push("/information/AboutUs")}
+        />
+
+        
+        <SettingItem 
+          icon="help-circle-outline" 
+          title="Acerca de nosotros" 
+          onPress={() => router.push("/information/AboutApp")}
+        />
+
+        <SettingItem 
+          icon="document-text-outline" 
+          title="Términos y condiciones" 
+          onPress={() => router.push("/information/AboutUs")}
+        />
 
         {/* LOGOUT */}
         <SettingItem
