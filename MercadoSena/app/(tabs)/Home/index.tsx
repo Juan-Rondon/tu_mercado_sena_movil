@@ -19,12 +19,12 @@ const homeScreen = () => {
   // columnas responsivas
   const numColumns = width >= 1024 ? 4 : width >= 768 ? 3 : 2;
 
-  // ✅ Mantener tus valores tal cual
+  // Mantener tus valores tal cual
   const LIST_PADDING = 16; // contentContainerStyle padding
   const ITEM_PADDING = 8;  // padding del item (tu p-2)
   const GAP = 8;           // gap entre columnas (tu columnWrapperStyle gap)
 
-  // ✅ Ancho real de cada card (en px) para que NUNCA se estire
+  // Ancho real de cada card (en px) para que NUNCA se estire
   const itemWidth =
     (width - LIST_PADDING * 0 - GAP * (numColumns - 1) - ITEM_PADDING * 2 * numColumns) /
     numColumns;

@@ -11,9 +11,9 @@ import {
   Text,
   TextInput,
   View,
-  useWindowDimensions,
+  useWindowDimensions
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import CustomButton from "@/components/buttons/CustomButton";
 import Header from "@/components/headers/Header";
@@ -21,13 +21,11 @@ import CustomInput from "@/components/inputs/CustomInput";
 import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
 import { savePendingRegister } from "@/src/lib/pendingRegister";
 
-// const API_BASE_URL = "http://192.168.1.5:8000";
-const API_BASE_URL = "http://10.32.17.227:8000";
-// const API_BASE_URL = "http://10.32.17.129:8000";
+// const API_BASE_URL = "http://192.168.1.13:8000"; // ip 5g casa juan
+const API_BASE_URL = "http://10.32.21.200:8000";
 
 const RegisterScreen = () => {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const [openReset, setOpenReset] = useState(false);
   const { height, width } = useWindowDimensions();
 
@@ -35,19 +33,14 @@ const RegisterScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState(""); //
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [description, setDescription] = useState("");
-  const [socialLink, setSocialLink] = useState(""); // 
+  const [socialLink, setSocialLink] = useState("");
 
-  // loading
   const [loading, setLoading] = useState(false);
 
-  // ALTURA VISUAL DEL HEADER
   const headerHeight = Math.min(220, Math.max(180, height * 0.25));
-
-  // POSICIÓN FIJA DEL CONTENIDO
   const CONTENT_OFFSET = 260;
-
   const titleSize = width < 360 ? 34 : width < 420 ? 40 : 46;
 
   const handleRegister = async () => {
@@ -73,11 +66,10 @@ const RegisterScreen = () => {
         body: JSON.stringify({
           email: email.trim(),
           password,
-          password_confirmation:passwordConfirm,
+          password_confirmation: passwordConfirm,
           nickname: name.trim(),
           estado_id: 1,
           rol_id: 1,
-          // ✅ si tu backend soporta estos campos, envíalos:
           descripcion: description.trim() || null,
           link_red_social: socialLink.trim() || null,
           notifica_correo: true,
@@ -93,22 +85,19 @@ const RegisterScreen = () => {
           `Error ${res.status}`,
           data?.message ||
             JSON.stringify(data?.errors || data, null, 2) ||
-            "No se pudo iniciar el registro."||
-            console.log(data?.errors)
+            "No se pudo iniciar el registro."
         );
         return;
       }
 
-      // ✅ valida que existan los campos antes de usarlos
       const cuentaId = data?.data?.cuenta_id;
       const datosEncriptados = data?.data?.datosEncriptados;
 
       if (!cuentaId || !datosEncriptados) {
-        Alert.alert("Error", "Respuesta inesperada del servidor (faltan datos para verificar).");
+        Alert.alert("Error", "Respuesta inesperada del servidor.");
         return;
       }
 
-      // Guardamos datos necesarios para el verify
       await savePendingRegister({
         email: email.trim(),
         cuenta_id: cuentaId,
@@ -161,22 +150,18 @@ const RegisterScreen = () => {
           </View>
         </Header>
 
-        {/* ESPACIO FIJO */}
         <View style={{ height: CONTENT_OFFSET }} />
 
-        {/* ✅ Evita que el teclado tape inputs */}
         <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
         >
-          {/* FORM + SCROLL */}
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={{
               paddingHorizontal: 24,
-              paddingBottom: 24,
+              paddingBottom: 40,
               flexGrow: 1,
             }}
           >
@@ -268,22 +253,9 @@ const RegisterScreen = () => {
               onChangeText={setSocialLink}
               autoCapitalize="none"
             />
+            
+            <View style={{ height: 30 }} />
 
-            {/* ✅ espacio para que el contenido no quede pegado al botón fijo */}
-            <View style={{ height: 16 }} />
-          </ScrollView>
-
-          {/* ✅ BOTÓN FIJO ABAJO (no se mueve) */}
-          <View
-            style={{
-              paddingHorizontal: 24,
-              paddingBottom: Math.max(insets.bottom, 12),
-              paddingTop: 10,
-              borderTopWidth: 1,
-              borderTopColor: "rgba(0,0,0,0.08)",
-              backgroundColor: "#fff",
-            }}
-          >
             <CustomButton
               variant="contained"
               onPress={handleRegister}
@@ -294,10 +266,12 @@ const RegisterScreen = () => {
               {loading ? "Creando..." : "Registrar Cuenta"}
             </CustomButton>
 
-            <View className="mt-4 border-t border-gray-300" />
+            <View className="mt-6 border-t border-gray-300" />
 
-            <View className="items-center mt-4">
-              <Text className="text-xl text-gray-400 mb-1">¿Ya tienes una cuenta?</Text>
+            <View className="items-center mt-6">
+              <Text className="text-xl text-gray-400 mb-1">
+                ¿Ya tienes una cuenta?
+              </Text>
 
               <CustomButton
                 variant="text-only"
@@ -309,13 +283,13 @@ const RegisterScreen = () => {
                 Iniciar Sesión
               </CustomButton>
             </View>
-          </View>
+
+            <View style={{ height: 40 }} />
+          </ScrollView>
         </KeyboardAvoidingView>
       </View>
 
-      <ResetPasswordSheet visible={openReset} onClose={() => setOpenReset(false)}>
-        {/* aquí iría tu flow de reset */}
-      </ResetPasswordSheet>
+      <ResetPasswordSheet visible={openReset} onClose={() => setOpenReset(false)} />
     </SafeAreaView>
   );
 };
