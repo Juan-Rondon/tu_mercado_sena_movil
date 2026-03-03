@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { Alert, Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import ResetPasswordFlow from "@/components/auth/ResetPasswordFlow";
@@ -12,12 +12,10 @@ import CustomInput from "@/components/inputs/CustomInput";
 import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
 import { saveToken } from "@/src/lib/authToken";
 
-// const API_BASE_URL = "http://192.168.1.5:8000";
-const API_BASE_URL = "http://10.32.17.227:8000";
-// const API_BASE_URL = "http://10.32.17.143:8000";
+const API_BASE_URL = "http://10.32.21.200:8000";
+// const API_BASE_URL = "http://192.168.1.13:8000"; // casa juan 5g
 //const API_BASE_URL = "http://192.168.1.7:8000"; // ip jean
 // const API_BASE_URL = "http://192.168.18.4:8000"; IP Sebas
-// const API_BASE_URL = "http://10.32.17.129:8000";
 
 const LoginScreen = () => {
   const router = useRouter();
@@ -94,6 +92,7 @@ const LoginScreen = () => {
     <SafeAreaView edges={["bottom"]} style={styles.safe}>
       <StatusBar style="light" translucent />
 
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.root}>
         {/* HEADER (solo visual) */}
         <Header
@@ -210,6 +209,7 @@ const LoginScreen = () => {
           <Text className="text-xl text-gray-400">Versión 0.0.1</Text>
         </View>
       </View>
+      </TouchableWithoutFeedback>
 
       <ResetPasswordSheet visible={openReset} onClose={() => setOpenReset(false)}>
         <ResetPasswordFlow onDone={() => setOpenReset(false)} />
