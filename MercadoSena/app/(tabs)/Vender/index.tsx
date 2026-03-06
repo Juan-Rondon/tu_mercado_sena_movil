@@ -3,7 +3,7 @@ import CustomInput from "@/components/inputs/CustomInput";
 import { getToken } from "@/src/lib/authToken";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Alert,
   Image,
@@ -31,67 +31,9 @@ const VenderScreen = () => {
   const [cantidad, setCantidad] = useState("");
   const [loading, setLoading] = useState(false);
 
-
-  // ✨✨ nuevos 
-  const [categorias, setCategorias] = useState<any[]>([]);
-  const [subcategorias, setSubcategorias] = useState<any[]>([]);
-  const [categoriaId, setCategoriaId] = useState<number | null>(null);
-  const [subcategoriaId, setSubcategoriaId] = useState<number | null>(null);
-  
-
   // ⚠️ IDs temporales (luego los traeremos dinámicos)
-  //const [subcategoriaId] = useState(1);
+  const [subcategoriaId] = useState(1);
   const [integridadId] = useState(1);
-
-  useEffect(() => {
-  cargarCategorias();
-}, []);
-
-const cargarCategorias = async () => {
-  try {
-    const token = await getToken();
-    const res = await fetch(`${API_BASE_URL}/api/categorias`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    const json = await res.json();
-
-    // 🔥 MUY IMPORTANTE
-    const data = Array.isArray(json) ? json : json.data;
-
-    setCategorias(data || []);
-  } catch (e) {
-    console.log("Error categorias", e);
-  }
-};
-
-
-  const seleccionarCategoria = async (nombreCategoria: string) => {
-  const categoria = categorias.find(c => c.nombre === nombreCategoria);
-  if (!categoria) return;
-
-  setCategoriaId(categoria.id);
-  setSubcategoriaId(null);
-
-  try {
-    const token = await getToken();
-    const res = await fetch(
-      `${API_BASE_URL}/api/subcategorias?categoria_id=${categoria.id}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    const json = await res.json();
-    const data = Array.isArray(json) ? json : json.data;
-
-    setSubcategorias(data || []);
-  } catch (e) {
-    console.log("Error subcategorias", e);
-  }
-};
-
-
 
   const pickImages = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -124,7 +66,7 @@ const cargarCategorias = async () => {
   };
 
   const handlePublicar = async () => {
-    if (!nombre || !descripcion || !precio || !cantidad || !categoriaId || !subcategoriaId){
+    if (!nombre || !descripcion || !precio || !cantidad) {
       Alert.alert("Campos requeridos", "Completa todos los campos obligatorios.");
       return;
     }
@@ -146,7 +88,6 @@ const cargarCategorias = async () => {
       formData.append("descripcion", descripcion);
       formData.append("precio", String(Number(precio)));
       formData.append("disponibles", String(Number(cantidad)));
-      formData.append("categoria_id", String(categoriaId));
       formData.append("subcategoria_id", String(subcategoriaId));
       formData.append("integridad_id", String(integridadId));
 
@@ -263,29 +204,6 @@ const cargarCategorias = async () => {
                 />
               </View>
             </View>
-
-              <Text className="font-semibold mb-1 mt-3">Categoría *</Text>
-          <CustomButton
-            variant="desplegar"
-            options={categorias.map(c => c.nombre)}
-            placeholder="Seleccione categoría"
-            onSelect={seleccionarCategoria}
-          />
-
-          {categoriaId && (
-            <>
-              <Text className="font-semibold mb-1 mt-3">Subcategoría *</Text>
-              <CustomButton
-                variant="desplegar"
-                options={subcategorias.map(s => s.nombre)}
-                placeholder="Seleccione subcategoría"
-                onSelect={(nombreSub) => {
-                  const sub = subcategorias.find(s => s.nombre === nombreSub);
-                  if (sub) setSubcategoriaId(sub.id);
-                }}
-              />
-            </>
-          )}
 
             <Text className="font-semibold text-center mt-4">Imagen del producto</Text>
             <Text className="text-center text-gray-400 text-sm mb-3">Máximo 3</Text>

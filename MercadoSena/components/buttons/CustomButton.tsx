@@ -1,7 +1,7 @@
 import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { Image, Pressable, PressableProps, Text, TextInput, View } from 'react-native';
+import { Image, ImageSourcePropType, Pressable, PressableProps, Text, TextInput, View } from 'react-native';
 
 interface Props extends PressableProps {
   children?: React.ReactNode;
@@ -10,10 +10,10 @@ interface Props extends PressableProps {
   variant?: 'contained' | 'text-only' | 'card' | 'icon-only' | 'desplegar' | 'card-center' | 'chat-card' | 'chat-bubble'|'chat-input';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right' | 'up' | 'down' | 'center';
-  source?: {};
+  // source?: {};
   price?: string;
   FontText?: string;
-  defaultImage?: any;
+  // defaultImage?: any;
   onCartPress?: () => void;
   actionText?: string;
   underline?: boolean;
@@ -23,6 +23,8 @@ interface Props extends PressableProps {
   message?: string;
   placeholder?: string;
   onSelect?: (value: string) => void;
+  source?: ImageSourcePropType;
+  defaultImage?: ImageSourcePropType;
 
   // NUEVOS (opcionales) para responsividad sin romper nada
   imageAspectRatio?: number; // para variant="card"
@@ -207,7 +209,11 @@ const CustomButton = React.forwardRef<View, Props>(
               marginBottom: 8,
               // overflow: "hidden",
             }}
-            source={source || defaultImage}
+            source={
+              typeof source === "string"
+              ? { uri: source }
+              : source || defaultImage
+            }
           />
 
           <Content />

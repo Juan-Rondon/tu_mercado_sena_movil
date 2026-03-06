@@ -14,7 +14,6 @@ import {
 } from "react-native";
 
 const API_BASE_URL = "http://192.168.1.2:8000";
-const PLACEHOLDER_IMG = require("../../../assets/images/monitorpc.png");
 
 type ApiProduct = {
   id: number;
@@ -22,15 +21,17 @@ type ApiProduct = {
   descripcion?: string;
   precio: number;
   disponibles?: number;
-  imagen_url?: string | null;   // una sola imagen principal
-  imagenes?: string[];          // o varias imágenes
+  fotos?: {
+    id: number;
+    url: string;
+  }[];
 };
 
 type Item = {
   id: string;
   title: string;
   price: string;
-  imageSource: any; // require(...) o { uri: string }
+  imageSource: any;
 };
 
 const formatCOP = (n: number) =>
@@ -48,7 +49,10 @@ const HomeScreen = () => {
   const GAP = 8;
 
   const itemWidth =
-    (width - LIST_PADDING * 0 - GAP * (numColumns - 1) - ITEM_PADDING * 2 * numColumns) /
+    (width -
+      LIST_PADDING * 0 -
+      GAP * (numColumns - 1) -
+      ITEM_PADDING * 2 * numColumns) /
     numColumns;
 
   const [rawProducts, setRawProducts] = useState<ApiProduct[]>([]);
@@ -85,7 +89,6 @@ const HomeScreen = () => {
         return;
       }
 
-      // Soporta {success:true,data:[...]} o {data:[...]} o [...]
       const list: ApiProduct[] = Array.isArray(json)
         ? json
         : Array.isArray(json?.data)
@@ -107,36 +110,38 @@ const HomeScreen = () => {
 
   const onRefresh = () => fetchProducts("refresh");
 
-  const data: Item[] = useMemo(() => {
-    const q = search.trim().toLowerCase();
+const data: Item[] = useMemo(() => {
+  const q = search.trim().toLowerCase();
 
-    const filtered = q
-      ? rawProducts.filter((p) => {
-          const nombre = (p.nombre ?? "").toLowerCase();
-          const desc = (p.descripcion ?? "").toLowerCase();
-          return nombre.includes(q) || desc.includes(q);
-        })
-      : rawProducts;
+  const filtered = q
+    ? rawProducts.filter((p) => {
+        const nombre = (p.nombre ?? "").toLowerCase();
+        const desc = (p.descripcion ?? "").toLowerCase();
+        return nombre.includes(q) || desc.includes(q);
+      })
+    : rawProducts;
 
-    return filtered.map((p) => {
-      // prioridad: imagen_url, luego imagenes[0], si no -> placeholder
-      const url = p.imagen_url || (p.imagenes?.length ? p.imagenes[0] : null);
+  return filtered.map((p) => {
+    console.log("PRODUCTO:", p);
+    console.log("FOTOS:", p.fotos);
 
-      const absoluteUrl =
-        url && !url.startsWith("http")
-          ? `${API_BASE_URL}/${url.replace(/^\//, "")}`
-          : url;
+    let imageUrl: string | null = null;
 
-      const imageSource = absoluteUrl ? { uri: absoluteUrl } : PLACEHOLDER_IMG;
+    // 🔥 AQUÍ ESTA LA CLAVE
+    if (Array.isArray(p.fotos) && p.fotos.length > 0) {
+      imageUrl = p.fotos[0].url;
+    }
 
-      return {
-        id: String(p.id),
-        title: p.nombre,
-        price: formatCOP(p.precio),
-        imageSource,
-      };
-    });
-  }, [rawProducts, search]);
+    const imageSource = imageUrl ? { uri: imageUrl } : null;
+
+    return {
+      id: String(p.id),
+      title: p.nombre,
+      price: formatCOP(p.precio),
+      imageSource,
+    };
+  });
+}, [rawProducts, search]);
 
   const renderEmpty = () => {
     if (loading) return null;
@@ -174,7 +179,9 @@ const HomeScreen = () => {
       {loading && data.length === 0 ? (
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
           <ActivityIndicator />
-          <Text style={{ marginTop: 10, color: "#6B7280" }}>Cargando productos...</Text>
+          <Text style={{ marginTop: 10, color: "#6B7280" }}>
+            Cargando productos...
+          </Text>
         </View>
       ) : (
         <FlatList
@@ -184,9 +191,13 @@ const HomeScreen = () => {
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ padding: LIST_PADDING, paddingBottom: 120 }}
           columnWrapperStyle={
-            numColumns > 1 ? { gap: GAP, justifyContent: "space-between" } : undefined
+            numColumns > 1
+              ? { gap: GAP, justifyContent: "space-between" }
+              : undefined
           }
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           ListEmptyComponent={renderEmpty}
           renderItem={({ item }) => (
             <View style={{ width: itemWidth, padding: ITEM_PADDING }}>
