@@ -18,7 +18,7 @@ import {
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
-const API_BASE_URL = "http://10.32.19.145:8000";
+const API_BASE_URL = "http://192.168.1.9:8000";
 
 const VenderScreen = () => {
   const router = useRouter();
