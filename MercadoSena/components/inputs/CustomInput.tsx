@@ -3,10 +3,12 @@ import React, { useMemo, useRef, useState } from "react";
 import {
   Platform,
   Pressable,
+  StyleProp,
   StyleSheet,
   TextInput,
   TextInputProps,
   View,
+  ViewStyle,
 } from "react-native";
 
 interface Props extends Omit<TextInputProps, "onChangeText" | "value"> {
@@ -18,11 +20,17 @@ interface Props extends Omit<TextInputProps, "onChangeText" | "value"> {
   onChangeText?: (text: string) => void;
   icon?: React.ReactNode;
   showPasswordToggle?: boolean;
+
+  containerStyle?: StyleProp<ViewStyle>;
+
+  containerClassName?: string;
 }
 
 const CustomInput = ({
   type = "text",
   className,
+  containerClassName,
+  containerStyle,
   placeholder,
   value = "",
   placeholderTextColor = "#CDCDCD",
@@ -58,6 +66,7 @@ const CustomInput = ({
     if (Platform.OS === "ios" && isPassword) {
       const prev = lastGoodValueRef.current;
 
+      // Fix de backspace iOS (bug conocido en secureTextEntry)
       if (t === "" && prev.length > 1 && lastKeyRef.current === "Backspace") {
         const fixed = prev.slice(0, -1);
 
@@ -73,13 +82,17 @@ const CustomInput = ({
       return;
     }
 
-    // normal
     lastGoodValueRef.current = t;
     onChangeText?.(t);
   };
 
   return (
-    <View className={`flex-row items-center rounded-full bg-[#F5F5F7] px-4 ${className ?? ""}`}>
+    <View
+      className={`flex-row items-center rounded-full bg-[#F5F5F7] px-4 ${
+        className ?? ""
+      } ${containerClassName ?? ""}`}
+      style={containerStyle}
+    >
       {icon && <View className="mr-2">{icon}</View>}
 
       <TextInput
@@ -94,14 +107,20 @@ const CustomInput = ({
         autoCapitalize={autoCapitalize}
         autoCorrect={false}
         spellCheck={false}
-        textContentType={isPassword ? "none" : isEmail ? "emailAddress" : rest.textContentType}
+        textContentType={
+          isPassword ? "none" : isEmail ? "emailAddress" : rest.textContentType
+        }
         autoComplete={isPassword ? "off" : isEmail ? "email" : rest.autoComplete}
         style={styles.input}
         {...rest}
       />
 
       {isPassword && showPasswordToggle && (
-        <Pressable onPress={() => setShowPassword((p) => !p)} hitSlop={10} style={styles.eyeBtn}>
+        <Pressable
+          onPress={() => setShowPassword((p) => !p)}
+          hitSlop={10}
+          style={styles.eyeBtn}
+        >
           <Ionicons
             name={showPassword ? "eye-outline" : "eye-off-outline"}
             size={20}

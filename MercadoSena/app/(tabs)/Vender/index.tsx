@@ -1,8 +1,9 @@
 import CustomButton from "@/components/buttons/CustomButton";
 import CustomInput from "@/components/inputs/CustomInput";
+import { getToken } from "@/src/lib/authToken";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Image,
@@ -17,10 +18,80 @@ import {
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
-const venderScreen = () => {
+const API_BASE_URL = "http://192.168.1.2:8000";
+
+const VenderScreen = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+
   const [images, setImages] = useState<string[]>([]);
+  const [nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [precio, setPrecio] = useState("");
+  const [cantidad, setCantidad] = useState("");
+  const [loading, setLoading] = useState(false);
+
+
+  // ✨✨ nuevos 
+  const [categorias, setCategorias] = useState<any[]>([]);
+  const [subcategorias, setSubcategorias] = useState<any[]>([]);
+  const [categoriaId, setCategoriaId] = useState<number | null>(null);
+  const [subcategoriaId, setSubcategoriaId] = useState<number | null>(null);
+  
+
+  // ⚠️ IDs temporales (luego los traeremos dinámicos)
+  //const [subcategoriaId] = useState(1);
+  const [integridadId] = useState(1);
+
+  useEffect(() => {
+  cargarCategorias();
+}, []);
+
+const cargarCategorias = async () => {
+  try {
+    const token = await getToken();
+    const res = await fetch(`${API_BASE_URL}/api/categorias`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const json = await res.json();
+
+    // 🔥 MUY IMPORTANTE
+    const data = Array.isArray(json) ? json : json.data;
+
+    setCategorias(data || []);
+  } catch (e) {
+    console.log("Error categorias", e);
+  }
+};
+
+
+  const seleccionarCategoria = async (nombreCategoria: string) => {
+  const categoria = categorias.find(c => c.nombre === nombreCategoria);
+  if (!categoria) return;
+
+  setCategoriaId(categoria.id);
+  setSubcategoriaId(null);
+
+  try {
+    const token = await getToken();
+    const res = await fetch(
+      `${API_BASE_URL}/api/subcategorias?categoria_id=${categoria.id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    const json = await res.json();
+    const data = Array.isArray(json) ? json : json.data;
+
+    setSubcategorias(data || []);
+  } catch (e) {
+    console.log("Error subcategorias", e);
+  }
+};
+
+
 
   const pickImages = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -36,7 +107,7 @@ const venderScreen = () => {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"],
       allowsMultipleSelection: true,
       selectionLimit: remaining,
       quality: 0.8,
@@ -50,6 +121,67 @@ const venderScreen = () => {
 
   const removeImage = (index: number) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handlePublicar = async () => {
+    if (!nombre || !descripcion || !precio || !cantidad || !categoriaId || !subcategoriaId){
+      Alert.alert("Campos requeridos", "Completa todos los campos obligatorios.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      //const token = await AsyncStorage.getItem("token");
+      const token = await getToken();
+
+      if (!token) {
+        Alert.alert("Error", "No hay sesión activa.");
+        return;
+      }
+
+      const formData = new FormData();
+
+      formData.append("nombre", nombre);
+      formData.append("descripcion", descripcion);
+      formData.append("precio", String(Number(precio)));
+      formData.append("disponibles", String(Number(cantidad)));
+      formData.append("categoria_id", String(categoriaId));
+      formData.append("subcategoria_id", String(subcategoriaId));
+      formData.append("integridad_id", String(integridadId));
+
+      images.forEach((uri, index) => {
+        formData.append("imagenes[]", {
+          uri,
+          name: `imagen_${index}.jpg`,
+          type: "image/jpeg",
+        } as any);
+      });
+
+      const res = await fetch(`${API_BASE_URL}/api/productos`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        Alert.alert("Error", data?.message || "No se pudo crear el producto.");
+        return;
+      }
+
+      Alert.alert("Éxito", "Producto publicado correctamente.");
+      router.back();
+
+    } catch (error) {
+      Alert.alert("Error", "No fue posible conectar con el servidor.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const Box = ({ uri, index, isUpload }: any) => (
@@ -83,29 +215,22 @@ const venderScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <ScrollView
-          style={{ flex: 1 }}
-          className="bg-white"
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{
             paddingBottom: Math.max(insets.bottom, 12) + 90,
           }}
         >
-          
-          {/* HEADER */}
-          <View
-            className="bg-sextary-600 items-center"
-            style={{ paddingTop: 12, paddingBottom: 12 }}
-          >
+          <View className="bg-sextary-600 items-center py-3">
             <Text className="text-white text-lg font-semibold">
-              Publicar Nuevo Producto
+              Publicar Nuevo producto
             </Text>
           </View>
 
-          {/* CARD FORM */}
           <View className="m-4 rounded-xl border border-sextary-600 p-4 bg-white">
+
             <Text className="font-semibold mb-1">Nombre del Producto *</Text>
-            <CustomInput />
+            <CustomInput value={nombre} onChangeText={setNombre} />
 
             <Text className="font-semibold mb-1 mt-2">
               Descripción (max 185 caracteres) *
@@ -114,6 +239,8 @@ const venderScreen = () => {
               style={styles.input}
               multiline
               maxLength={185}
+              value={descripcion}
+              onChangeText={setDescripcion}
               placeholder="Ingrese descripción"
               placeholderTextColor="#9CA3AF"
             />
@@ -121,32 +248,48 @@ const venderScreen = () => {
             <View className="flex-row justify-between mt-3">
               <View style={{ width: "48%" }}>
                 <Text className="font-semibold mb-1">Precio (COP)*</Text>
-                <CustomInput type="number" />
+                <CustomInput
+                  type="number"
+                  value={precio}
+                  onChangeText={setPrecio}
+                />
               </View>
               <View style={{ width: "48%" }}>
                 <Text className="font-semibold mb-1">Cantidad *</Text>
-                <CustomInput type="number" />
+                <CustomInput
+                  type="number"
+                  value={cantidad}
+                  onChangeText={setCantidad}
+                />
               </View>
             </View>
 
-            <Text className="font-semibold mb-1 mt-3">Categoría *</Text>
-            <CustomButton
-              variant="desplegar"
-              options={["Tecnologia", "Ropa", "Hogar", "Accesorios", "Otros"]}
-              placeholder="Seleccione una categoría"
-            />
+              <Text className="font-semibold mb-1 mt-3">Categoría *</Text>
+          <CustomButton
+            variant="desplegar"
+            options={categorias.map(c => c.nombre)}
+            placeholder="Seleccione categoría"
+            onSelect={seleccionarCategoria}
+          />
 
-            <Text className="font-semibold mb-1 mt-3">Condición *</Text>
-            <CustomButton
-              variant="desplegar"
-              options={["Nuevo", "Usado", "Reparado"]}
-              placeholder="Seleccione una condición"
-            />
+          {categoriaId && (
+            <>
+              <Text className="font-semibold mb-1 mt-3">Subcategoría *</Text>
+              <CustomButton
+                variant="desplegar"
+                options={subcategorias.map(s => s.nombre)}
+                placeholder="Seleccione subcategoría"
+                onSelect={(nombreSub) => {
+                  const sub = subcategorias.find(s => s.nombre === nombreSub);
+                  if (sub) setSubcategoriaId(sub.id);
+                }}
+              />
+            </>
+          )}
 
             <Text className="font-semibold text-center mt-4">Imagen del producto</Text>
             <Text className="text-center text-gray-400 text-sm mb-3">Máximo 3</Text>
 
-            {/* GRID 2x2 (responsivo por % + aspectRatio) */}
             <View style={styles.grid}>
               <Box isUpload />
               <Box uri={images[0]} index={0} />
@@ -154,13 +297,26 @@ const venderScreen = () => {
               <Box uri={images[2]} index={2} />
             </View>
 
-            <CustomButton variant="contained" className="rounded-full py-3 bg-sextary-600 mt-4">
-              <Text className="text-white text-lg text-center">Publicar Producto</Text>
+            <CustomButton
+              variant="contained"
+              className="rounded-full py-3 bg-sextary-600 mt-4"
+              onPress={handlePublicar}
+            >
+              <Text className="text-white text-lg text-center">
+                {loading ? "Publicando..." : "Publicar Producto"}
+              </Text>
             </CustomButton>
 
-            <CustomButton variant="contained" className="bg-red-600 rounded-full py-3 mt-3">
-              <Text className="text-white text-lg text-center">Cancelar</Text>
+            <CustomButton
+              variant="contained"
+              className="bg-red-600 rounded-full py-3 mt-3"
+              onPress={() => router.back()}
+            >
+              <Text className="text-white text-lg text-center">
+                Cancelar
+              </Text>
             </CustomButton>
+
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -169,75 +325,70 @@ const venderScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  input: {
-    height: 110, // ✅ un pelín más estable en pantallas pequeñas
-    backgroundColor: "#F5F5F7",
-    borderRadius: 12,
-    padding: 10,
-    textAlignVertical: "top",
-  },
-
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-
   box: {
-    width: "48%",
+    width: "23%",
     aspectRatio: 1,
-    borderWidth: 2,
-    borderStyle: "dashed",
-    borderColor: "#9CA3AF",
     borderRadius: 12,
-    marginBottom: 8,
-    backgroundColor: "#fff",
-    overflow: "hidden",
+    backgroundColor: "#f3f4f6",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#e5e7eb",
   },
-
   image: {
     width: "100%",
     height: "100%",
+    borderRadius: 10,
   },
-
-  placeholder: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  plus: {
-    fontSize: 24,
-    color: "#9CA3AF",
-  },
-
-  uploadText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#6B7280",
-  },
-
-  counter: {
-    marginTop: 6,
-    color: "#9CA3AF",
-  },
-
   removeBtn: {
     position: "absolute",
-    top: 4,
-    right: 4,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: "rgba(0,0,0,0.6)",
-    alignItems: "center",
+    top: -8,
+    right: -8,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#ef4444",
     justifyContent: "center",
+    alignItems: "center",
   },
-
   removeText: {
     color: "#fff",
+    fontSize: 20,
     fontWeight: "bold",
+  },
+  placeholder: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  uploadText: {
+    fontSize: 12,
+    color: "#6b7280",
+    fontWeight: "600",
+  },
+  counter: {
+    fontSize: 10,
+    color: "#9ca3af",
+    marginTop: 4,
+  },
+  plus: {
+    fontSize: 32,
+    color: "#d1d5db",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#e5e7eb",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: "#1f2937",
+    minHeight: 80,
+  },
+  grid: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 16,
   },
 });
 
-export default venderScreen;
+export default VenderScreen;

@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -11,7 +11,7 @@ import {
   Text,
   TextInput,
   View,
-  useWindowDimensions
+  useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -22,7 +22,7 @@ import ResetPasswordSheet from "@/components/sheets/ResetPasswordSheet";
 import { savePendingRegister } from "@/src/lib/pendingRegister";
 
 // const API_BASE_URL = "http://192.168.1.13:8000"; // ip 5g casa juan
-const API_BASE_URL = "http://10.32.21.200:8000";
+const API_BASE_URL = "http://192.168.1.2:8000";
 
 const RegisterScreen = () => {
   const router = useRouter();
@@ -43,9 +43,58 @@ const RegisterScreen = () => {
   const CONTENT_OFFSET = 260;
   const titleSize = width < 360 ? 34 : width < 420 ? 40 : 46;
 
+  // Validación de contraseña segura (en vivo)
+  const passwordRules = useMemo(() => {
+    return {
+      minLen: password.length >= 8,
+      hasUpper: /[A-Z]/.test(password),
+      hasLower: /[a-z]/.test(password),
+      hasNumber: /\d/.test(password),
+      hasSpecial: /[^A-Za-z0-9]/.test(password),
+    };
+  }, [password]);
+
+  const passwordScore = useMemo(() => {
+    return Object.values(passwordRules).filter(Boolean).length;
+  }, [passwordRules]);
+
+  const passwordIsStrong = useMemo(() => {
+    return (
+      passwordRules.minLen &&
+      passwordRules.hasUpper &&
+      passwordRules.hasLower &&
+      passwordRules.hasNumber
+      // passwordRules.hasSpecial
+    );
+  }, [passwordRules]);
+
+  // Color dinámico del borde
+  const passwordBorderColor = useMemo(() => {
+    if (password.length === 0) return "#E5E7EB"; // gris
+    if (passwordIsStrong) return "#22C55E"; // verde
+    if (passwordScore >= 3) return "#F59E0B"; // amarillo
+    return "#EF4444"; // rojo
+  }, [password, passwordIsStrong, passwordScore]);
+
+  // Confirmación: color del borde
+  const confirmBorderColor = useMemo(() => {
+    if (passwordConfirm.length === 0) return "#E5E7EB";
+    if (passwordConfirm === password) return "#22C55E";
+    return "#EF4444";
+  }, [passwordConfirm, password]);
+
   const handleRegister = async () => {
     if (!name.trim() || !email.trim() || !password.trim() || !passwordConfirm.trim()) {
       Alert.alert("Faltan datos", "Completa los campos obligatorios.");
+      return;
+    }
+
+    // Primero: contraseña segura
+    if (!passwordIsStrong) {
+      Alert.alert(
+        "Contraseña no segura",
+        "Debe tener mínimo 8 caracteres y contener:\n• 1 mayúscula\n• letras minúsculas\n• 1 número\n• 1 carácter especial (ej: !@#$%)"
+      );
       return;
     }
 
@@ -198,6 +247,7 @@ const RegisterScreen = () => {
               Contraseña *
             </Text>
 
+            {/* Borde dinámico */}
             <CustomInput
               className="p-1.5"
               placeholder="Ingrese su contraseña"
@@ -206,7 +256,27 @@ const RegisterScreen = () => {
               icon={<Ionicons name="lock-closed-outline" size={20} color="#9CA3AF" />}
               value={password}
               onChangeText={setPassword}
+              containerStyle={{ borderWidth: 2, borderColor: passwordBorderColor }}
             />
+
+            {/* Checklist en vivo */}
+            <View style={{ marginTop: 10 }}>
+              <Text style={{ color: passwordRules.minLen ? "#22C55E" : "#EF4444" }}>
+                • Mínimo 8 caracteres
+              </Text>
+              <Text style={{ color: passwordRules.hasUpper ? "#22C55E" : "#EF4444" }}>
+                • Al menos 1 mayúscula
+              </Text>
+              <Text style={{ color: passwordRules.hasLower ? "#22C55E" : "#EF4444" }}>
+                • Letras minúsculas
+              </Text>
+              <Text style={{ color: passwordRules.hasNumber ? "#22C55E" : "#EF4444" }}>
+                • Al menos 1 número
+              </Text>
+              {/* <Text style={{ color: passwordRules.hasSpecial ? "#22C55E" : "#EF4444" }}>
+                • Al menos 1 carácter especial
+              </Text> */}
+            </View>
 
             <Text className="text-2xl font-Opensans-medium text-black mt-3 mb-2">
               Confirmar Contraseña *
@@ -220,6 +290,7 @@ const RegisterScreen = () => {
               icon={<Ionicons name="lock-closed-outline" size={20} color="#9CA3AF" />}
               value={passwordConfirm}
               onChangeText={setPasswordConfirm}
+              containerStyle={{ borderWidth: 2, borderColor: confirmBorderColor }}
             />
 
             <Text className="text-2xl font-Opensans-medium text-black mt-3 mb-2">
@@ -253,7 +324,7 @@ const RegisterScreen = () => {
               onChangeText={setSocialLink}
               autoCapitalize="none"
             />
-            
+
             <View style={{ height: 30 }} />
 
             <CustomButton
